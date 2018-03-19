@@ -1,39 +1,57 @@
 import React, { Component } from 'react';
 import {
     View,
-    StyleSheet
+    StyleSheet,
+    Image
 } from 'react-native';
+import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera } from './../../../components'
 
-import { TextCustom, TextInputCustom, ButtonCustom, Footer, DatePicker, DropDown, Camera } from './../../../components'
-
-const DEMO_OPTIONS_2 = [
-    { "name": "Rex", "age": 30 },
-    { "name": "Mary", "age": 25 },
-    { "name": "John", "age": 41 },
-    { "name": "Jim", "age": 22 },
-    { "name": "Susan", "age": 52 },
-    { "name": "Brent", "age": 33 },
-    { "name": "Alex", "age": 16 },
-    { "name": "Ian", "age": 20 },
-    { "name": "Phil", "age": 24 },
-];
+const propsDropdown = {
+    defaultValue: { value: 5, label: 'Kebumen' },
+    options: [
+        { value: 1, label: 'Bandung' },
+        { value: 2, label: 'Surabaya' },
+        { value: 3, label: 'Palembang' },
+        { value: 4, label: 'Jakarta' },
+    ],
+    label: 'EVENT',
+    animationType: 'none',
+};
 
 export default class Overview extends Component {
+    static navigationOptions = {
+        tabBarIcon: ({ tintColor }) => (
+            <Image
+                source={require('../../../assets/images/ticket.png')}
+                style={[{ width: 75, height: 75 }]}
+            />
+        ),
+    }
     constructor(props) {
         super(props)
         this.state = {
-            date: ''
+            date: '',
+            selectedOption: propsDropdown.defaultValue || { value: 0, label: 'Pilih Kota' },
+            isShowingOptions: false
         }
-    }
-    _dropdown_2_renderButtonText = (rowData) => {
-        const { name, age } = rowData;
-        return `${name} - ${age}`;
     }
     onEntry = () => {
         console.log(this.props)
         this.props.navigation.navigate('Entry');
     }
+    _onShow = (value) => {
+        this.setState({
+            isShowingOptions: value,
+        });
+    }
+    _onSelect = (item, isShow) => {
+        this.setState({
+            isShowingOptions: isShow,
+            selectedOption: item,
+        });
+    }
     render() {
+        let { isShowingOptions, selectedOption } = this.state;
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.container}>
@@ -51,35 +69,34 @@ export default class Overview extends Component {
                     <TextCustom>EVENT YOU ARE SCANNING IN</TextCustom>
                     <TextCustom>Current Event: Auction</TextCustom>
                     <View style={styles.row}>
-                        <DatePicker
-                            style={{ width: 200 }}
-                            date={this.state.date}
-                            mode="date"
-                            placeholder="placeholder"
-                            format="YYYY-MM-DD"
-                            //minDate="2016-05-01"
-                            //maxDate="2016-06-01"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            iconSource={require('./../../../assets/images/arrow-down.png')}
-                            onDateChange={(date) => { this.setState({ date: date }); }}
-                        />
-                        {/* <ModalDropdown ref="dropdown_2"
-                            //style={styles.dropdown_2}
-                            //textStyle={styles.dropdown_2_text}
-                            //dropdownStyle={styles.dropdown_2_dropdown}
-                            options={DEMO_OPTIONS_2}
-                            renderButtonText={(rowData) => this._dropdown_2_renderButtonText(rowData)}
-                            renderRow={this._dropdown_2_renderRow.bind(this)}
-                            renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
-                        /> */}
+                        <View style={[styles.rowItem, { paddingRight: 10 }]}>
+                            <DatePicker
+                                style={{ width: '100%' }}
+                                date={this.state.date}
+                                mode="date"
+                                placeholder="placeholder"
+                                format="YYYY-MM-DD"
+                                //minDate="2016-05-01"
+                                //maxDate="2016-06-01"
+                                confirmBtnText="Confirm"
+                                cancelBtnText="Cancel"
+                                iconSource={require('./../../../assets/images/arrow-down.png')}
+                                onDateChange={(date) => { this.setState({ date: date }); }}
+                            /></View>
+                        <View style={[styles.rowItem, { paddingLeft: 10 }]}>
+                            <Dropdown {...propsDropdown}
+                                onSelect={this._onSelect.bind(this)}
+                                onShow={this._onShow.bind(this)}
+                                isShowingOptions={isShowingOptions}
+                                selectedOption={selectedOption}
+                            />
+                        </View>
                     </View>
                     <View style={styles.floatRight}>
                         <ButtonCustom>SUBMIT</ButtonCustom>
                     </View>
                 </View>
-                <Footer />
-            </View>
+            </View >
         )
     }
 }
@@ -103,5 +120,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         paddingBottom: 10,
         paddingTop: 10
+    },
+    rowItem: {
+        width: '50%'
     }
 })

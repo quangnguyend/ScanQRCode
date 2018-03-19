@@ -14,7 +14,13 @@ import {insertRoleInfo} from './../../actions';
 
 class LoginScreen extends Component {
   static navigationOptions = ({navigation}) => ({
-    header: null
+    header: null,
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('../../../../assets/images/ticket.png')}
+        style={[{ width: 75, height: 75 }]}
+      />
+    ),
   })
   constructor(props) {
     super(props)
