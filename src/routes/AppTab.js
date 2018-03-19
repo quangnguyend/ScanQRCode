@@ -144,8 +144,8 @@ export const AdminNavigator = TabNavigator({
 		tabBarOptions: {
 			showIcon: true,
 			style: {
-				backgroundColor: 'while',
-				color: '#8E7631'
+				backgroundColor:'#FFFFFF',
+				//color: '#8E7631'
 			},
 			labelStyle: {
 				color: '#8E7631'

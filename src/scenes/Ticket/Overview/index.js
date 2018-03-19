@@ -35,10 +35,16 @@ export default class Overview extends Component {
             isShowingOptions: false
         }
     }
+
     onEntry = () => {
         console.log(this.props)
-        this.props.navigation.navigate('Entry');
+        this.props.navigation.navigate('Entry', { title: 'ENTRY', typeScannerCode: 1 });
     }
+    onViewInfo = () => {
+        console.log(this.props)
+        this.props.navigation.navigate('Entry', { title: 'VIEW INFO', typeScannerCode: 2 });
+    }
+
     _onShow = (value) => {
         this.setState({
             isShowingOptions: value,
@@ -58,7 +64,7 @@ export default class Overview extends Component {
                     <TextCustom>SCAN QR CODE</TextCustom>
                     <View style={styles.row}>
                         <ButtonCustom width={100} onPress={this.onEntry}>ENTRY</ButtonCustom>
-                        <ButtonCustom width={100} onPress={this.onEntry}>VIEW INFO</ButtonCustom>
+                        <ButtonCustom width={100} onPress={this.onViewInfo}>VIEW INFO</ButtonCustom>
                     </View>
                     <TextCustom>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
                     <TextInputCustom />

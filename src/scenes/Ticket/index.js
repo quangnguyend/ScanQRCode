@@ -1,4 +1,4 @@
-import AdminEntry from './AdminEntry';
+import Scanner from './Scanner';
 import Overview from './Overview';
 
 import React, { Component } from 'react';
@@ -19,8 +19,8 @@ export default StackNavigator({
             }
         }
     },
-    AdminEntry: {
-        screen: AdminEntry,
+    Scanner: {
+        screen: Scanner,
         navigationOptions: {
             title: 'ADMIT ENTRY',
             headerTitleStyle: {

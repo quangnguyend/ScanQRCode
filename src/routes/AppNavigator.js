@@ -5,19 +5,21 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
 import SplashScreen from '../scenes/Splash';
 import LoginScreen from '../scenes/Sign/Login/Form';
-import EntryScreen from '../scenes/Ticket/AdminEntry';
+import EntryScreen from '../scenes/Ticket/Scanner';
+import ScanResult from '../scenes/Ticket/ScanResult';
 
 import { addListener } from '../utils/redux';
 
-import {TicketNavigator, ReceiptNavigator, AdminNavigator} from './AppTab';
+import { TicketNavigator, ReceiptNavigator, AdminNavigator } from './AppTab';
 
 
- const AppNavigator = StackNavigator({
-  Splash: {screen: SplashScreen},
-  Login: {screen: LoginScreen},
-  Ticket: {screen: TicketNavigator},
-  Receipt: {screen: ReceiptNavigator},
-  Admin: {screen: AdminNavigator},
-  Entry: {screen: EntryScreen}
+const AppNavigator = StackNavigator({
+  Splash: { screen: SplashScreen },
+  Login: { screen: LoginScreen },
+  Ticket: { screen: TicketNavigator },
+  Receipt: { screen: ReceiptNavigator },
+  Admin: { screen: AdminNavigator },
+  Entry: { screen: EntryScreen },
+  ScanResult: { screen: ScanResult }
 });
 export default AppNavigator;
