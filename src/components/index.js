@@ -4,14 +4,14 @@ import TextCustom from './TextCustom';
 import TextInputCustom from './TextInputCustom';
 import Footer from './Footer';
 import DatePicker from './Datepicker';
-import DropDown from './DropDown';
+import Dropdown from './DropDown';
 
-export{
+export {
     ButtonCustom,
     //Camera,
     TextCustom,
     TextInputCustom,
     Footer,
     DatePicker,
-    DropDown
+    Dropdown
 }
