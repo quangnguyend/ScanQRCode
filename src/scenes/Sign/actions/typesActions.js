@@ -1,0 +1,1 @@
+export const INSERT_ROLE_INFO = 'INSERT_ROLE_INFO'
