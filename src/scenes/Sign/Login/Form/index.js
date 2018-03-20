@@ -28,8 +28,8 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      email: 'scanadmin1@protege.sg',
+      password: 'Q1aG5b',
       isvalidEmail: true,
       invalidPassword: false
     }
@@ -57,39 +57,39 @@ class LoginScreen extends Component {
       return;
     }
     
-    // const bodyData = {
-    //   username: email,
-    //   password: password
-    // }
-    // const fetchLogin = await Service.postMethod('users/login', bodyData,
-    //   json => {
-    //     console.log(json)
-    //     Service.getMethod('users/me',
-    //       jsonUser => {
-    //        console.log(jsonUser);
-    //        // save data to redux
-    //        //insertRoleInfo(jsonUser)
-    //         navToMain(jsonUser.roles[0]);
-    //       },
-    //       error => {
-    //         console.log(error);
-    //       });
-    //   },
-    //   error => {
-    //     console.log('///////ERROR://///////');
-    //     console.log(error);
-    //   });
+    const bodyData = {
+      username: email,
+      password: password
+    }
+    const fetchLogin = await Service.postMethod('users/login', bodyData,
+      json => {
+        console.log(json)
+        Service.getMethod('users/me',
+          jsonUser => {
+           console.log(jsonUser);
+           // save data to redux
+           //insertRoleInfo(jsonUser)
+            navToMain(jsonUser.roles[0]);
+          },
+          error => {
+            console.log(error);
+          });
+      },
+      error => {
+        console.log('///////ERROR://///////');
+        console.log(error);
+      });
 
-    // const fetchUser = await Service.getMethod('users/me',
-    //   json => {
-    //     console.log('after fetchLogin' + fetchLogin);
-    //    console.log(json);
-    //   },
-    //   error => {
-    //     console.log('///////ERROR://///////');
-    //     console.log(error);
-    //   });
-    //
+    const fetchUser = await Service.getMethod('users/me',
+      json => {
+        console.log('after fetchLogin' + fetchLogin);
+       console.log(json);
+      },
+      error => {
+        console.log('///////ERROR://///////');
+        console.log(error);
+      });
+    
   }
 
   _renderError = () => {

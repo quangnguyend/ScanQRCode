@@ -4,14 +4,17 @@ import {
   StyleSheet,
   Image,
   Platform,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera } from './../../../components';
 import Service from '../../../services/api';
+import Header from './header'
 
 export default class Overview extends Component {
 
   static navigationOptions = {
+    header: (props) => <Header {...props}/>,
     headerLeft: null,
     tabBarIcon: ({ tintColor }) => (
       <Image
@@ -29,11 +32,11 @@ export default class Overview extends Component {
       date: '',
       manuallyCode: '',
       selectedOption: {},
+      currentEvent: {},
       isShowingOptions: false,
       events: {},
       minDate: null,
       maxDate: null,
-      loadSuccess: false,
       propsDropdown: {
         options: [],
         label: 'EVENT',
@@ -42,16 +45,50 @@ export default class Overview extends Component {
     }
   }
 
-  componentDidMount() {
-    this._getEvents();
+  checkAsyncStorage = (scannerData, currentEvent, date) => {
+    console.log(date)
+    if (!scannerData) {
+      this._getEvents();
+    } else {
+      let { events, days } = scannerData;
+      let _propsDropdown = { ...this.state.propsDropdown };
+      _propsDropdown.options = events[date];
+
+      this.setState({
+        events: events,
+        minDate: days[0].value,
+        maxDate: days[days.length - 1].value,
+        propsDropdown: _propsDropdown,
+        selectedOption: currentEvent,
+        currentEvent: currentEvent,
+        date: date
+      })
+    }
+  }
+
+  componentDidMount = async () => {
+    let scannerData, currentEvent, date;
+    await AsyncStorage.getItem('SCANNER_DATA').then(data => {
+      scannerData = JSON.parse(data)
+    });
+
+    await AsyncStorage.getItem('CURRENT_EVENT').then(data => {
+      currentEvent = JSON.parse(data)
+    });
+
+    await AsyncStorage.getItem('DATE_EVENT').then(data => {
+      date = data
+    });
+
+    await this.checkAsyncStorage(scannerData, currentEvent, date);
   }
 
   onEntry = () => {
-    this.props.navigation.navigate('Entry', { title: 'ENTRY', typeScannerCode: 1, eventCode: this.state.selectedOption.value });
+    this.props.navigation.navigate('Entry', { title: 'ENTRY', typeScannerCode: 1, eventCode: this.state.currentEvent.value });
   }
 
   onViewInfo = () => {
-    this.props.navigation.navigate('Entry', { title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.selectedOption.value });
+    this.props.navigation.navigate('Entry', { title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.currentEvent.value });
   }
 
   //**QR CODE */
@@ -63,7 +100,7 @@ export default class Overview extends Component {
   getInfo = async (body) => {
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
-        this.navigate('ScanResult', { ...data, ...{ title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.selectedOption.value } })
+        this.navigate('ScanResult', { ...data, ...{ title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.currentEvent.value } })
       },
       error => {
         console.log(error)
@@ -73,7 +110,7 @@ export default class Overview extends Component {
 
   //call api so get Entry
   getEntry = async (body) => {
-    let prams = { typeScannerCode: 2, eventCode: this.state.selectedOption.value }
+    let prams = { typeScannerCode: 2, eventCode: this.state.currentEvent.value }
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         if (data.appError) {
@@ -99,14 +136,14 @@ export default class Overview extends Component {
 
   // Has scan result
   onScannerManually = (typeScannerCode) => {
-    const { manuallyCode, selectedOption } = this.state;
+    const { manuallyCode, currentEvent } = this.state;
     if (typeScannerCode === 1) {
       // if user choose ENTRY
 
       let body = {
         "code": manuallyCode,
         "action": "ticketEnter",
-        "event": selectedOption.value
+        "event": currentEvent.value
       }
 
       this.getEntry(body)
@@ -117,7 +154,7 @@ export default class Overview extends Component {
       let body = {
         "code": manuallyCode,
         "action": "ticketInfo",
-        "event": selectedOption.value
+        "event": currentEvent.value
       }
 
       this.getInfo(body)
@@ -129,6 +166,7 @@ export default class Overview extends Component {
     let event = Object.keys(events).find(e => e === date)
     let _propsDropdown = { ...this.state.propsDropdown };
     _propsDropdown.options = events[event];
+    AsyncStorage.setItem('DATE_EVENT', date)
     this.setState({
       date: date,
       propsDropdown: _propsDropdown,
@@ -142,19 +180,26 @@ export default class Overview extends Component {
     })
   }
 
+  onSubmitEvent = () => {
+    AsyncStorage.setItem('CURRENT_EVENT', JSON.stringify(this.state.selectedOption))
+    this.setState({
+      currentEvent: this.state.selectedOption
+    })
+  }
+
   _getEvents = async () => {
     Service.getMethod('scanner-data',
       data => {
         let days = data.days;
         let events = data.events;
 
+        AsyncStorage.setItem('SCANNER_DATA', JSON.stringify(data))
+
         this.setState({
           events: events,
           minDate: days[0].value,
           maxDate: days[days.length - 1].value
         })
-
-        console.log(this.state)
       },
       error => {
         console.error(error)
@@ -188,7 +233,7 @@ export default class Overview extends Component {
 
   _renderDopdown = () => {
     const { isShowingOptions, selectedOption } = this.state;
-    if (this.state.selectedOption !== {}) {
+    if (this.state.selectedOption.label) {
       return (
         <Dropdown {...this.state.propsDropdown}
           onSelect={this._onSelect.bind(this)}
@@ -223,23 +268,23 @@ export default class Overview extends Component {
   }
 
   render() {
-    const { selectedOption } = this.state;
+    const { currentEvent } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <TextCustom>SCAN QR CODE</TextCustom>
-          <View style={styles.row} pointerEvents={selectedOption.label ? 'auto' : 'none'}>
+          <View style={styles.row} pointerEvents={currentEvent.label ? 'auto' : 'none'}>
             <ButtonCustom width={100} onPress={this.onEntry}>ENTRY</ButtonCustom>
             <ButtonCustom width={100} onPress={this.onViewInfo}>VIEW INFO</ButtonCustom>
           </View>
           <TextCustom>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
           <TextInputCustom onChangeText={this.onChangeTextCode} />
-          <View style={styles.floatRight} pointerEvents={selectedOption.label ? 'auto' : 'none'}>
+          <View style={styles.floatRight} pointerEvents={currentEvent.label ? 'auto' : 'none'}>
             <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)}>ENTRY</ButtonCustom>
             <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)}>VIEW INFO</ButtonCustom>
           </View>
           <TextCustom>EVENT YOU ARE SCANNING IN</TextCustom>
-          <TextCustom>Current Event: {selectedOption.label ? selectedOption.label : 'None'}</TextCustom>
+          <TextCustom>Current Event: {currentEvent.label ? currentEvent.label : 'None'}</TextCustom>
 
           <View style={styles.row}>
             <View style={[styles.rowItem, { paddingRight: 10 }]}>
@@ -251,7 +296,7 @@ export default class Overview extends Component {
           </View>
 
           <View style={styles.floatRight}>
-            <ButtonCustom>SUBMIT</ButtonCustom>
+            <ButtonCustom onPress={this.onSubmitEvent}>SUBMIT</ButtonCustom>
           </View>
         </View>
       </View >
