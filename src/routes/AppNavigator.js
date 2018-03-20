@@ -16,9 +16,9 @@ import { TicketNavigator, ReceiptNavigator, AdminNavigator } from './AppTab';
 const AppNavigator = StackNavigator({
   Splash: { screen: SplashScreen },
   Login: { screen: LoginScreen },
-  Ticket: { screen: TicketNavigator },
-  Receipt: { screen: ReceiptNavigator },
-  Admin: { screen: AdminNavigator },
+  ticketScanner: { screen: TicketNavigator },
+  vendor: { screen: ReceiptNavigator },
+  scanAdmin: { screen: AdminNavigator },
   Entry: { screen: EntryScreen },
   ScanResult: { screen: ScanResult }
 });
