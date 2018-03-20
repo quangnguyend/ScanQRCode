@@ -9,17 +9,6 @@ import {
 import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera } from './../../../components';
 import Service from '../../../services/api';
 
-const propsDropdown = {
-  options: [
-    { value: 1, label: 'Bandung' },
-    { value: 2, label: 'Surabaya' },
-    { value: 3, label: 'Palembang' },
-    { value: 4, label: 'Jakarta' },
-  ],
-  label: 'EVENT',
-  animationType: 'none',
-};
-
 export default class Overview extends Component {
 
   static navigationOptions = {
