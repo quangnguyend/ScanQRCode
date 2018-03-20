@@ -17,6 +17,9 @@ var _DropdownStyle2 = _interopRequireDefault(_DropdownStyle);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Dropdown(props) {
+    let _label = props.selectedOption.label;
+    _label = _label.substr(0, 10) + '...'
+
     return _react2.default.createElement(
         _reactNative.View,
         { style: _DropdownStyle2.default.container },
@@ -38,7 +41,7 @@ function Dropdown(props) {
                 _react2.default.createElement(
                     _reactNative.Text,
                     { style: _DropdownStyle2.default.defaultOptionText },
-                    props.label
+                    _label
                 ),
                 _react2.default.createElement(
                     _reactNative.Image,
