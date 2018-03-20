@@ -71,7 +71,7 @@ export default class Scanner extends Component {
 
   // Has scan result
   onScanner = (e) => {
-    const { typeScannerCode } = this.props.navigation.state.params;
+    const { typeScannerCode, eventCode } = this.props.navigation.state.params;
     if (!this.state.scanSuccessfull) {
       Vibration.vibrate();
       this.setState({
@@ -84,7 +84,7 @@ export default class Scanner extends Component {
         let body = {
           "code": e.data,
           "action": "ticketEnter",
-          "event": "SULTAN"
+          "event": eventCode
         }
 
         this.getEntry(body)
@@ -95,7 +95,7 @@ export default class Scanner extends Component {
         let body = {
           "code": e.data,
           "action": "ticketInfo",
-          "event": "SULTAN"
+          "event": eventCode
         }
 
         this.getInfo(body)
@@ -107,12 +107,12 @@ export default class Scanner extends Component {
     return (
       <View style={styles.container}>
         <Image
-          source={require('../../../assets/images/backgroundScanner.png')}
+          source={require('../../../assets/images/qr-codescreen.png')}
           style={styles.imageBackground}
-        //resizeMode={'stretch'}
+          resizeMode={'stretch'}
         />
         <Camera
-          style={{ width: 300, height: 300 }}
+          style={styles.camera}
           onBarCodeRead={this.onScanner}
           type={"back"}
         />
@@ -122,17 +122,20 @@ export default class Scanner extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    padding: 100,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   imageBackground: {
+    width: 250,
+    height: 250,
+    zIndex: 1
+  },
+  camera: {
     flex: 1,
     width: '100%',
-    position: 'absolute',
-    //height: '100%',
-    resizeMode: 'cover'
+    height: '100%',
+    position: 'absolute'
   }
 });
