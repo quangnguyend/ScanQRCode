@@ -258,63 +258,99 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+<<<<<<< Updated upstream
 		B1E1E2FA2060E75A002F5E74 /* PBXContainerItemProxy */ = {
+=======
+		B1E1E2B32060C81F002F5E74 /* PBXContainerItemProxy */ = {
+>>>>>>> Stashed changes
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EBF21BDC1FC498900052F4D5;
 			remoteInfo = jsinspector;
 		};
+<<<<<<< Updated upstream
 		B1E1E2FC2060E75A002F5E74 /* PBXContainerItemProxy */ = {
+=======
+		B1E1E2B52060C81F002F5E74 /* PBXContainerItemProxy */ = {
+>>>>>>> Stashed changes
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EBF21BFA1FC4989A0052F4D5;
 			remoteInfo = "jsinspector-tvOS";
 		};
+<<<<<<< Updated upstream
 		B1E1E2FE2060E75A002F5E74 /* PBXContainerItemProxy */ = {
+=======
+		B1E1E2B72060C81F002F5E74 /* PBXContainerItemProxy */ = {
+>>>>>>> Stashed changes
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 139D7ECE1E25DB7D00323FB7;
 			remoteInfo = "third-party";
 		};
+<<<<<<< Updated upstream
 		B1E1E3002060E75A002F5E74 /* PBXContainerItemProxy */ = {
+=======
+		B1E1E2B92060C81F002F5E74 /* PBXContainerItemProxy */ = {
+>>>>>>> Stashed changes
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 3D383D3C1EBD27B6005632C8;
 			remoteInfo = "third-party-tvOS";
 		};
+<<<<<<< Updated upstream
 		B1E1E3022060E75A002F5E74 /* PBXContainerItemProxy */ = {
+=======
+		B1E1E2BB2060C81F002F5E74 /* PBXContainerItemProxy */ = {
+>>>>>>> Stashed changes
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 139D7E881E25C6D100323FB7;
 			remoteInfo = "double-conversion";
 		};
+<<<<<<< Updated upstream
 		B1E1E3042060E75A002F5E74 /* PBXContainerItemProxy */ = {
+=======
+		B1E1E2BD2060C81F002F5E74 /* PBXContainerItemProxy */ = {
+>>>>>>> Stashed changes
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
 			remoteInfo = "double-conversion-tvOS";
 		};
+<<<<<<< Updated upstream
 		B1E1E3062060E75A002F5E74 /* PBXContainerItemProxy */ = {
+=======
+		B1E1E2BF2060C81F002F5E74 /* PBXContainerItemProxy */ = {
+>>>>>>> Stashed changes
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
 			remoteInfo = privatedata;
 		};
+<<<<<<< Updated upstream
 		B1E1E3082060E75A002F5E74 /* PBXContainerItemProxy */ = {
+=======
+		B1E1E2C12060C81F002F5E74 /* PBXContainerItemProxy */ = {
+>>>>>>> Stashed changes
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
+<<<<<<< Updated upstream
 		B1E1E30D2060E75B002F5E74 /* PBXContainerItemProxy */ = {
+=======
+		B1E1E2C62060C821002F5E74 /* PBXContainerItemProxy */ = {
+>>>>>>> Stashed changes
 			isa = PBXContainerItemProxy;
 			containerPortal = 7CD32D04FC164A07BBEA1EFA /* RNCamera.xcodeproj */;
 			proxyType = 2;
@@ -513,6 +549,7 @@
 				3DAD3EAB1DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
 				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
+<<<<<<< Updated upstream
 				B1E1E2FB2060E75A002F5E74 /* libjsinspector.a */,
 				B1E1E2FD2060E75A002F5E74 /* libjsinspector-tvOS.a */,
 				B1E1E2FF2060E75A002F5E74 /* libthird-party.a */,
@@ -521,6 +558,16 @@
 				B1E1E3052060E75A002F5E74 /* libdouble-conversion.a */,
 				B1E1E3072060E75A002F5E74 /* libprivatedata.a */,
 				B1E1E3092060E75A002F5E74 /* libprivatedata-tvOS.a */,
+=======
+				B1E1E2B42060C81F002F5E74 /* libjsinspector.a */,
+				B1E1E2B62060C81F002F5E74 /* libjsinspector-tvOS.a */,
+				B1E1E2B82060C81F002F5E74 /* libthird-party.a */,
+				B1E1E2BA2060C81F002F5E74 /* libthird-party.a */,
+				B1E1E2BC2060C81F002F5E74 /* libdouble-conversion.a */,
+				B1E1E2BE2060C81F002F5E74 /* libdouble-conversion.a */,
+				B1E1E2C02060C81F002F5E74 /* libprivatedata.a */,
+				B1E1E2C22060C81F002F5E74 /* libprivatedata-tvOS.a */,
+>>>>>>> Stashed changes
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -588,7 +635,11 @@
 				00E356EF1AD99517003FC87E /* FullertonTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+<<<<<<< Updated upstream
 				B1E1E2D42060E759002F5E74 /* Recovered References */,
+=======
+				B1E1E28D2060C81E002F5E74 /* Recovered References */,
+>>>>>>> Stashed changes
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -615,7 +666,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+<<<<<<< Updated upstream
 		B1E1E2D42060E759002F5E74 /* Recovered References */ = {
+=======
+		B1E1E28D2060C81E002F5E74 /* Recovered References */ = {
+>>>>>>> Stashed changes
 			isa = PBXGroup;
 			children = (
 				7CD85845C64B42DC9D72A438 /* libRNCamera.a */,
@@ -623,10 +678,17 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+<<<<<<< Updated upstream
 		B1E1E30A2060E75A002F5E74 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				B1E1E30E2060E75B002F5E74 /* libRNCamera.a */,
+=======
+		B1E1E2C32060C820002F5E74 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B1E1E2C72060C821002F5E74 /* libRNCamera.a */,
+>>>>>>> Stashed changes
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -717,7 +779,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = ZR6QDY93JK;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = ZR6QDY93JK;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -791,7 +857,11 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+<<<<<<< Updated upstream
 					ProductGroup = B1E1E30A2060E75A002F5E74 /* Products */;
+=======
+					ProductGroup = B1E1E2C32060C820002F5E74 /* Products */;
+>>>>>>> Stashed changes
 					ProjectRef = 7CD32D04FC164A07BBEA1EFA /* RNCamera.xcodeproj */;
 				},
 			);
@@ -1009,6 +1079,7 @@
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+<<<<<<< Updated upstream
 		B1E1E2FB2060E75A002F5E74 /* libjsinspector.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1070,6 +1141,69 @@
 			fileType = archive.ar;
 			path = libRNCamera.a;
 			remoteRef = B1E1E30D2060E75B002F5E74 /* PBXContainerItemProxy */;
+=======
+		B1E1E2B42060C81F002F5E74 /* libjsinspector.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsinspector.a;
+			remoteRef = B1E1E2B32060C81F002F5E74 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B1E1E2B62060C81F002F5E74 /* libjsinspector-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsinspector-tvOS.a";
+			remoteRef = B1E1E2B52060C81F002F5E74 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B1E1E2B82060C81F002F5E74 /* libthird-party.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libthird-party.a";
+			remoteRef = B1E1E2B72060C81F002F5E74 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B1E1E2BA2060C81F002F5E74 /* libthird-party.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libthird-party.a";
+			remoteRef = B1E1E2B92060C81F002F5E74 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B1E1E2BC2060C81F002F5E74 /* libdouble-conversion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libdouble-conversion.a";
+			remoteRef = B1E1E2BB2060C81F002F5E74 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B1E1E2BE2060C81F002F5E74 /* libdouble-conversion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libdouble-conversion.a";
+			remoteRef = B1E1E2BD2060C81F002F5E74 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B1E1E2C02060C81F002F5E74 /* libprivatedata.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libprivatedata.a;
+			remoteRef = B1E1E2BF2060C81F002F5E74 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B1E1E2C22060C81F002F5E74 /* libprivatedata-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libprivatedata-tvOS.a";
+			remoteRef = B1E1E2C12060C81F002F5E74 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B1E1E2C72060C821002F5E74 /* libRNCamera.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCamera.a;
+			remoteRef = B1E1E2C62060C821002F5E74 /* PBXContainerItemProxy */;
+>>>>>>> Stashed changes
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1206,6 +1340,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = ZR6QDY93JK;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1215,7 +1350,7 @@
 					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
 				);
 				INFOPLIST_FILE = FullertonTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1235,12 +1370,16 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+<<<<<<< Updated upstream
+=======
+				DEVELOPMENT_TEAM = ZR6QDY93JK;
+>>>>>>> Stashed changes
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
 				);
 				INFOPLIST_FILE = FullertonTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1261,11 +1400,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+<<<<<<< Updated upstream
+=======
+				DEVELOPMENT_TEAM = ZR6QDY93JK;
+>>>>>>> Stashed changes
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
 				);
 				INFOPLIST_FILE = Fullerton/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1282,11 +1426,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+<<<<<<< Updated upstream
+=======
+				DEVELOPMENT_TEAM = ZR6QDY93JK;
+>>>>>>> Stashed changes
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
 				);
 				INFOPLIST_FILE = Fullerton/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1315,6 +1464,7 @@
 					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
 				);
 				INFOPLIST_FILE = "Fullerton-tvOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1349,6 +1499,7 @@
 					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
 				);
 				INFOPLIST_FILE = "Fullerton-tvOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1378,6 +1529,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Fullerton-tvOSTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1403,6 +1555,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Fullerton-tvOSTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

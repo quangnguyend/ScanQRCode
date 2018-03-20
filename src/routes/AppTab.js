@@ -10,33 +10,32 @@ import { TabNavigator } from 'react-navigation';
 import TicketScreen from '../scenes/Ticket/Overview';
 import ReceiptScreen from '../scenes/Sign/Login/Form';
 
-export const TicketNavigator = TabNavigator({
-	Ticket: {
-		screen: TicketScreen,
-		navigationOptions: {
-			title: 'TICKET SCANNER',
-			tabBarLabel: 'Ticket',
-		}
-	},
-	Logout: {
+const logoutTab = {
 		screen: ReceiptScreen     // Empty screen, useless in this specific case
 		, navigationOptions: ({ navigation }) => ({
 			tabBarOnPress: (scene, jumpToIndex) => {
-				console.log(navigation)
-				// 	               return Alert.alert(   // Shows up the alert without redirecting anywhere
-				// 	                   'Confirmation required'
-				// 	                   ,'Do you really want to logout?'
-				// 	                   ,[
-				// 	                     {text: 'Accept', onPress: () => { 
-				// console.log(navigation)},
-				// 	                     	//navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }))}},
-				// 	                     {text: 'Cancel'}
-				// 	                    ]
-				// 	               );
+				return Alert.alert(   // Shows up the alert without redirecting anywhere
+					'Confirmation required'
+					, 'Do you really want to logout?'
+					, [
+					{ text: 'Accept', onPress: () => { navigation.dispatch({ type: 'Reset', routeName: 'Login' }) } },
+					{ text: 'Cancel' }
+					]
+					);
 			},
 		})
+	}
+
+	export const TicketNavigator = TabNavigator({
+		Ticket: {
+			screen: TicketScreen,
+			navigationOptions: {
+				title: 'TICKET SCANNER',
+				tabBarLabel: 'Ticket',
+			}
+		},
+		Logout: logoutTab
 	},
-},
 	{
 		tabBarPosition: 'bottom',
 		animationEnabled: false,
@@ -52,31 +51,17 @@ export const TicketNavigator = TabNavigator({
 		}
 	})
 
-export const ReceiptNavigator = TabNavigator({
-	Receipt: {
-		screen: ReceiptScreen,
-		navigationOptions: {
-			title: 'RECEIPT SCANNER',
-			tabBarLabel: 'Receipt',
-			headerLeft: null
-		}
+	export const ReceiptNavigator = TabNavigator({
+		Receipt: {
+			screen: ReceiptScreen,
+			navigationOptions: {
+				title: 'RECEIPT SCANNER',
+				tabBarLabel: 'Receipt',
+				headerLeft: null
+			}
+		},
+		Logout: logoutTab
 	},
-	Logout: {
-		screen: ReceiptScreen     // Empty screen, useless in this specific case
-		, navigationOptions: ({ navigation }) => ({
-			tabBarOnPress: (scene, jumpToIndex) => {
-				return Alert.alert(   // Shows up the alert without redirecting anywhere
-					'Confirmation required'
-					, 'Do you really want to logout?'
-					, [
-						{ text: 'Accept', onPress: () => { navigation.dispatch('Login') } },
-						{ text: 'Cancel' }
-					]
-				);
-			},
-		})
-	},
-},
 	{
 		tabBarPosition: 'bottom',
 		animationEnabled: false,
@@ -92,51 +77,24 @@ export const ReceiptNavigator = TabNavigator({
 		}
 	})
 
-class mytabBarComponent extends Component {
-	constructor(props) {
-		super(props)
-	}
-	render() {
-		return (
-			<View>
-				<Text>123</Text>
-			</View>
-		)
-	}
-}
-
-export const AdminNavigator = TabNavigator({
-	Ticket: {
-		screen: TicketScreen,
-		navigationOptions: {
-			title: 'TICKET SCANNER',
-			tabBarLabel: 'Ticket',
-		}
+	export const AdminNavigator = TabNavigator({
+		Ticket: {
+			screen: TicketScreen,
+			navigationOptions: {
+				title: 'TICKET SCANNER',
+				tabBarLabel: 'Ticket',
+			}
+		},
+		Receipt: {
+			screen: ReceiptScreen,
+			navigationOptions: {
+				title: 'RECEIPT SCANNER',
+				tabBarLabel: 'Receipt',
+				headerLeft: null
+			}
+		},
+		Logout: logoutTab
 	},
-	Receipt: {
-		screen: ReceiptScreen,
-		navigationOptions: {
-			title: 'RECEIPT SCANNER',
-			tabBarLabel: 'Receipt',
-			headerLeft: null
-		}
-	},
-	Logout: {
-		screen: ReceiptScreen     // Empty screen, useless in this specific case
-		, navigationOptions: ({ navigation }) => ({
-			tabBarOnPress: (scene, jumpToIndex) => {
-				return Alert.alert(   // Shows up the alert without redirecting anywhere
-					'Confirmation required'
-					, 'Do you really want to logout?'
-					, [
-						{ text: 'Accept', onPress: () => { navigation.dispatch({ type: 'Reset', routeName: 'Login' }) } },
-						{ text: 'Cancel' }
-					]
-				);
-			},
-		})
-	},
-},
 	{
 		tabBarPosition: 'bottom',
 		animationEnabled: false,
@@ -145,11 +103,9 @@ export const AdminNavigator = TabNavigator({
 			showIcon: true,
 			style: {
 				backgroundColor:'#FFFFFF',
-				//color: '#8E7631'
-			},
-			labelStyle: {
-				color: '#8E7631'
-			}
+		},
+		labelStyle: {
+			color: '#8E7631'
 		}
-		//tabBarComponent: mytabBarComponent
-	})
+	}
+})
