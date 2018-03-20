@@ -38,7 +38,7 @@ function Dropdown(props) {
                 _react2.default.createElement(
                     _reactNative.Text,
                     { style: _DropdownStyle2.default.defaultOptionText },
-                    props.selectedOption.label
+                    props.label
                 ),
                 _react2.default.createElement(
                     _reactNative.Image,
