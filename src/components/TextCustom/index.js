@@ -10,20 +10,25 @@ import PropTypes from 'prop-types';
 export default class TextCustom extends Component {
     static propTypes = {
         color: PropTypes.string,
-        fontSize: PropTypes.number
+        fontSize: PropTypes.number,
+        paddingTop: PropTypes.number,
+        paddingBottom: PropTypes.number
     }
     static defaultProps = {
         color: '#8E7631',
-        fontSize: 16
+        fontSize: 16,
+        paddingTop: null,
+        paddingBotton: null
     }
     constructor(props) {
         super(props)
     }
 
     render() {
+        const { color, fontSize, paddingBottom, paddingTop } = this.props;
         return (
             <View>
-                <Text style={{color: this.props.color, fontSize: this.props.fontSize}}>
+                <Text style={{ color: color, fontSize: fontSize, paddingBottom: paddingBottom, paddingTop: paddingTop }}>
                     {this.props.children}
                 </Text>
             </View>

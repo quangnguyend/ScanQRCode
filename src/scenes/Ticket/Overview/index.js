@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import {
     View,
     StyleSheet,
-    Image
+    Image,
+    Platform
 } from 'react-native';
-import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera } from './../../../components'
+import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera } from './../../../components';
+import Service from '../../../services/api';
 
 const propsDropdown = {
     defaultValue: { value: 5, label: 'Kebumen' },
@@ -19,30 +21,64 @@ const propsDropdown = {
 };
 
 export default class Overview extends Component {
+
     static navigationOptions = {
+        headerLeft: null,
         tabBarIcon: ({ tintColor }) => (
             <Image
                 source={require('../../../assets/images/ticket.png')}
-                style={[{ width: 75, height: 75 }]}
+                style={[{ resizeMode: 'cover' }]}
             />
         ),
+        headerStyle: { backgroundColor: '#635339' },
+        headerTitleStyle: { color: '#FFFFFF', alignSelf: 'center' }
     }
+
     constructor(props) {
         super(props)
         this.state = {
             date: '',
-            selectedOption: propsDropdown.defaultValue || { value: 0, label: 'Pilih Kota' },
-            isShowingOptions: false
+            selectedOption: propsDropdown.defaultValue,
+            isShowingOptions: false,
+            events: [],
+            minDate: null,
+            maxDate: null,
+            loadSuccess: false
         }
+    }
+
+    componentDidMount() {
+        this._getEvents();
     }
 
     onEntry = () => {
         console.log(this.props)
         this.props.navigation.navigate('Entry', { title: 'ENTRY', typeScannerCode: 1 });
     }
+
     onViewInfo = () => {
         console.log(this.props)
         this.props.navigation.navigate('Entry', { title: 'VIEW INFO', typeScannerCode: 2 });
+    }
+
+    _getEvents = async () => {
+        Service.getMethod('scanner-data',
+            data => {
+                let days = data.days;
+                let events = data.events;
+
+                this.setState({
+                    events: [...events],
+                    minDate: days[0].value,
+                    maxDate: days[days.length - 1].value
+                })
+
+                console.log(this.state)
+            },
+            error => {
+                console.error(error)
+            }
+        )
     }
 
     _onShow = (value) => {
@@ -50,12 +86,14 @@ export default class Overview extends Component {
             isShowingOptions: value,
         });
     }
+
     _onSelect = (item, isShow) => {
         this.setState({
             isShowingOptions: isShow,
             selectedOption: item,
         });
     }
+
     render() {
         let { isShowingOptions, selectedOption } = this.state;
         return (
@@ -82,8 +120,8 @@ export default class Overview extends Component {
                                 mode="date"
                                 placeholder="placeholder"
                                 format="YYYY-MM-DD"
-                                //minDate="2016-05-01"
-                                //maxDate="2016-06-01"
+                                minDate={this.state.minDate}
+                                maxDate={this.state.maxDate}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
                                 iconSource={require('./../../../assets/images/arrow-down.png')}
