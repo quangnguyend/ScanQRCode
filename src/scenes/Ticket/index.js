@@ -13,19 +13,13 @@ export default StackNavigator({
     Overview: {
         screen: Overview,
         navigationOptions: {
-            title: 'TICKET SCANNER',
-            headerTitleStyle: {
-                color: 'yellow'
-            }
+            title: 'TICKET SCANNER'
         }
     },
     Scanner: {
         screen: Scanner,
         navigationOptions: {
-            title: 'ADMIT ENTRY',
-            headerTitleStyle: {
-                color: 'yellow'
-            }
+            title: 'ADMIT ENTRY'
         }
     }
 })

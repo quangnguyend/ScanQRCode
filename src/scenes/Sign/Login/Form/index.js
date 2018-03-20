@@ -18,7 +18,8 @@ class LoginScreen extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../../assets/images/ticket.png')}
-        style={[{ width: 75, height: 75 }]}
+        style={[{ resizeMode: 'cover' }]}
+        resizeMode={'cover'}
       />
     ),
   })
