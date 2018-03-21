@@ -19,8 +19,7 @@ export default class VendorOverview extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ width: '100%', height: '100%' }]}
-        resizeMode={'contain'}
+        style={[{ resizeMode: 'cover' }]}
       />
     ),
     headerStyle: { backgroundColor: '#635339' },

@@ -50,7 +50,7 @@ class HeaderCustom extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-  navToMain: (role) => dispatch({ type: 'Reset', routeName: role })
+  navToMain: () => dispatch({ type: 'Reset', routeName: 'Overview' })
 });
 
 export default connect(null, mapDispatchToProp)(HeaderCustom);

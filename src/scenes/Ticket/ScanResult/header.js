@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Image,
     Text,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
 

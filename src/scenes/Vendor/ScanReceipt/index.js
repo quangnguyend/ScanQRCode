@@ -38,7 +38,11 @@ export default class ScanReceipt extends Component {
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         console.log(data)
-        //this.navigate('ScanResult', { ...data, ...{ title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.currentEvent.value } })
+        if (data.status === 400) {
+          this.navigate('InvalidPage', data)
+        } else {
+          this.navigate('ComfirmCollection', data)
+        }
       },
       error => {
         console.log(error)

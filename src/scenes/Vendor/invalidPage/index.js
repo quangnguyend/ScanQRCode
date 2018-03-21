@@ -6,7 +6,7 @@ import {
 
 import { TextCustom, ButtonCustom } from '../../../components';
 
-export default class Collection extends Component {
+export default class InvalidPage extends Component {
   constructor(props) {
     super(props)
   }
@@ -16,7 +16,7 @@ export default class Collection extends Component {
   render() {
     return (
       <View>
-        <TextCustom>COLLECTION PAGE</TextCustom>
+        <TextCustom>INVALID PAGE</TextCustom>
       </View>
     )
   }
