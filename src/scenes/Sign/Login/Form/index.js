@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Image,
   Text,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 
 import _ from 'lodash';
@@ -30,8 +31,8 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      email: 'vendor-longJiang@protege.sg',
+      password: 'Q1aG5b',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false
@@ -47,27 +48,33 @@ class LoginScreen extends Component {
     let _passIsEmpty = _.isEmpty(password.value);
     let _emailIsEmpty = _.isEmpty(email.value);
 
-    this.setState({
-      emailInValid: _emailInValid,
-      passIsEmpty: _passIsEmpty,
-      emailIsEmpty: _emailIsEmpty
-    })
+    // this.setState({
+    //   emailInValid: _emailInValid,
+    //   passIsEmpty: _passIsEmpty,
+    //   emailIsEmpty: _emailIsEmpty
+    // })
 
-    if (!_emailInValid) {
-      if (_passIsEmpty) {
-        return;
-      }
-    } else {
-      return
-    }
+    // if (!_emailInValid) {
+    //   if (_passIsEmpty) {
+    //     return;
+    //   }
+    // } else {
+    //   return
+    // }
+
+    // const bodyData = {
+    //   username: email.value,
+    //   password: password.value
+    // }
 
     const bodyData = {
       username: email,
       password: password
     }
+
     Service.postMethod('users/login', bodyData,
       json => {
-        if (json.status === 400) {
+        if (json.status === 400 || json.status === 401) {
           Alert.alert(json.message);
           return;
         }
@@ -76,7 +83,8 @@ class LoginScreen extends Component {
             console.log(jsonUser);
             // save data to redux
             //insertRoleInfo(jsonUser)
-            // navToMain(jsonUser.roles[0]);
+            AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0])
+            navToMain(jsonUser.roles[0]);
           },
           error => {
             console.log(error);
@@ -105,7 +113,7 @@ class LoginScreen extends Component {
         <Image source={require('./../../../../assets/images/bbb.png')} />
         <TextCustom fontSize={20}>LOGIN TO FULLERTON CONCOURS</TextCustom>
         <TextInputCustom onChangeText={(value) => this.setState({ email: { value } })} placeholder="EMAIL ADDRESS" />
-        <TextInputCustom onChangeText={(value) => this.setState({ password: { value } })} />
+        <TextInputCustom password={true} onChangeText={(value) => this.setState({ password: { value } })} placeholder="PASSWORD" />
         <ButtonCustom style={styles.button} onPress={this.onPress}>
           Login
       </ButtonCustom>

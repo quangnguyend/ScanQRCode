@@ -83,7 +83,7 @@ export default class Overview extends Component {
   }
 
   onEntry = () => {
-    this.props.navigation.navigate('Entry', { title: 'ENTRY', typeScannerCode: 1, eventCode: this.state.currentEvent.value });
+    this.props.navigation.navigate('Entry', { title: 'ADMIT ENTRY', typeScannerCode: 1, eventCode: this.state.currentEvent.value });
   }
 
   onViewInfo = () => {

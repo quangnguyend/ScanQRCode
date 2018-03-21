@@ -10,11 +10,13 @@ import PropTypes from 'prop-types';
 export default class TextInputCustom extends Component {
     static propTypes = {
         onChangeText: PropTypes.func,
-        placeholder: PropTypes.string
+        placeholder: PropTypes.string,
+        password: PropTypes.bool
     }
     static defaultProps = {
         onChangeText: () => { },
-        placeholder: ''
+        placeholder: '',
+        password: false
     }
     constructor(props) {
         super(props)
@@ -27,7 +29,7 @@ export default class TextInputCustom extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TextInput style={styles.textInput} onChangeText={this.onChangeText} underlineColorAndroid="transparent" placeholder={this.props.placeholder} placeholderTextColor={'#B6B5B5'}/>
+                <TextInput style={styles.textInput} secureTextEntry={this.props.password} onChangeText={this.onChangeText} underlineColorAndroid="transparent" placeholder={this.props.placeholder} placeholderTextColor={'#B6B5B5'} />
             </View>
         )
     }
