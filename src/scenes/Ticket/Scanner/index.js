@@ -37,6 +37,11 @@ export default class Scanner extends Component {
   getInfo = async (body) => {
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
+        console.log(data)
+        if (data.message === 'Ticket code invalid') {
+          this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
+          return;
+        }
         this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
       },
       error => {
@@ -49,6 +54,7 @@ export default class Scanner extends Component {
   getEntry = async (body) => {
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
+        console.log(data)
         if (data.appError) {
 
           //if ENTRY REJECTED

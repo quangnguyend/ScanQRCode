@@ -30,8 +30,8 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      email: 'ticketscanner1@protege.sg',
+      password: 'Q1aG5b',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false,
@@ -119,7 +119,11 @@ class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Loading loading={this.state.loading} />
-        <Image source={require('./../../../../assets/images/banner1.png')} />
+        <Image 
+          source={require('./../../../../assets/images/banner1.png')}
+          //style={[{ width: '100%', height: '100%' }]}
+          resizeMode={'contain'}
+        />
         <Image source={require('./../../../../assets/images/bbb.png')} />
         <TextCustom fontSize={20}>LOGIN TO FULLERTON CONCOURS</TextCustom>
         <TextInputCustom onChangeText={(value) => this.setState({ email: value })} placeholder="EMAIL ADDRESS" />
