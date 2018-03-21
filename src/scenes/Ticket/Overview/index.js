@@ -214,8 +214,8 @@ export default class Overview extends Component {
     const { date } = this.state;
     if (date === null || date === '') {
       Alert.alert(
-        'Warning',
-        'Please select date so list events!',
+        'Warning!',
+        'Please select date so list events.',
         [
           { text: 'Cancel' },
         ],
@@ -254,7 +254,7 @@ export default class Overview extends Component {
         style={{ width: '100%' }}
         date={this.state.date}
         mode="date"
-        placeholder="placeholder"
+        placeholder="DATE"
         format="YYYY-MM-DD"
         minDate={this.state.minDate}
         maxDate={this.state.maxDate}
@@ -269,7 +269,7 @@ export default class Overview extends Component {
   render() {
     const { currentEvent, date } = this.state;
     let disableBtn = false;
-    if (date === null || date === '' || date === null) {
+    if (currentEvent === null || !currentEvent.label || currentEvent === undefined) {
       disableBtn = true;
     }
     return (
@@ -287,7 +287,7 @@ export default class Overview extends Component {
             <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)} disable={disableBtn}>VIEW INFO</ButtonCustom>
           </View>
           <TextCustom>EVENT YOU ARE SCANNING IN</TextCustom>
-          <TextCustom>Current Event: {!currentEvent || currentEvent === null  ? 'None': currentEvent.label}</TextCustom>
+          <TextCustom>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>
 
           <View style={styles.row}>
             <View style={[styles.rowItem, { paddingRight: 10 }]}>

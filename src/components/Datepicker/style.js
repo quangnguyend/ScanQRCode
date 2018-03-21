@@ -26,10 +26,10 @@ let style = StyleSheet.create({
         justifyContent: 'center'
     },
     dateText: {
-        color: '#CCCBCB'
+        color: '#8E7631'
     },
     placeholderText: {
-        color: '#c9c9c9'
+        color: '#8E7631'
     },
     datePickerMask: {
         flex: 1,

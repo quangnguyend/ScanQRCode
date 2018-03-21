@@ -36,8 +36,8 @@ export default class ButtonCustom extends Component {
         let bColor = disable ? '#918B81' : '#8E7631';
         return (
             <View>
-                <TouchableHighlight style={[styles.button, { width: width, padding: padding, backgroundColor: bColor }]} onPress={this.onPress}>
-                    <Text style={{ fontSize: fontSize }}>{children}</Text>
+                <TouchableHighlight underlayColor={'#686156'} style={[styles.button, { width: width, padding: padding, backgroundColor: bColor }]} onPress={this.onPress}>
+                    <Text style={{ fontSize: fontSize, color: '#FFFFFF' }}>{children}</Text>
                 </TouchableHighlight>
             </View >
         )

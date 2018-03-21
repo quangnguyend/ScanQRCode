@@ -12,7 +12,8 @@ var _Dimensions$get = _reactNative.Dimensions.get('window'),
 
 var optionText = {
     textAlign: 'center',
-    flex: 1
+    flex: 1,
+    color: '#8E7631'
 };
 exports.default = _reactNative.StyleSheet.create({
     container: {

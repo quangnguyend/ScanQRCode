@@ -52,13 +52,13 @@ export const TicketNavigator = TabNavigator({
     animationEnabled: false,
     swipeEnabled: false,
     tabBarOptions: {
-      activeTintColor: '#e91e63',
-      labelStyle: {
-        fontSize: 12,
-      },
+      showIcon: true,
       style: {
-        backgroundColor: 'green',
+        backgroundColor: '#FFFFFF',
       },
+      labelStyle: {
+        color: '#8E7631'
+      }
     }
   })
 
@@ -79,13 +79,13 @@ export const ReceiptNavigator = TabNavigator({
     animationEnabled: false,
     swipeEnabled: false,
     tabBarOptions: {
-      activeTintColor: '#e91e63',
-      labelStyle: {
-        fontSize: 12,
-      },
+      showIcon: true,
       style: {
-        backgroundColor: 'green',
+        backgroundColor: '#FFFFFF',
       },
+      labelStyle: {
+        color: '#8E7631'
+      }
     }
   })
 

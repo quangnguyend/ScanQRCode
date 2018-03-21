@@ -28,7 +28,7 @@ export default class TextCustom extends Component {
         const { color, fontSize, paddingBottom, paddingTop } = this.props;
         return (
             <View>
-                <Text style={{ color: color, fontSize: fontSize, paddingBottom: paddingBottom, paddingTop: paddingTop }}>
+                <Text style={{ color: color, fontSize: fontSize, paddingBottom: paddingBottom, paddingTop: paddingTop, textAlign: 'center' }}>
                     {this.props.children}
                 </Text>
             </View>
