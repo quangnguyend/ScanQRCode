@@ -1,5 +1,8 @@
 import ScanReceipt from './ScanReceipt';
 import Overview from './Overview';
+import ComfirmCollection from './ComfirmCollection';
+import Collection from './Collection';
+import InvalidPage from './invalidPage';
 
 import React, { Component } from 'react';
 import {
@@ -20,6 +23,24 @@ export default StackNavigator({
     screen: ScanReceipt,
     navigationOptions: {
       title: 'SCAN RECEIPT'
+    }
+  },
+  ComfirmCollection: {
+    screen: ComfirmCollection,
+    navigationOptions: {
+      title: 'CONFIRM COLLECTION'
+    }
+  },
+  Collection: {
+    screen: Collection,
+    navigationOptions: {
+      title: 'COLLECTION'
+    }
+  },
+  InvalidPage: {
+    screen: InvalidPage,
+    navigationOptions: {
+      title: 'INVALID RECEIPT'
     }
   }
 })

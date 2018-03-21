@@ -40,12 +40,12 @@ class LoginScreen extends Component {
   }
 
   setLoadingProgress = (loading) => {
-    this.setState({loading});
+    this.setState({ loading });
   }
 
   onPress = (e) => {
-   let check = this.validate();
-   (check) ? this.callAPI() : null;
+    let check = this.validate();
+    (check) ? this.callAPI() : null;
   }
 
   validate = () => {
@@ -91,39 +91,39 @@ class LoginScreen extends Component {
     }
 
     Service.postMethod('users/login', bodyData,
-    json => {
-      if (json.status === 400 || json.status === 401) {
-        this.setLoadingProgress(false);
-        Alert.alert(json.message);
-        return;
-      }
-      Service.getMethod('users/me',
-        jsonUser => {
+      json => {
+        if (json.status === 400 || json.status === 401) {
           this.setLoadingProgress(false);
-          //insertRoleInfo(jsonUser) //use redux to manage data
-          AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0])
-          navToMain(jsonUser.roles[0]);
-        },
-        error => {
-          this.setLoadingProgress(false);
+          Alert.alert(json.message);
           return;
-        });
-    },
-    error => {
-      this.setLoadingProgress(false);
-      console.log(error);
-    });
+        }
+        Service.getMethod('users/me',
+          jsonUser => {
+            this.setLoadingProgress(false);
+            //insertRoleInfo(jsonUser) //use redux to manage data
+            AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0])
+            navToMain(jsonUser.roles[0]);
+          },
+          error => {
+            this.setLoadingProgress(false);
+            return;
+          });
+      },
+      error => {
+        this.setLoadingProgress(false);
+        console.log(error);
+      });
   }
 
   render() {
     return (
       <View style={styles.container}>
-      <Loading loading={this.state.loading} />
+        <Loading loading={this.state.loading} />
         <Image source={require('./../../../../assets/images/banner1.png')} />
         <Image source={require('./../../../../assets/images/bbb.png')} />
         <TextCustom fontSize={20}>LOGIN TO FULLERTON CONCOURS</TextCustom>
         <TextInputCustom onChangeText={(value) => this.setState({ email: value })} placeholder="EMAIL ADDRESS" />
-        <TextInputCustom password={true} onChangeText={(value) => this.setState({ password: value})} placeholder="PASSWORD" />
+        <TextInputCustom password={true} onChangeText={(value) => this.setState({ password: value })} placeholder="PASSWORD" />
         <ButtonCustom style={styles.button} onPress={this.onPress}>
           Login
       </ButtonCustom>

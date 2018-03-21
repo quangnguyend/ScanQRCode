@@ -19,7 +19,8 @@ export default class Overview extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ resizeMode: 'cover' }]}
+        style={[{ width: '100%', height: '100%' }]}
+        resizeMode={'contain'}
       />
     ),
     headerStyle: { backgroundColor: '#635339' },
@@ -65,21 +66,24 @@ export default class Overview extends Component {
     }
   }
 
-  componentDidMount = async () => {
-    let scannerData, currentEvent, date;
-    await AsyncStorage.getItem('SCANNER_DATA').then(data => {
-      scannerData = JSON.parse(data)
-    });
+  loadData = () => {
+    new Promise((resolve, reject) => {
+      AsyncStorage.getItem('SCANNER_DATA').then(dataS => {
+        AsyncStorage.getItem('CURRENT_EVENT').then(dataE => {
+          AsyncStorage.getItem('DATE_EVENT').then(dataD => {
+            let _s = JSON.parse(dataS);
+            let _e = JSON.parse(dataE);
+            resolve({ _s, _e, dataD })
+          });
+        });
+      });
+    }).then((data) => {
+      this.checkAsyncStorage(data._s, data._e, data.dataD);
+    })
+  }
 
-    await AsyncStorage.getItem('CURRENT_EVENT').then(data => {
-      currentEvent = JSON.parse(data)
-    });
-
-    await AsyncStorage.getItem('DATE_EVENT').then(data => {
-      date = data
-    });
-
-    await this.checkAsyncStorage(scannerData, currentEvent, date);
+  componentDidMount() {
+    this.loadData();
   }
 
   onEntry = () => {
@@ -184,7 +188,6 @@ export default class Overview extends Component {
     this.setState({
       currentEvent: this.state.selectedOption
     })
-    console.log(this.state);
   }
 
   _getEvents = async () => {
@@ -209,11 +212,7 @@ export default class Overview extends Component {
 
   _onShow = (value) => {
     const { date } = this.state;
-    if (date != null) {
-      this.setState({
-        isShowingOptions: value,
-      });
-    } else {
+    if (date === null || date === '') {
       Alert.alert(
         'Warning',
         'Please select date so list events!',
@@ -222,6 +221,11 @@ export default class Overview extends Component {
         ],
         { cancelable: false }
       )
+
+    } else {
+      this.setState({
+        isShowingOptions: value,
+      });
     }
   }
 
@@ -263,23 +267,27 @@ export default class Overview extends Component {
   }
 
   render() {
-    const { currentEvent } = this.state;
+    const { currentEvent, date } = this.state;
+    let disableBtn = false;
+    if (date === null || date === '' || date === null) {
+      disableBtn = true;
+    }
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <TextCustom>SCAN QR CODE</TextCustom>
-          <View style={styles.row} pointerEvents={currentEvent ? 'auto' : 'none'}>
-            <ButtonCustom width={100} onPress={this.onEntry}>ENTRY</ButtonCustom>
-            <ButtonCustom width={100} onPress={this.onViewInfo}>VIEW INFO</ButtonCustom>
+          <View style={styles.row} pointerEvents={!disableBtn ? 'auto' : 'none'}>
+            <ButtonCustom width={100} onPress={this.onEntry} disable={disableBtn}>ENTRY</ButtonCustom>
+            <ButtonCustom width={100} onPress={this.onViewInfo} disable={disableBtn}>VIEW INFO</ButtonCustom>
           </View>
           <TextCustom>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
           <TextInputCustom onChangeText={this.onChangeTextCode} />
-          <View style={styles.floatRight} pointerEvents={currentEvent ? 'auto' : 'none'}>
-            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)}>ENTRY</ButtonCustom>
-            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)}>VIEW INFO</ButtonCustom>
+          <View style={styles.floatRight} pointerEvents={!disableBtn ? 'auto' : 'none'}>
+            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={disableBtn}>ENTRY</ButtonCustom>
+            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)} disable={disableBtn}>VIEW INFO</ButtonCustom>
           </View>
           <TextCustom>EVENT YOU ARE SCANNING IN</TextCustom>
-          <TextCustom>Current Event: {currentEvent ? currentEvent.label : 'None'}</TextCustom>
+          <TextCustom>Current Event: {!currentEvent || currentEvent === null  ? 'None': currentEvent.label}</TextCustom>
 
           <View style={styles.row}>
             <View style={[styles.rowItem, { paddingRight: 10 }]}>
@@ -321,5 +329,8 @@ const styles = StyleSheet.create({
   },
   rowItem: {
     width: '50%'
+  },
+  btnDisable: {
+    backgroundColor: '#CEB797'
   }
 })

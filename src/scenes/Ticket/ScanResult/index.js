@@ -22,18 +22,16 @@ export default class ScanResult extends Component {
     }
 
     componentDidMount() {
-        const { appError } = this.props.navigation.state.params
+        const { appError, title, firstEventEnterOfDay } = this.props.navigation.state.params
         console.log(this.props.navigation.state.params)
-        if (appError) {
-            this.setState({
-                typeView: appError
-            })
-        }
-        else {
-            this.setState({
-                typeView: 'SUCCESS'
-            })
-        }
+
+        // if (title.indexOf('ENTRY')) {
+        //     if(title.indexOf('INVALID'))
+        // }
+    }
+
+    _renderView = () => {
+        const { } = this.state
     }
 
     render() {
@@ -46,6 +44,7 @@ export default class ScanResult extends Component {
                 <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
                 <TextCustom >TICKET ID: {ticketId}</TextCustom>
                 <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom>
+                {/* {this._renderView()} */}
             </View>
         )
     }

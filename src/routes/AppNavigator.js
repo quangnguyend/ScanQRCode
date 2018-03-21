@@ -7,6 +7,7 @@ import SplashScreen from '../scenes/Splash';
 import LoginScreen from '../scenes/Sign/Login/Form';
 import EntryScreen from '../scenes/Ticket/Scanner';
 import ScanResult from '../scenes/Ticket/ScanResult';
+import LogoutScreen from '../scenes/Sign/Logout';
 
 import { addListener } from '../utils/redux';
 
@@ -19,7 +20,8 @@ const AppNavigator = StackNavigator({
   ticketScanner: { screen: TicketNavigator },
   vendor: { screen: ReceiptNavigator },
   scanAdmin: { screen: AdminNavigator },
-  Entry: { screen: EntryScreen },
-  ScanResult: { screen: ScanResult }
+  LogoutScreen: { screen: LogoutScreen },
+  ScanResult: { screen: ScanResult },
+  Entry: { screen: EntryScreen }  
 });
 export default AppNavigator;
