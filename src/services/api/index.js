@@ -28,16 +28,16 @@ class FullertonHttp {
 	async request(method, api, body, success, failure) {
 
 		//check wifi is available
-		NetInfo.isConnected.fetch().then(isConnected => {
-			if (!isConnected) {
-				if (Platform.OS === 'ios') {
-					alert("Please connect network to continue")
-				} else {
-					ToastAndroid.show("Please connect network to continue", ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-				}
-				return
-			}
-		});
+		// NetInfo.isConnected.fetch().then(isConnected => {
+		// 	if (!isConnected) {
+		// 		if (Platform.OS === 'ios') {
+		// 			alert("Please connect network to continue")
+		// 		} else {
+		// 			ToastAndroid.show("Please connect network to continue", ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+		// 		}
+		// 		return
+		// 	}
+		// });
 
 		let headers = {
 			'Accept': this.CONTENT_TYPE_JSON,
