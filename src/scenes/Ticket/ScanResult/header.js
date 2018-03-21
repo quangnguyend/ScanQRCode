@@ -15,7 +15,15 @@ class HeaderCustomS extends Component {
     }
 
     onBack = () => {
-        this.props.navToMain();
+        this.props.navToMain(this.state.user_role);
+    }
+
+    componentDidMount() {
+        AsyncStorage.getItem('USER_ROLE').then(data => {
+            this.setState({
+                user_role: data
+            })
+        })
     }
 
     onScanner = () => {
@@ -49,7 +57,7 @@ class HeaderCustomS extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-    navToMain: () => dispatch({ type: 'Reset', routeName: 'scanAdmin' })
+    navToMain: (role) => dispatch({ type: 'Reset', routeName: role })
 });
 
 export default connect(null, mapDispatchToProp)(HeaderCustomS);
