@@ -14,7 +14,7 @@ import Header from './header'
 export default class Overview extends Component {
 
   static navigationOptions = {
-    header: (props) => <Header {...props}/>,
+    header: (props) => <Header {...props} />,
     headerLeft: null,
     tabBarIcon: ({ tintColor }) => (
       <Image
@@ -46,7 +46,6 @@ export default class Overview extends Component {
   }
 
   checkAsyncStorage = (scannerData, currentEvent, date) => {
-    console.log(date)
     if (!scannerData) {
       this._getEvents();
     } else {
@@ -185,6 +184,7 @@ export default class Overview extends Component {
     this.setState({
       currentEvent: this.state.selectedOption
     })
+    console.log(this.state);
   }
 
   _getEvents = async () => {
@@ -208,7 +208,8 @@ export default class Overview extends Component {
   }
 
   _onShow = (value) => {
-    if (this.state.selectedOption.label) {
+    const { date } = this.state;
+    if (date != null) {
       this.setState({
         isShowingOptions: value,
       });
@@ -233,20 +234,14 @@ export default class Overview extends Component {
 
   _renderDopdown = () => {
     const { isShowingOptions, selectedOption } = this.state;
-    if (this.state.selectedOption.label) {
-      return (
-        <Dropdown {...this.state.propsDropdown}
-          onSelect={this._onSelect.bind(this)}
-          onShow={this._onShow.bind(this)}
-          isShowingOptions={isShowingOptions}
-          selectedOption={this.state.selectedOption}
-        />
-      )
-    } else {
-      return (
-        <TextCustom>Please select date</TextCustom>
-      )
-    }
+    return (
+      <Dropdown {...this.state.propsDropdown}
+        onSelect={this._onSelect.bind(this)}
+        onShow={this._onShow.bind(this)}
+        isShowingOptions={isShowingOptions}
+        selectedOption={this.state.selectedOption}
+      />
+    )
   }
 
   _renderDatePicker = () => {
@@ -273,18 +268,18 @@ export default class Overview extends Component {
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <TextCustom>SCAN QR CODE</TextCustom>
-          <View style={styles.row} pointerEvents={currentEvent.label ? 'auto' : 'none'}>
+          <View style={styles.row} pointerEvents={currentEvent ? 'auto' : 'none'}>
             <ButtonCustom width={100} onPress={this.onEntry}>ENTRY</ButtonCustom>
             <ButtonCustom width={100} onPress={this.onViewInfo}>VIEW INFO</ButtonCustom>
           </View>
           <TextCustom>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
           <TextInputCustom onChangeText={this.onChangeTextCode} />
-          <View style={styles.floatRight} pointerEvents={currentEvent.label ? 'auto' : 'none'}>
+          <View style={styles.floatRight} pointerEvents={currentEvent ? 'auto' : 'none'}>
             <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)}>ENTRY</ButtonCustom>
             <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)}>VIEW INFO</ButtonCustom>
           </View>
           <TextCustom>EVENT YOU ARE SCANNING IN</TextCustom>
-          <TextCustom>Current Event: {currentEvent.label ? currentEvent.label : 'None'}</TextCustom>
+          <TextCustom>Current Event: {currentEvent ? currentEvent.label : 'None'}</TextCustom>
 
           <View style={styles.row}>
             <View style={[styles.rowItem, { paddingRight: 10 }]}>

@@ -3,7 +3,8 @@ import {
 	Alert,
 	Image,
 	View,
-	Text
+	Text,
+	AsyncStorage
 } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
@@ -18,7 +19,12 @@ const logoutTab = {
 					'Confirmation required'
 					, 'Do you really want to logout?'
 					, [
-					{ text: 'Accept', onPress: () => { navigation.dispatch({ type: 'Reset', routeName: 'Login' }) } },
+					{ text: 'Accept', onPress: () => { 
+						navigation.dispatch({ type: 'Reset', routeName: 'Login' }) 
+						AsyncStorage.removeItem('SCANNER_DATA')
+						AsyncStorage.removeItem('CURRENT_EVENT')
+						AsyncStorage.removeItem('DATE_EVENT')						
+					} },
 					{ text: 'Cancel' }
 					]
 					);
@@ -39,7 +45,7 @@ const logoutTab = {
 	{
 		tabBarPosition: 'bottom',
 		animationEnabled: false,
-		swipeEnabled: true,
+		swipeEnabled: false,
 		tabBarOptions: {
 			activeTintColor: '#e91e63',
 			labelStyle: {
@@ -65,7 +71,7 @@ const logoutTab = {
 	{
 		tabBarPosition: 'bottom',
 		animationEnabled: false,
-		swipeEnabled: true,
+		swipeEnabled: false,
 		tabBarOptions: {
 			activeTintColor: '#e91e63',
 			labelStyle: {
@@ -98,7 +104,7 @@ const logoutTab = {
 	{
 		tabBarPosition: 'bottom',
 		animationEnabled: false,
-		swipeEnabled: true,
+		swipeEnabled: false,
 		tabBarOptions: {
 			showIcon: true,
 			style: {
