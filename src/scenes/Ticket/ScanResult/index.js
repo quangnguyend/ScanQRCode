@@ -59,7 +59,7 @@ export default class ScanResult extends Component {
         <View style={styles.container}>
           <TextCustom paddingBottom={60} fontSize={25}>{ticketName}</TextCustom>
           {
-            firstEventEnterOfDay ?
+            !firstEventEnterOfDay ?
               <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
                 TICKET ADMISSION SUCCESSFUL!
                 <Text style={{ color: '#3377FF', fontSize: 30 }}>{' PLEASE CHECK THAT ATTENDEE HAS A BAND'}</Text>

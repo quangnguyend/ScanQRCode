@@ -94,7 +94,6 @@ export default class Overview extends Component {
   }
 
   onViewInfo = () => {
-    this.setLoadingBar(true)
     this.props.navigation.navigate('Entry', { title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.currentEvent.value });
   }
 
@@ -280,7 +279,7 @@ export default class Overview extends Component {
   }
 
   render() {
-    const { currentEvent, date, loading } = this.state;
+    const { currentEvent, date, loading, manuallyCode } = this.state;
     let disableBtn = false;
     if (currentEvent === null || !currentEvent.label || currentEvent === undefined) {
       disableBtn = true;
@@ -295,9 +294,9 @@ export default class Overview extends Component {
           </View>
           <TextCustom textAlign={'left'}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
           <TextInputCustom onChangeText={this.onChangeTextCode} />
-          <View style={[styles.floatRight, { paddingBottom: 20 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
-            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={disableBtn}>ENTRY</ButtonCustom>
-            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)} disable={disableBtn}>VIEW INFO</ButtonCustom>
+          <View style={[styles.floatRight, { paddingBottom: 20 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
+            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true}>ENTRY</ButtonCustom>
+            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true}>VIEW INFO</ButtonCustom>
           </View>
           <TextCustom textAlign={'left'}>EVENT YOU ARE SCANNING IN</TextCustom>
           <TextCustom textAlign={'left'}>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>

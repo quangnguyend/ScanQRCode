@@ -72,8 +72,7 @@ export const ReceiptNavigator = TabNavigator({
     navigationOptions: {
       title: 'RECEIPT SCANNER',
       tabBarLabel: 'Receipt',
-      headerLeft: null,
-      header: null
+      headerLeft: null
     }
   },
   Logout: logoutTab

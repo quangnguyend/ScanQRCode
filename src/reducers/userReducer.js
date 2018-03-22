@@ -1,21 +1,21 @@
 import * as types from "../scenes/Sign/actions/typesActions"
 
 const initialState = {
-	roles:[],
+	info: {},
 	activeScan: ''
 }
 
 const userInfo = (state = initialState, action) => {
 	switch (action.type) {
 		case types.INSERT_ROLE_INFO: {
-			return({
+			return ({
 				...state,
-				roles: action.info.roles
+				info: action.info
 			})
 		}
 		//case '': {}
 		default:
-		return state
+			return state
 	}
 }
 

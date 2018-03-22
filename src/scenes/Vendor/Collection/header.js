@@ -10,12 +10,9 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-class HeaderCustom extends Component {
+class HeaderCustomS extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      user_role: null
-    }
   }
 
   onBack = () => {
@@ -28,6 +25,11 @@ class HeaderCustom extends Component {
         user_role: data
       })
     })
+  }
+
+  onScanner = () => {
+    const { title, typeScannerCode, eventCode } = this.props;
+    this.props.navigation.navigate('ScanReceipt');
   }
 
   render() {
@@ -44,20 +46,25 @@ class HeaderCustom extends Component {
           </View>
         </TouchableHighlight>
         <Text style={[styles.headerText, { fontSize: 17, fontWeight: 'bold' }]}>{details.options.title}</Text>
+        <TouchableHighlight style={styles.btnCam} onPress={this.onScanner}>
+          <Image
+            source={require('../../../assets/images/cam-icon.png')}
+          />
+        </TouchableHighlight>
       </View>
     )
   }
 }
 
 const mapDispatchToProp = dispatch => ({
-  navToMain: () => dispatch({ type: 'Reset', routeName: 'Login' })
+  navToMain: (role) => dispatch({ type: 'Reset', routeName: role })
 });
 
-export default connect(null, mapDispatchToProp)(HeaderCustom);
+export default connect(null, mapDispatchToProp)(HeaderCustomS);
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#333333',
+    backgroundColor: '#635339',
     justifyContent: 'center',
     alignItems: 'center',
     height: 50
@@ -72,5 +79,9 @@ const styles = StyleSheet.create({
   btnBackView: {
     flexDirection: 'row',
     paddingLeft: 10
+  },
+  btnCam: {
+    position: 'absolute',
+    right: 10
   }
 });

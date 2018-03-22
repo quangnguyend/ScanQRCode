@@ -5,8 +5,12 @@ import {
 } from 'react-native';
 
 import { TextCustom, ButtonCustom } from '../../../components';
-
-export default class InvalidPage extends Component {
+import { connect } from 'react-redux';
+import Header from './header';
+class InvalidPage extends Component {
+  static navigationOptions = {
+    header: (props) => <Header {...props} />
+  }
   constructor(props) {
     super(props)
   }
@@ -17,10 +21,17 @@ export default class InvalidPage extends Component {
     return (
       <View>
         <TextCustom>INVALID PAGE</TextCustom>
+        <ButtonCustom onPress={() => this.props.navToMain()}></ButtonCustom>
       </View>
     )
   }
 }
+
+const mapDispatchToProp = dispatch => ({
+  navToMain: () => dispatch({ type: 'Reset', routeName: 'Login' })
+});
+
+export default connect(null, mapDispatchToProp)(InvalidPage);
 
 const styles = StyleSheet.create({
   container: {

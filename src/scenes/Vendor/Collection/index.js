@@ -1,31 +1,78 @@
 import React, { Component } from 'react';
 import {
   View,
-  StyleSheet
+  StyleSheet,
+  FlatList
 } from 'react-native';
 
-import { TextCustom, ButtonCustom } from '../../../components';
+import moment from 'moment';
 
-export default class Collection extends Component {
+import { TextCustom, ButtonCustom } from '../../../components';
+import { connect } from 'react-redux';
+import Header from './header';
+
+class Collection extends Component {
+  static navigationOptions = {
+    header: (props) => <Header {...props} />
+  }
   constructor(props) {
     super(props)
+    this.state = {
+      currentTime: ''
+    }
   }
 
-  componentDidMount() { }
+  componentWillMount() {
+    let dateTime = new Date();
+    this.setState({
+      currentTime: moment(dateTime).format('Do MMMM YYYY HH:mm').toString()
+    })
+    console.log(dateTime)
+  }
 
   render() {
+    const { currentTime } = this.state;
+    const { info } = this.props;
+    const { params } = this.props.navigation.state;
     return (
-      <View>
-        <TextCustom>COLLECTION PAGE</TextCustom>
+      <View style={styles.container}>
+        <TextCustom fontSize={30}>PURCHASE COLLECTED!</TextCustom>
+        <TextCustom style={styles.infoLable}>Purchased Time: {currentTime}</TextCustom>
+        <TextCustom style={styles.infoLable}>Receipt ID: {info.id}</TextCustom>
+        <TextCustom style={styles.infoLable}>Purchased By: {info.firstName + ' ' + info.lastName}</TextCustom>
+        <TextCustom>PURCHASES</TextCustom>
+        <View>
+          <FlatList
+            style={styles.listView}
+            data={params.items}
+            renderItem={({ item }) =>
+              <View style={{ flexDirection: 'row' }}>
+                <TextCustom style={{ width: '70%' }}>{item.details}</TextCustom>
+                <TextCustom style={{ width: '30%', textAlign: 'right' }}>{item.subtotal}</TextCustom>
+              </View>
+            }
+          />
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <TextCustom style={{ width: '70%' }}>TOTAL CHARGED</TextCustom>
+          <TextCustom style={{ width: '30%', textAlign: 'right' }}>{params.total}</TextCustom>
+        </View>
+        <TextCustom style={{ textAlign: 'right' }} >Bill includes 7% GST</TextCustom>
       </View>
     )
   }
 }
 
+const mapStateToProps = state => ({
+  info: state.userReducer.info
+});
+
+export default connect(mapStateToProps)(Collection);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
+    padding: 10
   },
   row: {
     flexDirection: 'row',
@@ -33,5 +80,15 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
     justifyContent: 'center'
+  },
+  listView: {
+    borderBottomColor: '#8E7631',
+    borderWidth: 2,
+    borderLeftColor: 'transparent',
+    borderTopColor: 'transparent',
+    borderRightColor: 'transparent'
+  },
+  infoLable: {
+    textAlign: 'left'
   }
 })
