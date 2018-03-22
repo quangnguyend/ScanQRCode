@@ -24,7 +24,7 @@ export default class VendorOverview extends Component {
       />
     ),
     headerStyle: { backgroundColor: '#635339' },
-    headerTitleStyle: { color: '#FFFFFF', alignSelf: 'center' }
+    headerTitleStyle: { color: '#FFFFFF', textAlign: 'center' }
   }
 
   constructor(props) {

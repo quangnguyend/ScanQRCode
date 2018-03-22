@@ -1,7 +1,8 @@
 import * as types from "../scenes/Sign/actions/typesActions"
 
 const initialState = {
-	roles:[]
+	roles:[],
+	activeScan: ''
 }
 
 const userInfo = (state = initialState, action) => {
@@ -12,6 +13,7 @@ const userInfo = (state = initialState, action) => {
 				roles: action.info.roles
 			})
 		}
+		//case '': {}
 		default:
 		return state
 	}

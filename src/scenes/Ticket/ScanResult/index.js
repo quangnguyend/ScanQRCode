@@ -21,83 +21,85 @@ export default class ScanResult extends Component {
     }
   }
 
-  componentDidMount() {
-  }
-
   _renderView = () => {
     const { ticketName, ticketId, ticketHolderName, message, event, firstEventEnterOfDay, appError, title } = this.props.navigation.state.params;
     if (title.indexOf('INVALID') >= 0) {
       return (
         <View style={styles.container}>
           <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
-            INVALID TICKET! ( {message.toUpperCase()})
+            INVALID TICKET! ( {message})
                     </Text>
         </View>
       )
     }
     if (title === 'VIEW INFO') {
-      console.log(appError)
       return (
         <View style={styles.container}>
-          <TextCustom paddingBottom={60}>{ticketName}</TextCustom>
-          <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
-            {message.toUpperCase()}
-          </Text>
+          {ticketName ? <TextCustom paddingBottom={60} fontSize={25}>{ticketName}</TextCustom> : null}
+          {
+            !appError ?
+              <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
+                ENTRY ALLOWED!
+              <Text style={{ color: '#FF6666', fontSize: 30 }}>
+                  {' PLEASE SCAN QR CODE FOR ENTRY TO CONFIRM TICKET ADMISSION'}
+                </Text>
+              </Text> :
+              <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
+                {message.toUpperCase()}
+              </Text>
+          }
+          {event ? <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom> : null}
+          {ticketId ? <TextCustom >TICKET ID: {ticketId}</TextCustom> : null}
+          {ticketHolderName ? <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom> : null}
+        </View>
+      )
+    }
+    if (firstEventEnterOfDay !== undefined) {
+      return (
+        <View style={styles.container}>
+          <TextCustom paddingBottom={60} fontSize={25}>{ticketName}</TextCustom>
+          {
+            firstEventEnterOfDay ?
+              <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
+                TICKET ADMISSION SUCCESSFUL!
+                <Text style={{ color: '#3377FF', fontSize: 30 }}>{' PLEASE CHECK THAT ATTENDEE HAS A BAND'}</Text>
+              </Text>
+              :
+              <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
+                TICKET ADMISSION SUCCESSFUL FOR THE FIRST TIME TODAY!
+                <Text style={{ color: '#FF9933', fontSize: 30 }}>PASS A WRISTBAND.</Text>
+              </Text>
+          }
           <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
           <TextCustom >TICKET ID: {ticketId}</TextCustom>
           <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom>
         </View>
       )
     }
-    if (firstEventEnterOfDay !== undefined) {
-      if (firstEventEnterOfDay) {
-        return (
-          <View style={styles.container}>
-            <TextCustom paddingBottom={60}>{ticketName}</TextCustom>
-            <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
-              {message.toUpperCase()}
-              <Text style={{ color: '#3377FF', fontSize: 30 }}>PLEASE CHECK THAT ATTENDEE HAS A BAND</Text>
-            </Text>
-            <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
-            <TextCustom >TICKET ID: {ticketId}</TextCustom>
-            <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom>
-          </View>
-        )
-      }
-      else {
-        return (
-          <View style={styles.container}>
-            <TextCustom paddingBottom={60}>{ticketName}</TextCustom>
-            <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
-              TICKET ADMISSION SUCCESSFUL FOR THE FIRST TIME TODAY!
-                            <Text style={{ color: '#FF9933', fontSize: 30 }}>PASS A WRISTBAND.</Text>
-            </Text>
-            <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
-            <TextCustom >TICKET ID: {ticketId}</TextCustom>
-            <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom>
-          </View>
-        )
-      }
-    }
     else {
       if (appError) {
-        if (appError == 'GOLD-EVENT') {
-          return (
-            <View style={styles.container}>
-              <TextCustom paddingBottom={60}>{ticketName}</TextCustom>
-              <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
-                TICKET ADMISSION FAILED! EVENT REQUIRES GOLD PASS
-                        </Text>
-              <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
-              <TextCustom >TICKET ID: {ticketId}</TextCustom>
-              <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom>
-            </View>
-          )
-        }
+        return (
+          <View style={styles.container}>
+            <TextCustom paddingBottom={60} fontSize={25}>{ticketName}</TextCustom>
+            {
+              appError == 'GOLD-EVENT' ?
+                <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
+                  TICKET ADMISSION FAILED! EVENT REQUIRES GOLD PASS
+                  </Text>
+                :
+                <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
+                  {message.toUpperCase()}
+                </Text>
+            }
+            <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
+            <TextCustom >TICKET ID: {ticketId}</TextCustom>
+            <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom>
+          </View>
+        )
       } else {
         return (
           <View style={styles.container}>
-            <TextCustom paddingBottom={60}>{ticketName}</TextCustom>
+            <TextCustom paddingBottom={60} fontSize={25}>{ticketName}</TextCustom>
             <TextCustom color={'#66CC99'} paddingTop={20} paddingBottom={60} fontSize={34}>{message.toUpperCase()}</TextCustom>
             <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
             <TextCustom >TICKET ID: {ticketId}</TextCustom>
@@ -113,11 +115,6 @@ export default class ScanResult extends Component {
     const { typeView } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        {/* <TextCustom paddingBottom={60}>{ticketName}</TextCustom>
-                <TextCustom color={'#66CC99'} paddingTop={20} paddingBottom={60} fontSize={34}>{message}</TextCustom>
-                <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
-                <TextCustom >TICKET ID: {ticketId}</TextCustom>
-                <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom> */}
         {this._renderView()}
       </View>
     )
