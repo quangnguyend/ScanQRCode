@@ -52,11 +52,17 @@ let style = StyleSheet.create({
         justifyContent: 'center'
     },
     btnTextText: {
-        fontSize: 16,
-        color: '#46cf98'
+        //fontSize: 16,
+        //color: '#46cf98',
+        color: '#8E7631',
+        height: 30,
+        fontSize: 20
     },
     btnTextCancel: {
-        color: '#666'
+        //color: '#666',
+        color: '#8E7631', 
+        height: 100,
+        fontSize: 20
     },
     btnCancel: {
         left: 0

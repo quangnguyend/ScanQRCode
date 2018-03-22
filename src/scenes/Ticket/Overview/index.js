@@ -276,13 +276,13 @@ export default class Overview extends Component {
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <TextCustom>SCAN QR CODE</TextCustom>
-          <View style={styles.row} pointerEvents={!disableBtn ? 'auto' : 'none'}>
-            <ButtonCustom width={100} onPress={this.onEntry} disable={disableBtn}>ENTRY</ButtonCustom>
-            <ButtonCustom width={100} onPress={this.onViewInfo} disable={disableBtn}>VIEW INFO</ButtonCustom>
+          <View style={[styles.row, { paddingBottom: 20}]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
+            <ButtonCustom width={100} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn}>ENTRY</ButtonCustom>
+            <ButtonCustom width={100} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn}>VIEW INFO</ButtonCustom>
           </View>
           <TextCustom>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
           <TextInputCustom onChangeText={this.onChangeTextCode} />
-          <View style={styles.floatRight} pointerEvents={!disableBtn ? 'auto' : 'none'}>
+          <View style={[styles.floatRight, { paddingBottom: 20}]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
             <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={disableBtn}>ENTRY</ButtonCustom>
             <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)} disable={disableBtn}>VIEW INFO</ButtonCustom>
           </View>
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    paddingTop: 0
+    paddingTop: 20
   },
   row: {
     flexDirection: 'row',
