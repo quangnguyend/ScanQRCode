@@ -55,13 +55,13 @@ export const TicketNavigator = TabNavigator({
       showIcon: true,
       style: {
         backgroundColor: '#FFFFFF',
-        height: 75,
+        height: 70,
         paddingBottom: 5,
-        paddingTop: 10
+        paddingTop: 5
       },
       labelStyle: {
         color: '#8E7631',
-        fontSize: 16
+        fontSize: 15
       }
     }
   })

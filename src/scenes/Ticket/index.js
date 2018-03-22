@@ -1,5 +1,6 @@
 import Scanner from './Scanner';
 import Overview from './Overview';
+import ScanResult from './ScanResult';
 
 import React, { Component } from 'react';
 import {
@@ -11,16 +12,13 @@ import { StackNavigator, TabNavigator, DrawerNavigator } from 'react-navigation'
 
 export default StackNavigator({
     Overview: {
-        screen: Overview,
-        navigationOptions: {
-            title: 'TICKET SCANNER'
-        }
+        screen: Overview
     },
     Scanner: {
-        screen: Scanner,
-        navigationOptions: {
-            title: 'ADMIT ENTRY'
-        }
+        screen: Scanner
+    },
+    ScanResult: {
+        screen: ScanResult
     }
 })
 

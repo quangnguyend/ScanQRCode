@@ -119,13 +119,13 @@ class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Loading loading={this.state.loading} />
-        <Image 
+        <Image
           source={require('./../../../../assets/images/banner1.png')}
-          //style={[{ width: '100%', height: '100%' }]}
+          style={{ paddingTop: 10 }}
           resizeMode={'contain'}
         />
-        <Image source={require('./../../../../assets/images/bbb.png')} />
-        <TextCustom fontSize={20}>LOGIN TO FULLERTON CONCOURS</TextCustom>
+        <Image style={{ marginTop: 10 }} source={require('./../../../../assets/images/bbb.png')} />
+        <TextCustom fontSize={20} paddingTop={10}>LOGIN TO FULLERTON CONCOURS</TextCustom>
         <TextInputCustom onChangeText={(value) => this.setState({ email: value })} placeholder="EMAIL ADDRESS" />
         <TextInputCustom password={true} onChangeText={(value) => this.setState({ password: value })} placeholder="PASSWORD" />
         <ButtonCustom style={styles.button} onPress={this.onPress}>
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 20,
-    paddingTop: 0
+    paddingTop: 20
   },
   error: {
     color: 'red'

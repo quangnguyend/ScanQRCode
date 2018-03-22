@@ -7,7 +7,7 @@ import {
   Alert,
   AsyncStorage
 } from 'react-native';
-import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera } from './../../../components';
+import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera, Loading } from './../../../components';
 import Service from '../../../services/api';
 import Header from './header'
 
@@ -30,6 +30,7 @@ export default class Overview extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      loading: false,
       date: '',
       manuallyCode: '',
       selectedOption: {},
@@ -61,7 +62,8 @@ export default class Overview extends Component {
         propsDropdown: _propsDropdown,
         selectedOption: currentEvent,
         currentEvent: currentEvent,
-        date: date
+        date: date,
+        loading: false
       })
     }
   }
@@ -83,6 +85,7 @@ export default class Overview extends Component {
   }
 
   componentDidMount() {
+    this.setLoadingBar(true);
     this.loadData();
   }
 
@@ -91,6 +94,7 @@ export default class Overview extends Component {
   }
 
   onViewInfo = () => {
+    this.setLoadingBar(true)
     this.props.navigation.navigate('Entry', { title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.currentEvent.value });
   }
 
@@ -103,6 +107,7 @@ export default class Overview extends Component {
   getInfo = async (body) => {
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
+        this.setLoadingBar(false);
         this.navigate('ScanResult', { ...data, ...{ title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.currentEvent.value } })
       },
       error => {
@@ -113,11 +118,12 @@ export default class Overview extends Component {
 
   //call api so get Entry
   getEntry = async (body) => {
+    this.setLoadingBar(true);
     let prams = { typeScannerCode: 2, eventCode: this.state.currentEvent.value }
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
+        this.setLoadingBar(false);
         if (data.appError) {
-
           //if ENTRY REJECTED
           this.navigate('ScanResult', { ...data, title: 'ENTRY REJECTED', ...prams })
         } else {
@@ -190,6 +196,12 @@ export default class Overview extends Component {
     })
   }
 
+  setLoadingBar(value) {
+    this.setState({
+      loading: value
+    })
+  }
+
   _getEvents = async () => {
     Service.getMethod('scanner-data',
       data => {
@@ -201,7 +213,8 @@ export default class Overview extends Component {
         this.setState({
           events: events,
           minDate: days[0].value,
-          maxDate: days[days.length - 1].value
+          maxDate: days[days.length - 1].value,
+          loading: false
         })
       },
       error => {
@@ -267,7 +280,7 @@ export default class Overview extends Component {
   }
 
   render() {
-    const { currentEvent, date } = this.state;
+    const { currentEvent, date, loading } = this.state;
     let disableBtn = false;
     if (currentEvent === null || !currentEvent.label || currentEvent === undefined) {
       disableBtn = true;
@@ -275,19 +288,19 @@ export default class Overview extends Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
-          <TextCustom>SCAN QR CODE</TextCustom>
-          <View style={[styles.row, { paddingBottom: 20}]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
+          <TextCustom textAlign={'left'}>SCAN QR CODE</TextCustom>
+          <View style={[styles.row, { paddingBottom: 20 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
             <ButtonCustom width={100} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn}>ENTRY</ButtonCustom>
             <ButtonCustom width={100} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn}>VIEW INFO</ButtonCustom>
           </View>
-          <TextCustom>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
+          <TextCustom textAlign={'left'}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
           <TextInputCustom onChangeText={this.onChangeTextCode} />
-          <View style={[styles.floatRight, { paddingBottom: 20}]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
+          <View style={[styles.floatRight, { paddingBottom: 20 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
             <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={disableBtn}>ENTRY</ButtonCustom>
             <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)} disable={disableBtn}>VIEW INFO</ButtonCustom>
           </View>
-          <TextCustom>EVENT YOU ARE SCANNING IN</TextCustom>
-          <TextCustom>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>
+          <TextCustom textAlign={'left'}>EVENT YOU ARE SCANNING IN</TextCustom>
+          <TextCustom textAlign={'left'}>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>
 
           <View style={styles.row}>
             <View style={[styles.rowItem, { paddingRight: 10 }]}>
@@ -302,6 +315,7 @@ export default class Overview extends Component {
             <ButtonCustom onPress={this.onSubmitEvent}>SUBMIT</ButtonCustom>
           </View>
         </View>
+        <Loading loading={loading} />
       </View >
     )
   }
@@ -324,8 +338,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingBottom: 10,
-    paddingTop: 10
+    paddingBottom: 10
   },
   rowItem: {
     width: '50%'
