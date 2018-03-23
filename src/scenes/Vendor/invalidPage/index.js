@@ -3,7 +3,8 @@ import {
   View,
   StyleSheet,
   Text,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 
 import { TextCustom, ButtonCustom } from '../../../components';
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: (Platform.OS === 'ios') ? 20 : 0
   }
 })

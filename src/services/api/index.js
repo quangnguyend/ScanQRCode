@@ -25,17 +25,14 @@ class FullertonHttp {
 		this.request(this.HTTP_METHOD_POST, api, body, success, failure);
 	}
 
-	errorNetwork() {
+	errorNetwork(callback) {
 		Alert.alert(   // Shows up the alert without redirecting anywhere
 			'Network Error'
 			, 'Network request failed. Please recheck connection!'
 			, [
-				{ text: 'Ok' }
+				{ text: 'Ok', onPress: callback }
 			]
 		);
-	}
-
-	async request(method, api, body, success, failure) {
 
 		//check wifi is available
 		// NetInfo.isConnected.fetch().then(isConnected => {
@@ -43,11 +40,14 @@ class FullertonHttp {
 		// 		if (Platform.OS === 'ios') {
 		// 			alert("Please connect network to continue")
 		// 		} else {
-		// 			ToastAndroid.show("Please connect network to continue", ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+		// 			ToastAndroid.show("Please connect network to continue", ToastAndroid.LONG, ToastAndroid.CENTER);
 		// 		}
-		// 		return
+		// 		return;
 		// 	}
 		// });
+	}
+
+	async request(method, api, body, success, failure) {
 
 		let headers = {
 			'Accept': this.CONTENT_TYPE_JSON,

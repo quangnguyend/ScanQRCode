@@ -3,7 +3,8 @@ import {
   View,
   StyleSheet,
   FlatList,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 
 import moment from 'moment';
@@ -101,7 +102,8 @@ export default connect(mapStateToProps)(Collection);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
+    marginTop: (Platform.OS === 'ios') ? 20 : 0
   },
   titleS2: {
     fontSize: 18,

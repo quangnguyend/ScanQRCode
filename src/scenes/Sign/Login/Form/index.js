@@ -5,7 +5,8 @@ import {
   Image,
   Text,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native';
 
 import { TextInputCustom, ButtonCustom, TextCustom, Loading } from './../../../../components';
@@ -127,11 +128,11 @@ class LoginScreen extends Component {
       <View style={styles.container}>
         <Loading loading={this.state.loading} />
         <Image
-          source={require('./../../../../assets/images/banner1.png')}
-          style={{ paddingTop: 10 }}
+          source={require('./../../../../assets/images/banner2.png')}
+          style={{ paddingTop: 10, height: 50 }}
           resizeMode={'contain'}
         />
-        <Image style={{ marginTop: 10 }} source={require('./../../../../assets/images/bbb.png')} />
+        <Image style={{ marginTop: 10, height: 50, width: 500 }} resizeMode={'contain'} source={require('./../../../../assets/images/bbb1.png')} />
         <TextCustom fontSize={20} paddingTop={10}>LOGIN TO FULLERTON CONCOURS</TextCustom>
         <TextInputCustom onChangeText={(value) => this.setState({ email: value })} placeholder="EMAIL ADDRESS" />
         <TextInputCustom password={true} onChangeText={(value) => this.setState({ password: value })} placeholder="PASSWORD" />
@@ -147,7 +148,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 20,
-    paddingTop: 20
+    paddingTop: 20,
+    marginTop: (Platform.OS === 'ios') ? 20 : 0
   },
   error: {
     color: 'red'
