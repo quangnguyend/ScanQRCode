@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  FlatList
+  FlatList,
+  Image
 } from 'react-native';
 
 import moment from 'moment';
@@ -13,7 +14,14 @@ import Header from './header';
 
 class Collection extends Component {
   static navigationOptions = {
-    header: (props) => <Header {...props} />
+    header: (props) => <Header {...props} />,
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('../../../assets/images/ticket.png')}
+        style={[{ width: '100%', height: '100%' }]}
+        resizeMode={'contain'}
+      />
+    )
   }
   constructor(props) {
     super(props)
@@ -36,28 +44,49 @@ class Collection extends Component {
     const { params } = this.props.navigation.state;
     return (
       <View style={styles.container}>
-        <TextCustom fontSize={30}>PURCHASE COLLECTED!</TextCustom>
-        <TextCustom style={styles.infoLable}>Purchased Time: {currentTime}</TextCustom>
-        <TextCustom style={styles.infoLable}>Receipt ID: {info.id}</TextCustom>
-        <TextCustom style={styles.infoLable}>Purchased By: {info.firstName + ' ' + info.lastName}</TextCustom>
-        <TextCustom>PURCHASES</TextCustom>
+
+        {/* Title */}
+        <TextCustom styleC={styles.title}>PURCHASE COLLECTED!</TextCustom>
+
+        {/* Section 1 */}
+        <TextCustom styleC={styles.infoLable}>Purchased By:
+          <TextCustom styleC={{ fontStyle: 'italic' }}>
+            {'  ' + info.firstName + ' ' + info.lastName}
+          </TextCustom>
+        </TextCustom>
+        <TextCustom styleC={styles.infoLable}>Receipt ID:
+        <TextCustom styleC={{ fontStyle: 'italic' }}>
+            {'  ' + info.id}
+          </TextCustom>
+        </TextCustom>
+        <TextCustom styleC={styles.infoLable}>Purchased Time:
+        <TextCustom styleC={{ fontStyle: 'italic' }}>
+            {'  ' + currentTime}
+          </TextCustom>
+        </TextCustom>
+
+        {/* Section 2 */}
+        <TextCustom styleC={styles.titleS2}>PURCHASES</TextCustom>
         <View>
           <FlatList
             style={styles.listView}
             data={params.items}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) =>
               <View style={{ flexDirection: 'row' }}>
-                <TextCustom style={{ width: '70%' }}>{item.details}</TextCustom>
-                <TextCustom style={{ width: '30%', textAlign: 'right' }}>{item.subtotal}</TextCustom>
+                <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>{item.details}</TextCustom>
+                <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
               </View>
             }
           />
         </View>
+
+        {/* Section 3 */}
         <View style={{ flexDirection: 'row' }}>
-          <TextCustom style={{ width: '70%' }}>TOTAL CHARGED</TextCustom>
-          <TextCustom style={{ width: '30%', textAlign: 'right' }}>{params.total}</TextCustom>
+          <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>TOTAL CHARGED</TextCustom>
+          <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{params.total}</TextCustom>
         </View>
-        <TextCustom style={{ textAlign: 'right' }} >Bill includes 7% GST</TextCustom>
+        <TextCustom styleC={styles.labelBottom} >Bill includes 7% GST</TextCustom>
       </View>
     )
   }
@@ -74,6 +103,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10
   },
+  titleS2: {
+    fontSize: 18,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  textPadding: {
+    paddingTop: 5,
+    paddingBottom: 5
+  },
   row: {
     flexDirection: 'row',
     width: '100%',
@@ -86,9 +124,23 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderLeftColor: 'transparent',
     borderTopColor: 'transparent',
-    borderRightColor: 'transparent'
+    borderRightColor: 'transparent',
+    paddingBottom: 10,
+    marginBottom: 20
   },
   infoLable: {
-    textAlign: 'left'
+    textAlign: 'left',
+    paddingTop: 5,
+    paddingBottom: 5
+  },
+  title: {
+    fontSize: 33,
+    color: '#66CC99',
+    marginTop: 10,
+    marginBottom: 10
+  },
+  labelBottom: {
+    textAlign: 'right',
+    marginTop: 40
   }
 })

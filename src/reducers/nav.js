@@ -16,17 +16,25 @@ import AppNavigator from '../routes/AppNavigator';
 function nav(state, action) {
   let nextState;
   switch (action.type) {
-  	case 'Reset':
-  	  nextState = AppNavigator.router.getStateForAction(
-  	    NavigationActions.reset({
-  	      index: 0,
-  	      actions: [
-  	        NavigationActions.navigate({routeName: action.routeName})
-  	      ]
-  	    }),
-  	    state
-  	  );
-  	  break;
+    case 'navigate':
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({
+          routeName: action.routeName,
+          params: action.params
+        })
+      );
+      break;
+    case 'Reset':
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({ routeName: action.routeName })
+          ]
+        }),
+        state
+      );
+      break;
     case 'Logout':
       nextState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Login' }),

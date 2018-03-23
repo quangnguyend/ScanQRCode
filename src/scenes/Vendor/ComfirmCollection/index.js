@@ -4,16 +4,25 @@ import {
   StyleSheet,
   Text,
   FlatList,
-  SectionList
+  SectionList,
+  Image
 } from 'react-native';
 
 import { TextCustom, ButtonCustom } from '../../../components';
 import Header from './header';
+import { connect } from 'react-redux';
 
-export default class ComfirmCollection extends Component {
+class ComfirmCollection extends Component {
   static navigationOptions = {
     headerLeft: null,
-    header: (props) => <Header {...props} />
+    header: (props) => <Header {...props} />,
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('../../../assets/images/ticket.png')}
+        style={[{ width: '100%', height: '100%' }]}
+        resizeMode={'contain'}
+      />
+    )
   }
 
   constructor(props) {
@@ -25,44 +34,51 @@ export default class ComfirmCollection extends Component {
   }
 
   onCancel = () => {
-    this.props.navigation.navigate('vendor');
+    this.props.navigate('vendor', null);
   }
 
   viewCollected = () => {
     const { params } = this.props.navigation.state;
-    this.props.navigation.navigate('Collection', params);    
+    this.props.navigate('Collection', params);
   }
 
   render() {
     const { params } = this.props.navigation.state;
     return (
       <View style={styles.container}>
-        <TextCustom>PURCHASES ON RECEIPT</TextCustom>
+        <TextCustom styleC={styles.title}>PURCHASES ON RECEIPT</TextCustom>
         <View style={styles.row}>
-          <ButtonCustom width={120} onPress={this.onCancel}>CANCEL</ButtonCustom>
-          <ButtonCustom width={120} onPress={this.viewCollected}>COLLECTED</ButtonCustom>
+          <ButtonCustom width={120} onPress={this.onCancel} title={'CANCEL'} />
+          <ButtonCustom width={120} onPress={this.viewCollected} title={'COLLECTED'} />
         </View>
         <View>
           <FlatList
             style={styles.listView}
             data={params.items}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) =>
               <View style={{ flexDirection: 'row' }}>
-                <TextCustom style={{ width: '70%' }}>{item.details}</TextCustom>
-                <TextCustom style={{ width: '30%', textAlign: 'right' }}>{item.subtotal}</TextCustom>
+                <TextCustom styleC={[{ width: '70%' }, styles.textPadding]}>{item.details}</TextCustom>
+                <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
               </View>
             }
           />
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <TextCustom style={{ width: '70%' }}>TOTAL CHARGED</TextCustom>
-          <TextCustom style={{ width: '30%', textAlign: 'right' }}>{params.total}</TextCustom>
+          <TextCustom styleC={{ width: '70%', textAlign: 'left' }}>TOTAL CHARGED</TextCustom>
+          <TextCustom styleC={{ width: '30%', textAlign: 'right' }}>{params.total}</TextCustom>
         </View>
-        <TextCustom style={{ textAlign: 'right' }} >Bill includes 7% GST</TextCustom>
+        <TextCustom styleC={styles.labelBottom} >Bill includes 7% GST</TextCustom>
       </View>
     )
   }
 }
+
+const mapDispatchToProp = dispatch => ({
+  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+});
+
+export default connect(null, mapDispatchToProp)(ComfirmCollection);
 
 const styles = StyleSheet.create({
   container: {
@@ -72,8 +88,8 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     width: '100%',
-    paddingBottom: 10,
-    paddingTop: 10,
+    paddingBottom: 25,
+    paddingTop: 25,
     justifyContent: 'center'
   },
   listView: {
@@ -81,6 +97,20 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderLeftColor: 'transparent',
     borderTopColor: 'transparent',
-    borderRightColor: 'transparent'
+    borderRightColor: 'transparent',
+    paddingBottom: 10,
+    marginBottom: 20
+  },
+  title: {
+    fontSize: 20,
+    marginTop: 20
+  },
+  textPadding: {
+    paddingTop: 5,
+    paddingBottom: 5
+  },
+  labelBottom: {
+    textAlign: 'right',
+    marginTop: 40
   }
 })

@@ -29,7 +29,7 @@ class HeaderCustomS extends Component {
 
   onScanner = () => {
     const { title, typeScannerCode, eventCode } = this.props;
-    this.props.navigation.navigate('ScanReceipt');
+    this.props.navigate('ScanReceipt');
   }
 
   render() {
@@ -37,7 +37,7 @@ class HeaderCustomS extends Component {
     const details = getScreenDetails(scene)
     return (
       <View style={styles.header}>
-        <TouchableHighlight style={styles.btnBack} onPress={this.onBack}>
+        <TouchableHighlight underlayColor={'transparent'} style={styles.btnBack} onPress={this.onBack}>
           <View style={styles.btnBackView}>
             <Image
               source={require('../../../assets/images/back-icon.png')}
@@ -46,7 +46,7 @@ class HeaderCustomS extends Component {
           </View>
         </TouchableHighlight>
         <Text style={[styles.headerText, { fontSize: 17, fontWeight: 'bold' }]}>{details.options.title}</Text>
-        <TouchableHighlight style={styles.btnCam} onPress={this.onScanner}>
+        <TouchableHighlight underlayColor={'transparent'} style={styles.btnCam} onPress={this.onScanner}>
           <Image
             source={require('../../../assets/images/cam-icon.png')}
           />
@@ -57,7 +57,8 @@ class HeaderCustomS extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-  navToMain: (role) => dispatch({ type: 'Reset', routeName: role })
+  navToMain: (role) => dispatch({ type: 'Reset', routeName: role }),
+  navigate: (routeName) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: null } })
 });
 
 export default connect(null, mapDispatchToProp)(HeaderCustomS);

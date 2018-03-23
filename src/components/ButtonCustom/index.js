@@ -14,14 +14,16 @@ export default class ButtonCustom extends Component {
         width: PropTypes.number,
         fontSize: PropTypes.number,
         padding: PropTypes.number,
-        disable: PropTypes.bool
+        disable: PropTypes.bool,
+        title: PropTypes.string
     }
     static defaultProps = {
         onPress: () => { },
         width: null,
         fontSize: 14,
         padding: 15,
-        backgroundColor: '#8E7631'
+        backgroundColor: '#8E7631',
+        title: 'Buttom'
     }
     constructor(props) {
         super(props)
@@ -32,12 +34,12 @@ export default class ButtonCustom extends Component {
     }
 
     render() {
-        const { width, fontSize, children, padding, disable } = this.props;
+        const { width, fontSize, children, padding, disable, title } = this.props;
         let bColor = disable ? '#918B81' : '#8E7631';
         return (
             <View>
                 <TouchableHighlight underlayColor={'#686156'} style={[styles.button, { width: width, padding: padding, backgroundColor: bColor }]} onPress={this.onPress}>
-                    <Text style={{ fontSize: fontSize, color: '#FFFFFF' }}>{children}</Text>
+                    <Text style={{ fontSize: fontSize, color: '#FFFFFF' }}>{title}</Text>
                 </TouchableHighlight>
             </View >
         )
