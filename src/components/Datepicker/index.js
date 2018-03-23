@@ -377,7 +377,7 @@ class DatePicker extends Component {
                                 onPress={this.onPressMask}
                             >
                                 <TouchableComponent
-                                    underlayColor={'#fff'}
+                                    underlayColor={'black'}
                                     style={{ flex: 1 }}
                                 >
                                     <Animated.View
@@ -402,7 +402,7 @@ class DatePicker extends Component {
                                             testID={cancelBtnTestID}
                                         >
                                             <Text
-                                                style={[Style.btnTextText, Style.btnTextCancel, customStyles.btnTextCancel]}
+                                                style={[Style.btnTextText, Style.btnTextCancel, customStyles.btnTextCancel, {color: '#8E7631',height: 30,fontSize: 20}]}
                                             >
                                                 {cancelBtnText}
                                             </Text>

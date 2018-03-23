@@ -51,3 +51,6 @@ android/keystores
 
 */fastlane/report.xml
 */fastlane/Preview.html
+
+android
+ios

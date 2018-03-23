@@ -55,9 +55,13 @@ export const TicketNavigator = TabNavigator({
       showIcon: true,
       style: {
         backgroundColor: '#FFFFFF',
+        height: 70,
+        paddingBottom: 5,
+        paddingTop: 5
       },
       labelStyle: {
-        color: '#8E7631'
+        color: '#8E7631',
+        fontSize: 15
       }
     }
   })
@@ -68,8 +72,7 @@ export const ReceiptNavigator = TabNavigator({
     navigationOptions: {
       title: 'RECEIPT SCANNER',
       tabBarLabel: 'Receipt',
-      headerLeft: null,
-      header: null
+      headerLeft: null
     }
   },
   Logout: logoutTab

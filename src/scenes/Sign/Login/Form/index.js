@@ -30,12 +30,13 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: 'ticketscanner1@protege.sg',
+      email: 'scanadmin1@protege.sg',
       password: 'Q1aG5b',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false,
-      loading: false
+      loading: false,
+      errMess: null
     }
   }
 
@@ -58,7 +59,8 @@ class LoginScreen extends Component {
     this.setState({
       emailInValid: _emailInValid,
       passIsEmpty: _passIsEmpty,
-      emailIsEmpty: _emailIsEmpty
+      emailIsEmpty: _emailIsEmpty,
+      errMess: null
     })
     if (!_emailInValid) {
       if (_passIsEmpty) {
@@ -72,11 +74,12 @@ class LoginScreen extends Component {
   }
 
   _renderError = () => {
-    const { emailInValid, passIsEmpty, emailIsEmpty } = this.state;
+    const { emailInValid, passIsEmpty, emailIsEmpty, errMess } = this.state;
     return (
-      <View>
-        {!emailInValid ? null : (!emailIsEmpty ? <Text style={styles.error}>Invalid Email!</Text> : <Text style={styles.error}>Email is not empty!</Text>)}
-        {!passIsEmpty ? null : <Text style={styles.error}>Password is not empty!</Text>}
+      <View style={{ marginTop: 10 }}>
+        {!emailInValid ? null : (!emailIsEmpty ? <Text style={styles.error}>Invalid Email!</Text> : <Text style={styles.error}>Email is require!</Text>)}
+        {!passIsEmpty ? null : <Text style={styles.error}>Password is require!</Text>}
+        {errMess ? <Text style={styles.error}>{errMess.charAt(0).toUpperCase() + errMess.slice(1)}</Text> : null}
       </View>
     )
   }
@@ -94,13 +97,15 @@ class LoginScreen extends Component {
       json => {
         if (json.status === 400 || json.status === 401) {
           this.setLoadingProgress(false);
-          Alert.alert(json.message);
+          this.setState({
+            errMess: json.message
+          })
           return;
         }
         Service.getMethod('users/me',
           jsonUser => {
             this.setLoadingProgress(false);
-            //insertRoleInfo(jsonUser) //use redux to manage data
+            insertRoleInfo(jsonUser) //use redux to manage data
             AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0])
             navToMain(jsonUser.roles[0]);
           },
@@ -119,13 +124,13 @@ class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Loading loading={this.state.loading} />
-        <Image 
+        <Image
           source={require('./../../../../assets/images/banner1.png')}
-          //style={[{ width: '100%', height: '100%' }]}
+          style={{ paddingTop: 10 }}
           resizeMode={'contain'}
         />
-        <Image source={require('./../../../../assets/images/bbb.png')} />
-        <TextCustom fontSize={20}>LOGIN TO FULLERTON CONCOURS</TextCustom>
+        <Image style={{ marginTop: 10 }} source={require('./../../../../assets/images/bbb.png')} />
+        <TextCustom fontSize={20} paddingTop={10}>LOGIN TO FULLERTON CONCOURS</TextCustom>
         <TextInputCustom onChangeText={(value) => this.setState({ email: value })} placeholder="EMAIL ADDRESS" />
         <TextInputCustom password={true} onChangeText={(value) => this.setState({ password: value })} placeholder="PASSWORD" />
         <ButtonCustom style={styles.button} onPress={this.onPress}>
@@ -142,7 +147,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 20,
-    paddingTop: 0
+    paddingTop: 20
   },
   error: {
     color: 'red'

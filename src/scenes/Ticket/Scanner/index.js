@@ -5,12 +5,14 @@ import {
   StyleSheet,
   Image,
   Text,
-  TouchableHighlight
+  TouchableHighlight,
+  Platform,
+  PermissionsAndroid
 } from 'react-native';
 
 import Camera from 'react-native-camera';
 import Header from './header';
-
+import { Loading } from '../../../components';
 import Service from '../../../services/api';
 
 
@@ -24,8 +26,55 @@ export default class Scanner extends Component {
     super(props)
 
     this.state = {
-      scanSuccessfull: false
+      scanSuccessfull: false,
+      loading: false,
+      isAuth: false
     }
+  }
+
+  requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA
+      )
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        this.setState({
+          isAuth: true
+        })
+      } else {
+        this.props.navigation.goBack();
+      }
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  componentWillMount() {
+    this.setLoadingBar(true);
+    if (Platform.OS === 'ios') {
+      Camera.checkVideoAuthorizationStatus().then(isAuthorized => {
+        if (isAuthorized) {
+          this.setState({ isAuth: true, loading: false });
+        } else this.props.navigation.goBack();
+      })
+    } else if (Platform.OS === 'android') {
+      PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA).then(rs => {
+        console.log(rs)
+        if (!rs) {
+          this.requestCameraPermission();
+        }
+        else {
+          this.setState({
+            isAuth: true,
+            loading: false
+          })
+        }
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    this.setLoadingBar(false);
   }
 
   navigate = (screen, data) => {
@@ -37,6 +86,7 @@ export default class Scanner extends Component {
   getInfo = async (body) => {
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
+        this.setLoadingBar(false)
         console.log(data)
         if (data.message === 'Ticket code invalid') {
           this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
@@ -52,9 +102,11 @@ export default class Scanner extends Component {
 
   //call api so get Entry
   getEntry = async (body) => {
+    console.log(body)
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         console.log(data)
+        this.setLoadingBar(false)
         if (data.appError) {
 
           //if ENTRY REJECTED
@@ -75,13 +127,20 @@ export default class Scanner extends Component {
     )
   }
 
+  setLoadingBar(value) {
+    this.setState({
+      loading: value
+    })
+  }
+
   // Has scan result
   onScanner = (e) => {
     const { typeScannerCode, eventCode } = this.props.navigation.state.params;
     if (!this.state.scanSuccessfull) {
       Vibration.vibrate();
       this.setState({
-        scanSuccessfull: true
+        scanSuccessfull: true,
+        loading: true
       })
 
       if (typeScannerCode === 1) {
@@ -110,20 +169,30 @@ export default class Scanner extends Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={require('../../../assets/images/qr-codescreen.png')}
-          style={styles.imageBackground}
-          resizeMode={'stretch'}
-        />
-        <Camera
-          style={styles.camera}
-          onBarCodeRead={this.onScanner}
-          type={"back"}
-        />
-      </View>
-    )
+    if (this.state.isAuth) {
+      return (
+        <View style={styles.container}>
+          <Loading loading={this.state.loading} />
+          <Image
+            source={require('../../../assets/images/qr-codescreen.png')}
+            style={styles.imageBackground}
+            resizeMode={'stretch'}
+          />
+          <Camera
+            style={styles.camera}
+            onBarCodeRead={this.onScanner}
+            type={"back"}
+          />
+        </View>
+      )
+    }
+    else {
+      return (
+        <View>
+          <Loading loading={this.state.loading} />
+        </View>
+      )
+    }
   }
 }
 const styles = StyleSheet.create({
