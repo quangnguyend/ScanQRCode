@@ -6,7 +6,8 @@ import {
   Image,
   Text,
   TouchableHighlight,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -61,7 +62,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#333333',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 50
+    height: 50,
+    marginTop: (Platform.OS === 'ios') ? 20 : 0
   },
   headerText: {
     color: '#FFFFFF'

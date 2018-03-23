@@ -3,6 +3,7 @@ import {
     View,
     StyleSheet,
     Text,
+    Platform
 } from 'react-native';
 
 export default HeaderCustom = (props) => {
@@ -20,7 +21,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#635339',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 50
+        height: 50,
+        marginTop: (Platform.OS === 'ios') ? 20 : 0
     },
     headerText: {
         color: '#FFFFFF'

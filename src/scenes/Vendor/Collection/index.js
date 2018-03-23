@@ -19,7 +19,7 @@ class Collection extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ width: '100%', height: '100%' }]}
+        style={[{ width: 30, height: 30 }]}
         resizeMode={'contain'}
       />
     )
@@ -102,8 +102,7 @@ export default connect(mapStateToProps)(Collection);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    marginTop: (Platform.OS === 'ios') ? 20 : 0
+    padding: 10
   },
   titleS2: {
     fontSize: 18,
