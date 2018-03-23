@@ -14,9 +14,10 @@ import Camera from 'react-native-camera';
 import Header from './header';
 import { Loading } from '../../../components';
 import Service from '../../../services/api';
+import { connect } from 'react-redux';
 
 
-export default class Scanner extends Component {
+class Scanner extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: `${navigation.state.params.title}`,
     header: (props) => <Header {...props} />
@@ -79,7 +80,7 @@ export default class Scanner extends Component {
 
   navigate = (screen, data) => {
     const { params } = this.props.navigation.state;
-    this.props.navigation.navigate(screen, { ...params, ...data })
+    this.props.navigate(screen, { ...params, ...data })
   }
 
   //call api so get Info
@@ -195,6 +196,13 @@ export default class Scanner extends Component {
     }
   }
 }
+
+const mapDispatchToProp = dispatch => ({
+  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+});
+
+export default connect(null, mapDispatchToProp)(Scanner);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

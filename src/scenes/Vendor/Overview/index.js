@@ -9,9 +9,10 @@ import {
 } from 'react-native';
 import { TextCustom, TextInputCustom, ButtonCustom } from './../../../components';
 import Service from '../../../services/api';
-import Header from './header'
+import Header from './header';
+import { connect } from 'react-redux';
 
-export default class VendorOverview extends Component {
+class VendorOverview extends Component {
 
   static navigationOptions = {
     header: (props) => <Header {...props} />,
@@ -35,12 +36,12 @@ export default class VendorOverview extends Component {
   }
 
   onReceipt = () => {
-    this.props.navigation.navigate('ScanReceipt');
+    this.navigate('ScanReceipt', null);
   }
 
   //**QR CODE */
   navigate = (screen, data) => {
-    this.props.navigation.navigate(screen, data)
+    this.props.navigate(screen, data);
   }
 
   //call api so get Info
@@ -75,6 +76,10 @@ export default class VendorOverview extends Component {
     })
   }
 
+  componentWillUnmount() {
+    console.log('Overview Unmount')
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -94,6 +99,12 @@ export default class VendorOverview extends Component {
     )
   }
 }
+
+const mapDispatchToProp = dispatch => ({
+  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+});
+
+export default connect(null, mapDispatchToProp)(VendorOverview);
 
 const styles = StyleSheet.create({
   container: {

@@ -37,9 +37,9 @@ class Collection extends Component {
     return (
       <View style={styles.container}>
         <TextCustom fontSize={30}>PURCHASE COLLECTED!</TextCustom>
-        <TextCustom style={styles.infoLable}>Purchased Time: {currentTime}</TextCustom>
-        <TextCustom style={styles.infoLable}>Receipt ID: {info.id}</TextCustom>
-        <TextCustom style={styles.infoLable}>Purchased By: {info.firstName + ' ' + info.lastName}</TextCustom>
+        <TextCustom styleC={styles.infoLable}>Purchased Time: {currentTime}</TextCustom>
+        <TextCustom styleC={styles.infoLable}>Receipt ID: {info.id}</TextCustom>
+        <TextCustom styleC={styles.infoLable}>Purchased By: {info.firstName + ' ' + info.lastName}</TextCustom>
         <TextCustom>PURCHASES</TextCustom>
         <View>
           <FlatList
@@ -47,17 +47,17 @@ class Collection extends Component {
             data={params.items}
             renderItem={({ item }) =>
               <View style={{ flexDirection: 'row' }}>
-                <TextCustom style={{ width: '70%' }}>{item.details}</TextCustom>
-                <TextCustom style={{ width: '30%', textAlign: 'right' }}>{item.subtotal}</TextCustom>
+                <TextCustom styleC={{ width: '70%' }}>{item.details}</TextCustom>
+                <TextCustom styleC={{ width: '30%', textAlign: 'right' }}>{item.subtotal}</TextCustom>
               </View>
             }
           />
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <TextCustom style={{ width: '70%' }}>TOTAL CHARGED</TextCustom>
-          <TextCustom style={{ width: '30%', textAlign: 'right' }}>{params.total}</TextCustom>
+          <TextCustom styleC={{ width: '70%' }}>TOTAL CHARGED</TextCustom>
+          <TextCustom styleC={{ width: '30%', textAlign: 'right' }}>{params.total}</TextCustom>
         </View>
-        <TextCustom style={{ textAlign: 'right' }} >Bill includes 7% GST</TextCustom>
+        <TextCustom styleC={{ textAlign: 'right' }} >Bill includes 7% GST</TextCustom>
       </View>
     )
   }

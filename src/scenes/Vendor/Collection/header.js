@@ -29,7 +29,7 @@ class HeaderCustomS extends Component {
 
   onScanner = () => {
     const { title, typeScannerCode, eventCode } = this.props;
-    this.props.navigation.navigate('ScanReceipt');
+    this.props.navigate('ScanReceipt');
   }
 
   render() {
@@ -57,7 +57,8 @@ class HeaderCustomS extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-  navToMain: (role) => dispatch({ type: 'Reset', routeName: role })
+  navToMain: (role) => dispatch({ type: 'Reset', routeName: role }),
+  navigate: (routeName) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: null } })
 });
 
 export default connect(null, mapDispatchToProp)(HeaderCustomS);

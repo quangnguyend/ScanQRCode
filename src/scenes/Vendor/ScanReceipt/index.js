@@ -12,9 +12,10 @@ import Camera from 'react-native-camera';
 import Header from './header';
 
 import Service from '../../../services/api';
+import { connect } from 'react-redux';
 
 
-export default class ScanReceipt extends Component {
+class ScanReceipt extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: `SCAN RECEIPT`,
     header: (props) => <Header {...props} />
@@ -28,9 +29,13 @@ export default class ScanReceipt extends Component {
     }
   }
 
+  componentWillUnmount() {
+    console.log('Scan Unmount')
+  }
+
   //**QR CODE */
   navigate = (screen, data) => {
-    this.props.navigation.navigate(screen, data)
+    this.props.navigate(screen, data)
   }
 
   //call api so get Info
@@ -86,6 +91,13 @@ export default class ScanReceipt extends Component {
     )
   }
 }
+
+const mapDispatchToProp = dispatch => ({
+  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+});
+
+export default connect(null, mapDispatchToProp)(ScanReceipt);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

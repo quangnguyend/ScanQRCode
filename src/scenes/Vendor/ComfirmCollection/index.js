@@ -9,8 +9,9 @@ import {
 
 import { TextCustom, ButtonCustom } from '../../../components';
 import Header from './header';
+import { connect } from 'react-redux';
 
-export default class ComfirmCollection extends Component {
+class ComfirmCollection extends Component {
   static navigationOptions = {
     headerLeft: null,
     header: (props) => <Header {...props} />
@@ -25,12 +26,12 @@ export default class ComfirmCollection extends Component {
   }
 
   onCancel = () => {
-    this.props.navigation.navigate('vendor');
+    this.props.navigate('vendor', null);
   }
 
   viewCollected = () => {
     const { params } = this.props.navigation.state;
-    this.props.navigation.navigate('Collection', params);    
+    this.props.navigate('Collection', params);
   }
 
   render() {
@@ -63,6 +64,12 @@ export default class ComfirmCollection extends Component {
     )
   }
 }
+
+const mapDispatchToProp = dispatch => ({
+  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+});
+
+export default connect(null, mapDispatchToProp)(ComfirmCollection);
 
 const styles = StyleSheet.create({
   container: {

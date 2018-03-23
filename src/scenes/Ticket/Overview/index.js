@@ -9,9 +9,10 @@ import {
 } from 'react-native';
 import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera, Loading } from './../../../components';
 import Service from '../../../services/api';
-import Header from './header'
+import Header from './header';
+import { connect } from 'react-redux';
 
-export default class Overview extends Component {
+class Overview extends Component {
 
   static navigationOptions = {
     header: (props) => <Header {...props} />,
@@ -90,16 +91,16 @@ export default class Overview extends Component {
   }
 
   onEntry = () => {
-    this.props.navigation.navigate('Entry', { title: 'ADMIT ENTRY', typeScannerCode: 1, eventCode: this.state.currentEvent.value });
+    this.navigate('Entry', { title: 'ADMIT ENTRY', typeScannerCode: 1, eventCode: this.state.currentEvent.value });
   }
 
   onViewInfo = () => {
-    this.props.navigation.navigate('Entry', { title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.currentEvent.value });
+    this.navigate('Entry', { title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.currentEvent.value });
   }
 
   //**QR CODE */
   navigate = (screen, data) => {
-    this.props.navigation.navigate(screen, data)
+    this.props.navigate(screen, data)
   }
 
   //call api so get Info
@@ -319,6 +320,12 @@ export default class Overview extends Component {
     )
   }
 }
+
+const mapDispatchToProp = dispatch => ({
+  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+});
+
+export default connect(null, mapDispatchToProp)(Overview);
 
 const styles = StyleSheet.create({
   container: {
