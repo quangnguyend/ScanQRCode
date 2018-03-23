@@ -30,12 +30,13 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: 'ticketscanner1@protege.sg',
+      email: 'scanadmin1@protege.sg',
       password: 'Q1aG5b',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false,
-      loading: false
+      loading: false,
+      errMess: null
     }
   }
 
@@ -58,7 +59,8 @@ class LoginScreen extends Component {
     this.setState({
       emailInValid: _emailInValid,
       passIsEmpty: _passIsEmpty,
-      emailIsEmpty: _emailIsEmpty
+      emailIsEmpty: _emailIsEmpty,
+      errMess: null
     })
     if (!_emailInValid) {
       if (_passIsEmpty) {
@@ -72,11 +74,12 @@ class LoginScreen extends Component {
   }
 
   _renderError = () => {
-    const { emailInValid, passIsEmpty, emailIsEmpty } = this.state;
+    const { emailInValid, passIsEmpty, emailIsEmpty, errMess } = this.state;
     return (
-      <View>
-        {!emailInValid ? null : (!emailIsEmpty ? <Text style={styles.error}>Invalid Email!</Text> : <Text style={styles.error}>Email is not empty!</Text>)}
-        {!passIsEmpty ? null : <Text style={styles.error}>Password is not empty!</Text>}
+      <View style={{ marginTop: 10 }}>
+        {!emailInValid ? null : (!emailIsEmpty ? <Text style={styles.error}>Invalid Email!</Text> : <Text style={styles.error}>Email is require!</Text>)}
+        {!passIsEmpty ? null : <Text style={styles.error}>Password is require!</Text>}
+        {errMess ? <Text style={styles.error}>{errMess.charAt(0).toUpperCase() + errMess.slice(1)}</Text> : null}
       </View>
     )
   }
@@ -94,13 +97,15 @@ class LoginScreen extends Component {
       json => {
         if (json.status === 400 || json.status === 401) {
           this.setLoadingProgress(false);
-          Alert.alert(json.message);
+          this.setState({
+            errMess: json.message
+          })
           return;
         }
         Service.getMethod('users/me',
           jsonUser => {
             this.setLoadingProgress(false);
-            //insertRoleInfo(jsonUser) //use redux to manage data
+            insertRoleInfo(jsonUser) //use redux to manage data
             AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0])
             navToMain(jsonUser.roles[0]);
           },

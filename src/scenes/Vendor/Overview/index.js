@@ -79,11 +79,11 @@ export default class VendorOverview extends Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
-          <TextCustom paddingBottom={20}>SCAN RECEIPT QR CODE</TextCustom>
+          <TextCustom paddingBottom={20} textAlign={'left'}>SCAN RECEIPT QR CODE</TextCustom>
           <View style={styles.row} >
             <ButtonCustom width={100} onPress={this.onReceipt}>SCAN</ButtonCustom>
           </View>
-          <TextCustom paddingBottom={20}>IF RECEIPT SCANNING FAILS, TYPE THE RECEIPT ID HERE</TextCustom>
+          <TextCustom paddingBottom={20} textAlign={'left'}>IF RECEIPT SCANNING FAILS, TYPE THE RECEIPT ID HERE</TextCustom>
           <TextInputCustom onChangeText={this.onChangeTextCode} />
 
           <View style={styles.floatRight}>
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    paddingTop: 0
+    paddingTop: 0,
+    justifyContent: 'center'
   },
   row: {
     flexDirection: 'row',

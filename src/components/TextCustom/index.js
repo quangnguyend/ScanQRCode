@@ -13,27 +13,27 @@ export default class TextCustom extends Component {
         fontSize: PropTypes.number,
         paddingTop: PropTypes.number,
         paddingBottom: PropTypes.number,
-        textAlign: PropTypes.string
+        textAlign: PropTypes.string,
+        style: PropTypes.object
     }
     static defaultProps = {
         color: '#8E7631',
         fontSize: 16,
-        paddingTop: null,
-        paddingBotton: null,
-        textAlign: 'center'
+        paddingTop: 0,
+        paddingBotton: 0,
+        textAlign: 'center',
+        style: {}
     }
     constructor(props) {
         super(props)
     }
 
     render() {
-        const { color, fontSize, paddingBottom, paddingTop, textAlign } = this.props;
+        const { color, fontSize, paddingBottom, paddingTop, textAlign, style } = this.props;
         return (
-            <View>
-                <Text style={{ color: color, fontSize: fontSize, paddingBottom: paddingBottom, paddingTop: paddingTop, textAlign: textAlign }}>
-                    {this.props.children}
-                </Text>
-            </View>
+            <Text style={[{ color: color, fontSize: fontSize, paddingBottom: paddingBottom, paddingTop: paddingTop, textAlign: textAlign }, style]}>
+                {this.props.children}
+            </Text>
         )
     }
 }
