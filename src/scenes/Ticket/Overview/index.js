@@ -11,6 +11,8 @@ import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera
 import Service from '../../../services/api';
 import Header from './header';
 import { connect } from 'react-redux';
+import { setActionScanner } from './../../Sign/actions';
+
 
 class Overview extends Component {
 
@@ -90,12 +92,20 @@ class Overview extends Component {
     this.loadData();
   }
 
+  componentWillUnmount() {
+    this.setLoadingBar(false);
+  }
+
   onEntry = () => {
-    this.navigate('Entry', { title: 'ADMIT ENTRY', typeScannerCode: 1, eventCode: this.state.currentEvent.value });
+    this.setLoadingBar(true);
+    this.props.setActionScanner('ticketEnter');
+    this.navigate('Entry', { eventCode: this.state.currentEvent.value });
   }
 
   onViewInfo = () => {
-    this.navigate('Entry', { title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.currentEvent.value });
+    this.setLoadingBar(true);
+    this.props.setActionScanner('ticketInfo');
+    this.navigate('Entry', { eventCode: this.state.currentEvent.value });
   }
 
   //**QR CODE */
@@ -104,14 +114,22 @@ class Overview extends Component {
   }
 
   //call api so get Info
+
   getInfo = async (body) => {
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         this.setLoadingBar(false);
-        this.navigate('ScanResult', { ...data, ...{ title: 'VIEW INFO', typeScannerCode: 2, eventCode: this.state.currentEvent.value } })
+        this.props.setActionScanner('ticketInfo');
+        if (data.message === 'Ticket code invalid') {
+          this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
+          return;
+        }
+        this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
       },
       error => {
-        console.log(error)
+        this.setLoadingBar(false);
+        Service.errorNetwork();
+        console.error(error)
       }
     )
   }
@@ -119,10 +137,11 @@ class Overview extends Component {
   //call api so get Entry
   getEntry = async (body) => {
     this.setLoadingBar(true);
-    let prams = { typeScannerCode: 2, eventCode: this.state.currentEvent.value }
+    let prams = { eventCode: this.state.currentEvent.value }
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         this.setLoadingBar(false);
+        this.props.setActionScanner('ticketEnter');
         if (data.appError) {
           //if ENTRY REJECTED
           this.navigate('ScanResult', { ...data, title: 'ENTRY REJECTED', ...prams })
@@ -137,7 +156,9 @@ class Overview extends Component {
         }
       },
       error => {
-        console.log(error)
+        console.error(error);
+        this.setLoadingBar(false);
+        Service.errorNetwork();
       }
     )
   }
@@ -154,7 +175,7 @@ class Overview extends Component {
         "action": "ticketEnter",
         "event": currentEvent.value
       }
-
+      this.props.setActionScanner('ticketEnter');
       this.getEntry(body)
     }
     if (typeScannerCode === 2) {
@@ -165,7 +186,7 @@ class Overview extends Component {
         "action": "ticketInfo",
         "event": currentEvent.value
       }
-
+      this.props.setActionScanner('ticketInfo');
       this.getInfo(body)
     }
   }
@@ -218,7 +239,8 @@ class Overview extends Component {
         })
       },
       error => {
-        console.error(error)
+        console.error(error);
+        Service.errorNetwork();
       }
     )
   }
@@ -290,14 +312,14 @@ class Overview extends Component {
         <View style={styles.container}>
           <TextCustom textAlign={'left'}>SCAN QR CODE</TextCustom>
           <View style={[styles.row, { paddingBottom: 20 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
-            <ButtonCustom width={100} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn}>ENTRY</ButtonCustom>
-            <ButtonCustom width={100} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn}>VIEW INFO</ButtonCustom>
+            <ButtonCustom width={100} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn} title={'ENTRY'} />
+            <ButtonCustom width={100} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn} title={'VIEW INFO'} />
           </View>
           <TextCustom textAlign={'left'}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
           <TextInputCustom onChangeText={this.onChangeTextCode} />
           <View style={[styles.floatRight, { paddingBottom: 20 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
-            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true}>ENTRY</ButtonCustom>
-            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true}>VIEW INFO</ButtonCustom>
+            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'ENTRY'} />
+            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'VIEW INFO'} />
           </View>
           <TextCustom textAlign={'left'}>EVENT YOU ARE SCANNING IN</TextCustom>
           <TextCustom textAlign={'left'}>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>
@@ -312,7 +334,7 @@ class Overview extends Component {
           </View>
 
           <View style={styles.floatRight}>
-            <ButtonCustom onPress={this.onSubmitEvent}>SUBMIT</ButtonCustom>
+            <ButtonCustom onPress={this.onSubmitEvent} title={'SUBMIT'} />
           </View>
         </View>
         <Loading loading={loading} />
@@ -322,7 +344,8 @@ class Overview extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } }),
+  setActionScanner: (action) => dispatch(setActionScanner(action))
 });
 
 export default connect(null, mapDispatchToProp)(Overview);

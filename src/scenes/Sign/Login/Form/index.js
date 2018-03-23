@@ -30,7 +30,8 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: 'ticketscanner1@protege.sg',//'vendor-longJiang@protege.sg',
+      //email: 'ticketscanner1@protege.sg',
+      email: 'scanadmin1@protege.sg',
       password: 'Q1aG5b',
       emailInValid: false,
       passIsEmpty: false,
@@ -111,12 +112,13 @@ class LoginScreen extends Component {
           },
           error => {
             this.setLoadingProgress(false);
+            Service.errorNetwork();
             return;
           });
       },
       error => {
         this.setLoadingProgress(false);
-        console.log(error);
+        Service.errorNetwork();
       });
   }
 
@@ -133,11 +135,9 @@ class LoginScreen extends Component {
         <TextCustom fontSize={20} paddingTop={10}>LOGIN TO FULLERTON CONCOURS</TextCustom>
         <TextInputCustom onChangeText={(value) => this.setState({ email: value })} placeholder="EMAIL ADDRESS" />
         <TextInputCustom password={true} onChangeText={(value) => this.setState({ password: value })} placeholder="PASSWORD" />
-        <ButtonCustom style={styles.button} onPress={this.onPress}>
-          Login
-      </ButtonCustom>
+        <ButtonCustom style={styles.button} onPress={this.onPress} title={'Login'} />
         {this._renderError()}
-      </View>
+      </View >
     )
   }
 }

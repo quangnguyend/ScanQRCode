@@ -13,7 +13,12 @@ const userInfo = (state = initialState, action) => {
 				info: action.info
 			})
 		}
-		//case '': {}
+		case types.SET_ACTION_SCANNER: {
+			return ({
+				...state,
+				activeScan: action.action
+			})
+		}
 		default:
 			return state
 	}

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Image
 } from 'react-native';
 
 import { TextCustom } from './../../../components';
@@ -11,7 +12,14 @@ import Header from './header';
 export default class ScanResult extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: `${navigation.state.params.title}`,
-    header: (props) => <Header {...props} {...navigation.state.params} />
+    header: (props) => <Header {...props} {...navigation.state.params} />,
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('../../../assets/images/ticket.png')}
+        style={[{ width: '100%', height: '100%' }]}
+        resizeMode={'contain'}
+      />
+    ),
   })
 
   constructor(props) {
@@ -35,7 +43,7 @@ export default class ScanResult extends Component {
     if (title === 'VIEW INFO') {
       return (
         <View style={styles.container}>
-          {ticketName ? <TextCustom paddingBottom={60} fontSize={25}>{ticketName}</TextCustom> : null}
+          {ticketName ? <TextCustom paddingBottom={60} fontSize={25}>{ticketName.toUpperCase()}</TextCustom> : null}
           {
             !appError ?
               <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
@@ -57,7 +65,7 @@ export default class ScanResult extends Component {
     if (firstEventEnterOfDay !== undefined) {
       return (
         <View style={styles.container}>
-          <TextCustom paddingBottom={60} fontSize={25}>{ticketName}</TextCustom>
+          <TextCustom paddingBottom={60} fontSize={25}>{ticketName.toUpperCase()}</TextCustom>
           {
             !firstEventEnterOfDay ?
               <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
@@ -80,7 +88,7 @@ export default class ScanResult extends Component {
       if (appError) {
         return (
           <View style={styles.container}>
-            <TextCustom paddingBottom={60} fontSize={25}>{ticketName}</TextCustom>
+            <TextCustom paddingBottom={60} fontSize={25}>{ticketName.toUpperCase()}</TextCustom>
             {
               appError == 'GOLD-EVENT' ?
                 <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
@@ -99,7 +107,7 @@ export default class ScanResult extends Component {
       } else {
         return (
           <View style={styles.container}>
-            <TextCustom paddingBottom={60} fontSize={25}>{ticketName}</TextCustom>
+            <TextCustom paddingBottom={60} fontSize={25}>{ticketName.toUpperCase()}</TextCustom>
             <TextCustom color={'#66CC99'} paddingTop={20} paddingBottom={60} fontSize={34}>{message.toUpperCase()}</TextCustom>
             <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
             <TextCustom >TICKET ID: {ticketId}</TextCustom>

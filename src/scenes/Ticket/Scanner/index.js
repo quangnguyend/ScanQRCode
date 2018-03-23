@@ -83,47 +83,45 @@ class Scanner extends Component {
     this.props.navigate(screen, { ...params, ...data })
   }
 
-  //call api so get Info
-  getInfo = async (body) => {
-    const fetchInfo = await Service.postMethod('scan', body,
-      data => {
-        this.setLoadingBar(false)
-        console.log(data)
-        if (data.message === 'Ticket code invalid') {
-          this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
-          return;
-        }
-        this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
-      },
-      error => {
-        console.log(error)
-      }
-    )
-  }
-
-  //call api so get Entry
-  getEntry = async (body) => {
+  //call api
+  getData = async (body) => {
+    const { actionScan } = this.props;
     console.log(body)
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         console.log(data)
         this.setLoadingBar(false)
-        if (data.appError) {
+        switch (actionScan) {
+          case 'ticketEnter':
+            if (data.appError) {
 
-          //if ENTRY REJECTED
-          this.navigate('ScanResult', { ...data, title: 'ENTRY REJECTED' })
-        } else {
-          //if ENTRY ACCEPTED
-          if (data.status && data.status === 400) {
-            this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
-          }
-          else {
-            this.navigate('ScanResult', { ...data, title: 'ENTRY ACCEPTED' })
-          }
+              //if ENTRY REJECTED
+              this.navigate('ScanResult', { ...data, title: 'ENTRY REJECTED' })
+            } else {
+              //if ENTRY ACCEPTED
+              if (data.status && data.status === 400) {
+                this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
+              }
+              else {
+                this.navigate('ScanResult', { ...data, title: 'ENTRY ACCEPTED' })
+              }
+            }
+            break;
+          case 'ticketInfo':
+            if (data.message === 'Ticket code invalid') {
+              this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
+            } else this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
+            break;
         }
+
       },
       error => {
         console.log(error)
+        this.setLoadingBar(false);
+        this.setState({
+          scanSuccessfull: false
+        })
+        Service.errorNetwork();
       }
     )
   }
@@ -136,36 +134,23 @@ class Scanner extends Component {
 
   // Has scan result
   onScanner = (e) => {
-    const { typeScannerCode, eventCode } = this.props.navigation.state.params;
+    const { actionScan } = this.props;
+    const { eventCode } = this.props.navigation.state.params;
     if (!this.state.scanSuccessfull) {
       Vibration.vibrate();
       this.setState({
         scanSuccessfull: true,
         loading: true
       })
+      // if user choose ENTRY
 
-      if (typeScannerCode === 1) {
-        // if user choose ENTRY
-
-        let body = {
-          "code": e.data,
-          "action": "ticketEnter",
-          "event": eventCode
-        }
-
-        this.getEntry(body)
+      let body = {
+        "code": e.data,
+        "action": actionScan,
+        "event": eventCode
       }
-      if (typeScannerCode === 2) {
-        // if user choose VIEW INFO
 
-        let body = {
-          "code": e.data,
-          "action": "ticketInfo",
-          "event": eventCode
-        }
-
-        this.getInfo(body)
-      }
+      this.getData(body)
     }
   }
 
@@ -197,11 +182,15 @@ class Scanner extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  actionScan: state.userReducer.activeScan
+});
+
 const mapDispatchToProp = dispatch => ({
   navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
 });
 
-export default connect(null, mapDispatchToProp)(Scanner);
+export default connect(mapStateToProps, mapDispatchToProp)(Scanner);
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { NetInfo, Platform, ToastAndroid } from 'react-native';
+import { NetInfo, Platform, ToastAndroid, Alert } from 'react-native';
 
 /* global fetch */
 import apiConfig from './config';
@@ -23,6 +23,16 @@ class FullertonHttp {
 
 	postMethod(api, body, success, failure) {
 		this.request(this.HTTP_METHOD_POST, api, body, success, failure);
+	}
+
+	errorNetwork() {
+		Alert.alert(   // Shows up the alert without redirecting anywhere
+			'Network Error'
+			, 'Network request failed. Please recheck connection!'
+			, [
+				{ text: 'Ok' }
+			]
+		);
 	}
 
 	async request(method, api, body, success, failure) {

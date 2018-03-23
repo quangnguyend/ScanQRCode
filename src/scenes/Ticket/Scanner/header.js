@@ -31,11 +31,10 @@ class HeaderCustom extends Component {
   }
 
   render() {
-    const { getScreenDetails, scene } = this.props;
-    const details = getScreenDetails(scene)
+    const { actionScan } = this.props;
     return (
       <View style={styles.header}>
-        <TouchableHighlight style={styles.btnBack} onPress={this.onBack}>
+        <TouchableHighlight underlayColor={'transparent'} style={styles.btnBack} onPress={this.onBack}>
           <View style={styles.btnBackView}>
             <Image
               source={require('../../../assets/images/back-icon.png')}
@@ -43,17 +42,21 @@ class HeaderCustom extends Component {
             <Text style={[styles.headerText, { paddingLeft: 5 }]}>Scanner</Text>
           </View>
         </TouchableHighlight>
-        <Text style={[styles.headerText, { fontSize: 17, fontWeight: 'bold' }]}>{details.options.title}</Text>
+        <Text style={[styles.headerText, { fontSize: 17, fontWeight: 'bold' }]}>{actionScan === 'ticketEnter' ? 'ADMIT ENTRY' : 'VIEW INFO'}</Text>
       </View>
     )
   }
 }
 
+const mapStateToProps = state => ({
+  actionScan: state.userReducer.activeScan
+});
+
 const mapDispatchToProp = dispatch => ({
   navToMain: (role) => dispatch({ type: 'Reset', routeName: role })
 });
 
-export default connect(null, mapDispatchToProp)(HeaderCustom);
+export default connect(mapStateToProps, mapDispatchToProp)(HeaderCustom);
 
 const styles = StyleSheet.create({
   header: {
