@@ -116,6 +116,7 @@ class Overview extends Component {
   //call api so get Info
 
   getInfo = async (body) => {
+    this.setLoadingBar(true);
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         this.setLoadingBar(false);
@@ -354,7 +355,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    paddingTop: 20
+    paddingTop: 20,
+    marginTop: (Platform.OS === 'ios') ? 20 : 0
   },
   row: {
     flexDirection: 'row',

@@ -22,7 +22,7 @@ class HeaderCustom extends Component {
     this.props.navToMain(this.state.user_role);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     AsyncStorage.getItem('USER_ROLE').then(data => {
       this.setState({
         user_role: data

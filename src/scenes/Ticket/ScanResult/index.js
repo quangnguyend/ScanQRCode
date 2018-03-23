@@ -3,7 +3,8 @@ import {
   View,
   Text,
   StyleSheet,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 
 import { TextCustom } from './../../../components';
@@ -75,7 +76,7 @@ export default class ScanResult extends Component {
               :
               <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
                 TICKET ADMISSION SUCCESSFUL FOR THE FIRST TIME TODAY!
-                <Text style={{ color: '#FF9933', fontSize: 30 }}>PASS A WRISTBAND.</Text>
+                <Text style={{ color: '#FF9933', fontSize: 30 }}>{' PASS A WRISTBAND.'}</Text>
               </Text>
           }
           <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
@@ -134,7 +135,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: (Platform.OS === 'ios') ? 20 : 0
   },
   message: {
 

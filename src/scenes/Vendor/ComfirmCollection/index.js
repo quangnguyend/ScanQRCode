@@ -5,7 +5,8 @@ import {
   Text,
   FlatList,
   SectionList,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 
 import { TextCustom, ButtonCustom } from '../../../components';
@@ -34,7 +35,8 @@ class ComfirmCollection extends Component {
   }
 
   onCancel = () => {
-    this.props.navigate('vendor', null);
+    const { userRole } = this.props;
+    this.props.navigate(userRole.roles[0], null);
   }
 
   viewCollected = () => {
@@ -74,16 +76,21 @@ class ComfirmCollection extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  userRole: state.userReducer.info
+});
+
 const mapDispatchToProp = dispatch => ({
   navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
 });
 
-export default connect(null, mapDispatchToProp)(ComfirmCollection);
+export default connect(mapStateToProps, mapDispatchToProp)(ComfirmCollection);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
+    marginTop: (Platform.OS === 'ios') ? 20 : 0
   },
   row: {
     flexDirection: 'row',

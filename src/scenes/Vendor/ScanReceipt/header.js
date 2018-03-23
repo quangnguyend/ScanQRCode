@@ -19,10 +19,11 @@ class HeaderCustom extends Component {
   }
 
   onBack = () => {
+    console.log(this.state.user_role)
     this.props.navToMain(this.state.user_role);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     AsyncStorage.getItem('USER_ROLE').then(data => {
       this.setState({
         user_role: data
@@ -35,7 +36,7 @@ class HeaderCustom extends Component {
     const details = getScreenDetails(scene)
     return (
       <View style={styles.header}>
-        <TouchableHighlight style={styles.btnBack} onPress={this.onBack}>
+        <TouchableHighlight underlayColor={'transparent'} style={styles.btnBack} onPress={this.onBack}>
           <View style={styles.btnBackView}>
             <Image
               source={require('../../../assets/images/back-icon.png')}
@@ -50,7 +51,7 @@ class HeaderCustom extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-  navToMain: () => dispatch({ type: 'Reset', routeName: 'vendor' })
+  navToMain: (routeName) => dispatch({ type: 'Reset', routeName: routeName })
 });
 
 export default connect(null, mapDispatchToProp)(HeaderCustom);
