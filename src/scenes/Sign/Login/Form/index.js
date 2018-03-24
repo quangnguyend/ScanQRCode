@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     paddingTop: 20,
-    marginTop: (Platform.OS === 'ios') ? 20 : 0
+    marginTop: (Platform.OS === 'ios') ? 50 : 0
   },
   error: {
     color: 'red'
