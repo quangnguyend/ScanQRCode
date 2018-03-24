@@ -5,7 +5,8 @@ import {
   Image,
   Platform,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  KeyboardAvoidingView
 } from 'react-native';
 import { TextCustom, TextInputCustom, ButtonCustom, Loading } from './../../../components';
 import Service from '../../../services/api';
@@ -20,7 +21,7 @@ class VendorOverview extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ width: '100%', height: '100%' }]}
+        style={[{ width: 30, height: 30 }]}
         resizeMode={'contain'}
       />
     ),
@@ -110,6 +111,7 @@ class VendorOverview extends Component {
           </View>
         </View>
         <Loading loading={loading} />
+        <KeyboardAvoidingView></KeyboardAvoidingView>
       </View >
     )
   }
@@ -125,8 +127,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    paddingTop: 0,
-    justifyContent: 'center'
+    paddingTop: 40,
+    marginTop: (Platform.OS === 'ios') ? 20 : 0
   },
   row: {
     flexDirection: 'row',

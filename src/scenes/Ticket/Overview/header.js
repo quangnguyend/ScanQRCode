@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Image,
     Text,
-    TouchableHighlight
+    TouchableHighlight,
+    Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -30,7 +31,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#635339',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 50
+        height: 50,
+        marginTop: (Platform.OS === 'ios') ? 20 : 0 
     },
     headerText: {
         color: '#FFFFFF'

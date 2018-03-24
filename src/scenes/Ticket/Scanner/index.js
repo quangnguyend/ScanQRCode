@@ -34,16 +34,19 @@ class Scanner extends Component {
   }
 
   requestCameraPermission = async () => {
+    const { userInfo } = this.props;
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA
       )
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         this.setState({
-          isAuth: true
+          isAuth: true,
+          loading: false
         })
       } else {
-        this.props.navigation.goBack();
+        this.setState({ loading: false });
+        this.props.navigate(userInfo.roles[0]);
       }
     } catch (err) {
       console.warn(err)
@@ -51,12 +54,16 @@ class Scanner extends Component {
   }
 
   componentWillMount() {
+    const { userInfo } = this.props;
     this.setLoadingBar(true);
     if (Platform.OS === 'ios') {
       Camera.checkVideoAuthorizationStatus().then(isAuthorized => {
         if (isAuthorized) {
           this.setState({ isAuth: true, loading: false });
-        } else this.props.navigation.goBack();
+        } else {
+          this.setState({ loading: false });
+          this.props.navigate(userInfo.roles[0]);
+        }
       })
     } else if (Platform.OS === 'android') {
       PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA).then(rs => {
@@ -118,10 +125,11 @@ class Scanner extends Component {
       error => {
         console.log(error)
         this.setLoadingBar(false);
-        this.setState({
-          scanSuccessfull: false
-        })
-        Service.errorNetwork();
+        Service.errorNetwork(() => {
+          this.setState({
+            scanSuccessfull: false
+          })
+        });
       }
     )
   }
@@ -158,7 +166,7 @@ class Scanner extends Component {
     if (this.state.isAuth) {
       return (
         <View style={styles.container}>
-          <Loading loading={this.state.loading} />
+          <Loading showTextLoading={true} loading={this.state.loading} />
           <Image
             source={require('../../../assets/images/qr-codescreen.png')}
             style={styles.imageBackground}
@@ -183,7 +191,8 @@ class Scanner extends Component {
 }
 
 const mapStateToProps = state => ({
-  actionScan: state.userReducer.activeScan
+  actionScan: state.userReducer.activeScan,
+  userInfo: state.userReducer.info
 });
 
 const mapDispatchToProp = dispatch => ({
@@ -197,7 +206,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   },
   imageBackground: {
     width: 250,

@@ -35,16 +35,19 @@ class ScanReceipt extends Component {
   }
 
   requestCameraPermission = async () => {
+    const { userInfo } = this.props;
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA
       )
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         this.setState({
-          isAuth: true
+          isAuth: true,
+          loading: false
         })
       } else {
-        this.props.navigation.goBack();
+        this.setState({ loading: false });
+        this.props.navigate(userInfo.roles[0]);
       }
     } catch (err) {
       console.warn(err)
@@ -52,12 +55,16 @@ class ScanReceipt extends Component {
   }
 
   componentWillMount() {
+    const { userInfo } = this.props;
     this.setLoadingBar(true);
     if (Platform.OS === 'ios') {
       Camera.checkVideoAuthorizationStatus().then(isAuthorized => {
         if (isAuthorized) {
           this.setState({ isAuth: true, loading: false });
-        } else this.props.navigation.goBack();
+        } else {
+          this.setState({ loading: false });
+          this.props.navigate(userInfo.roles[0]);
+        }
       })
     } else if (Platform.OS === 'android') {
       PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA).then(rs => {
@@ -104,8 +111,12 @@ class ScanReceipt extends Component {
         }
       },
       error => {
-        console.error(error);
-        this.setLoadingBar(true);
+        this.setLoadingBar(false);
+        Service.errorNetwork(() => {
+          this.setState({
+            scanSuccessfull: false
+          })
+        });
       }
     )
   }
@@ -144,7 +155,7 @@ class ScanReceipt extends Component {
             onBarCodeRead={this.onScanner}
             type={"back"}
           />
-          <Loading loading={loading} />
+          <Loading showTextLoading={true} loading={loading} />
         </View>
       )
     }
@@ -158,18 +169,22 @@ class ScanReceipt extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  userInfo: state.userReducer.info
+});
+
 const mapDispatchToProp = dispatch => ({
   navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
 });
 
-export default connect(null, mapDispatchToProp)(ScanReceipt);
+export default connect(mapStateToProps, mapDispatchToProp)(ScanReceipt);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   },
   imageBackground: {
     width: 250,

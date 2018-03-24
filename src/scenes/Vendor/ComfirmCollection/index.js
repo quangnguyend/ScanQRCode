@@ -5,7 +5,8 @@ import {
   Text,
   FlatList,
   SectionList,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 
 import { TextCustom, ButtonCustom } from '../../../components';
@@ -19,7 +20,7 @@ class ComfirmCollection extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ width: '100%', height: '100%' }]}
+        style={[{ width: 30, height: 30 }]}
         resizeMode={'contain'}
       />
     )
@@ -34,7 +35,8 @@ class ComfirmCollection extends Component {
   }
 
   onCancel = () => {
-    this.props.navigate('vendor', null);
+    const { userRole } = this.props;
+    this.props.navigate(userRole.roles[0], null);
   }
 
   viewCollected = () => {
@@ -74,11 +76,15 @@ class ComfirmCollection extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  userRole: state.userReducer.info
+});
+
 const mapDispatchToProp = dispatch => ({
   navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
 });
 
-export default connect(null, mapDispatchToProp)(ComfirmCollection);
+export default connect(mapStateToProps, mapDispatchToProp)(ComfirmCollection);
 
 const styles = StyleSheet.create({
   container: {

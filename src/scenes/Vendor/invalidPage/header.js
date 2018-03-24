@@ -6,7 +6,8 @@ import {
   Image,
   Text,
   TouchableHighlight,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -19,7 +20,7 @@ class HeaderCustomS extends Component {
     this.props.navToMain(this.state.user_role);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     AsyncStorage.getItem('USER_ROLE').then(data => {
       this.setState({
         user_role: data
@@ -67,7 +68,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#635339',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 50
+    height: 50,
+    marginTop: (Platform.OS === 'ios') ? 20 : 0
   },
   headerText: {
     color: '#FFFFFF'

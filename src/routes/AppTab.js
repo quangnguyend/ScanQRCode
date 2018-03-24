@@ -4,7 +4,8 @@ import {
   Image,
   View,
   Text,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
@@ -24,9 +25,14 @@ const tabBarOptions = {
     showIcon: true,
     style: {
       backgroundColor: '#FFFFFF',
+      paddingBottom: 5,
+      height: 60
     },
     labelStyle: {
       color: '#8E7631'
+    },
+    tabBarIconStyle: {
+      paddingTop: 5
     }
   }
 }
