@@ -67,7 +67,6 @@ class Scanner extends Component {
       })
     } else if (Platform.OS === 'android') {
       PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA).then(rs => {
-        console.log(rs)
         if (!rs) {
           this.requestCameraPermission();
         }
@@ -93,10 +92,8 @@ class Scanner extends Component {
   //call api
   getData = async (body) => {
     const { actionScan } = this.props;
-    console.log(body)
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
-        console.log(data)
         this.setLoadingBar(false)
         switch (actionScan) {
           case 'ticketEnter':
@@ -120,10 +117,8 @@ class Scanner extends Component {
             } else this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
             break;
         }
-
       },
       error => {
-        console.log(error)
         this.setLoadingBar(false);
         Service.errorNetwork(() => {
           this.setState({

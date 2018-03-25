@@ -9,28 +9,28 @@ import {
 import {
   StyleSheet,
   View,
+  AsyncStorage
 } from 'react-native';
 
 import {connect} from 'react-redux';
 class Splash extends Component {
 	static navigationOptions = ({navigation}) => ({
-	  header: null
-	})
-	componentDidMount() {
-    const {navigation, navToLogin} = this.props
-      setTimeout(()=>{
-        navToLogin();
- //navigation.navigate('Login')
-        }, 2000)
-       
-    }
+   header: null
+  })
+  componentDidMount(){
+    const {  navToLogin, navToMain } = this.props;
+    AsyncStorage.getItem('USER_ROLE', (err, result) => {
+      result !== null ? navToMain(result) : navToLogin();
+    });
+  }
+
   render() {
-    return (
-      	<Container>
-      		<View style={styles.container}>
-      			<Spinner size="small" color="#000000" />
-      		</View>
-      	</Container>
+  return (
+    <Container>
+      <View style={styles.container}>
+        <Spinner size="small" color="#000000" />
+      </View>
+    </Container>
     );
   }
 }
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProp = dispatch =>({
+  navToMain: (routeName) => dispatch({ type: 'Reset', routeName: routeName }),
 	navToLogin: () => dispatch({type: 'Reset', routeName:'Login'})
 })
 
