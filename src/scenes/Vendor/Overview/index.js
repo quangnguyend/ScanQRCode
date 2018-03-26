@@ -75,7 +75,7 @@ class VendorOverview extends Component {
         if (data.status === 400) {
           this.navigate((role === 'scanAdmin') ? 'InvalidPageAdmin' : 'InvalidPage', data)
         } else {
-          this.navigate((role === 'scanAdmin') ? 'ComfirmCollectionAdmin' : 'ComfirmCollection', data)
+          this.navigate((role === 'scanAdmin') ? 'ComfirmCollectionAdmin' : 'ComfirmCollection', { ...data, ...body })
         }
       },
       error => {

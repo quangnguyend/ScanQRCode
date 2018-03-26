@@ -7,7 +7,8 @@ import {
   Text,
   TouchableHighlight,
   Platform,
-  PermissionsAndroid
+  PermissionsAndroid,
+  Alert
 } from 'react-native';
 
 import Camera from 'react-native-camera';

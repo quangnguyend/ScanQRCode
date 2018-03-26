@@ -9,9 +9,10 @@ import {
 
 import moment from 'moment';
 
-import { TextCustom, ButtonCustom } from '../../../components';
+import { TextCustom, ButtonCustom, Loading } from '../../../components';
 import { connect } from 'react-redux';
 import Header from './header';
+import Services from '../../../services/api';
 
 class Collection extends Component {
   static navigationOptions = {
@@ -27,7 +28,8 @@ class Collection extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentTime: ''
+      currentTime: '',
+      data: null
     }
   }
 
@@ -36,59 +38,78 @@ class Collection extends Component {
     this.setState({
       currentTime: moment(dateTime).format('Do MMMM YYYY HH:mm').toString()
     })
+
+    const { params } = this.props.navigation.state;
+    let body = {
+      "code": params.code,
+      "action": "purchaseCollect"
+    }
+    Services.postMethod('scan', body, data => {
+      this.setState({
+        data: data
+      })
+    })
   }
 
   render() {
-    const { currentTime } = this.state;
+    const { currentTime, data } = this.state;
+    console.log(data)
     const { info } = this.props;
     const { params } = this.props.navigation.state;
-    return (
-      <View style={styles.container}>
-
-        {/* Title */}
-        <TextCustom styleC={styles.title}>PURCHASE COLLECTED!</TextCustom>
-
-        {/* Section 1 */}
-        <TextCustom styleC={styles.infoLable}>Purchased By:
-          <TextCustom styleC={{ fontStyle: 'italic' }}>
-            {'  ' + info.firstName + ' ' + info.lastName}
-          </TextCustom>
-        </TextCustom>
-        <TextCustom styleC={styles.infoLable}>Receipt ID:
-        <TextCustom styleC={{ fontStyle: 'italic' }}>
-            {'  ' + info.id}
-          </TextCustom>
-        </TextCustom>
-        <TextCustom styleC={styles.infoLable}>Purchased Time:
-        <TextCustom styleC={{ fontStyle: 'italic' }}>
-            {'  ' + currentTime}
-          </TextCustom>
-        </TextCustom>
-
-        {/* Section 2 */}
-        <TextCustom styleC={styles.titleS2}>PURCHASES</TextCustom>
+    if (!data) {
+      return (
         <View>
-          <FlatList
-            style={styles.listView}
-            data={params.items}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) =>
-              <View style={{ flexDirection: 'row' }}>
-                <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>{item.details}</TextCustom>
-                <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
-              </View>
-            }
-          />
+          <Loading loading={!data ? true : false} />
         </View>
+      )
+    } else
+      return (
+        <View style={styles.container}>
 
-        {/* Section 3 */}
-        <View style={{ flexDirection: 'row' }}>
-          <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>TOTAL CHARGED</TextCustom>
-          <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{params.total}</TextCustom>
+          {/* Title */}
+          <TextCustom styleC={styles.title}>PURCHASE COLLECTED!</TextCustom>
+
+          {/* Section 1 */}
+          <TextCustom styleC={styles.infoLable}>Purchased By:
+          <TextCustom styleC={{ fontStyle: 'italic' }}>
+              {'  ' + data.purchasedBy.toString()}
+            </TextCustom>
+          </TextCustom>
+          <TextCustom styleC={styles.infoLable}>Receipt ID:
+        <TextCustom styleC={{ fontStyle: 'italic' }}>
+              {'  ' + params.code}
+            </TextCustom>
+          </TextCustom>
+          <TextCustom styleC={styles.infoLable}>Purchased Time:
+        <TextCustom styleC={{ fontStyle: 'italic' }}>
+              {'  ' + data.purchaseTime.toString()}
+            </TextCustom>
+          </TextCustom>
+
+          {/* Section 2 */}
+          <TextCustom styleC={styles.titleS2}>PURCHASES</TextCustom>
+          <View>
+            <FlatList
+              style={styles.listView}
+              data={data.items}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) =>
+                <View style={{ flexDirection: 'row' }}>
+                  <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>{item.details}</TextCustom>
+                  <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
+                </View>
+              }
+            />
+          </View>
+
+          {/* Section 3 */}
+          <View style={{ flexDirection: 'row' }}>
+            <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>TOTAL CHARGED</TextCustom>
+            <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{data.total}</TextCustom>
+          </View>
+          <TextCustom styleC={styles.labelBottom} >Bill includes 7% GST</TextCustom>
         </View>
-        <TextCustom styleC={styles.labelBottom} >Bill includes 7% GST</TextCustom>
-      </View>
-    )
+      )
   }
 }
 
