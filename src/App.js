@@ -14,9 +14,9 @@ import { configureStore } from './store/store.js';
 import AppWithReduxNavigationState from './routes/reduxNavigation'
 console.disableYellowBox = true;
 const store = configureStore();
-store.subscribe(() => {
-  console.log("GLOBAL STATE:", store.getState())
-})
+// store.subscribe(() => {
+//   console.log("GLOBAL STATE:", store.getState())
+// })
 export default class App extends Component<Props> {
   render() {
     return (

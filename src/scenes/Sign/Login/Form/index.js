@@ -13,7 +13,7 @@ import { TextInputCustom, ButtonCustom, TextCustom, Loading } from './../../../.
 import { connect } from 'react-redux';
 
 import Service from './../../../../services/api';
-import Helper from './../../../../utils/Validattion';
+import Helper from './../../../../helpers/Validattion';
 
 import { insertRoleInfo } from './../../actions';
 

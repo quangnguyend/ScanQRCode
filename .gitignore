@@ -31,7 +31,8 @@ build/
 .gradle
 local.properties
 *.iml
-
+android
+ios
 # node.js
 #
 node_modules/
@@ -52,5 +53,3 @@ android/keystores
 */fastlane/report.xml
 */fastlane/Preview.html
 
-android
-ios
