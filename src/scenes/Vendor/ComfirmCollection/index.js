@@ -30,10 +30,6 @@ class ComfirmCollection extends Component {
     super(props)
   }
 
-  componentDidMount() {
-    const { params } = this.props.navigation.state;
-  }
-
   onCancel = () => {
     const { userInfo } = this.props;
     this.props.navigate(userInfo.roles[0], null);
