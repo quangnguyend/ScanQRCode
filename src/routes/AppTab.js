@@ -5,7 +5,8 @@ import {
   View,
   Text,
   AsyncStorage,
-  Platform
+  Platform,
+  TouchableOpacity
 } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
@@ -16,6 +17,7 @@ import ScanResult from '../scenes/Ticket/ScanResult';
 import ComfirmCollection from '../scenes/Vendor/ComfirmCollection';
 import Collection from '../scenes/Vendor/Collection';
 import InvalidPage from '../scenes/Vendor/invalidPage';
+
 
 const tabBarOptions = {
   tabBarPosition: 'bottom',
@@ -46,16 +48,19 @@ const logoutTab = {
         'Confirmation required'
         , 'Do you really want to logout?'
         , [
+          { text: 'Cancel' },
           {
             text: 'Yes', onPress: () => {
-              navigation.dispatch({ type: 'Reset', routeName: 'Login' })
               AsyncStorage.removeItem('SCANNER_DATA');
               AsyncStorage.removeItem('CURRENT_EVENT');
               AsyncStorage.removeItem('DATE_EVENT');
               AsyncStorage.removeItem('USER_ROLE');
+              AsyncStorage.removeItem('USER_ACCOUNT')
+                .then(rs => {
+                  navigation.dispatch({ type: 'Reset', routeName: 'Login' })
+                })
             }
-          },
-          { text: 'No' }
+          }
         ]
       );
     },
@@ -83,6 +88,24 @@ export const TicketResulttNavigator = TabNavigator({
   Logout: logoutTab
 }, tabBarOptions)
 
+export const TicketResulttNavigatorAdmin = TabNavigator({
+  ScanResult: {
+    screen: ScanResult,
+    navigationOptions: {
+      tabBarLabel: 'TICKET',
+    }
+  },
+  Receipt: {
+    screen: ReceiptScreen,
+    navigationOptions: {
+      title: 'RECEIPT SCANNER',
+      tabBarLabel: 'RECEIPT',
+      headerLeft: null
+    }
+  },
+  Logout: logoutTab
+}, tabBarOptions)
+
 export const tabBarComfirmCollection = TabNavigator({
   ComfirmCollection: {
     screen: ComfirmCollection,
@@ -92,6 +115,26 @@ export const tabBarComfirmCollection = TabNavigator({
   },
   Logout: logoutTab
 }, tabBarOptions)
+
+export const tabBarComfirmCollectionAdmin = TabNavigator({
+  Ticket: {
+    screen: TicketScreen,
+    navigationOptions: {
+      title: 'TICKET SCANNER',
+      tabBarLabel: 'TICKET',
+    }
+  },
+  ComfirmCollection: {
+    screen: ComfirmCollection,
+    navigationOptions: {
+      tabBarLabel: 'RECEIPT',
+    }
+  },
+  Logout: logoutTab
+}, {
+    ...tabBarOptions,
+    initialRouteName: 'ComfirmCollection'
+  })
 
 export const tabBarCollected = TabNavigator({
   Collection: {
@@ -103,6 +146,26 @@ export const tabBarCollected = TabNavigator({
   Logout: logoutTab
 }, tabBarOptions)
 
+export const tabBarCollectedAdmin = TabNavigator({
+  Ticket: {
+    screen: TicketScreen,
+    navigationOptions: {
+      title: 'TICKET SCANNER',
+      tabBarLabel: 'TICKET',
+    }
+  },
+  Collection: {
+    screen: Collection,
+    navigationOptions: {
+      tabBarLabel: 'RECEIPT',
+    }
+  },
+  Logout: logoutTab
+}, {
+    ...tabBarOptions,
+    initialRouteName: 'Collection'
+  })
+
 export const tabBarInvalidPage = TabNavigator({
   InvalidPage: {
     screen: InvalidPage,
@@ -112,6 +175,26 @@ export const tabBarInvalidPage = TabNavigator({
   },
   Logout: logoutTab
 }, tabBarOptions)
+
+export const tabBarInvalidPageAdmin = TabNavigator({
+  Ticket: {
+    screen: TicketScreen,
+    navigationOptions: {
+      title: 'TICKET SCANNER',
+      tabBarLabel: 'TICKET',
+    }
+  },
+  InvalidPage: {
+    screen: InvalidPage,
+    navigationOptions: {
+      tabBarLabel: 'RECEIPT',
+    }
+  },
+  Logout: logoutTab
+}, {
+    ...tabBarOptions,
+    initialRouteName: 'InvalidPage'
+  })
 
 export const ReceiptNavigator = TabNavigator({
   Receipt: {

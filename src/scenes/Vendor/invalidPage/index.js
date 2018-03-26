@@ -16,7 +16,7 @@ class InvalidPage extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ width: 30, height: 30 }]}
+        style={styles.iconStyle}
         resizeMode={'contain'}
       />
     )
@@ -51,5 +51,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  iconStyle: {
+    width: (Platform.OS === 'ios') ? 30 : '100%',
+    height: (Platform.OS === 'ios') ? 30 : '100%'
   }
 })

@@ -17,7 +17,7 @@ export default class ScanResult extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ width: 30, height: 30 }]}
+        style={styles.iconStyle}
         resizeMode={'contain'}
       />
     ),
@@ -137,7 +137,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  message: {
-
+  iconStyle: {
+    width: (Platform.OS === 'ios') ? 30 : '100%',
+    height: (Platform.OS === 'ios') ? 30 : '100%'
   }
 })

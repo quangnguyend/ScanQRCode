@@ -1,34 +1,32 @@
 import React, { Component } from 'react';
 import {
   View,
-  StyleSheet,
   Image,
-  Platform,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  Keyboard
 } from 'react-native';
+import { connect } from 'react-redux';
+
 import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera, Loading } from './../../../components';
 import Service from '../../../services/api';
 import Header from './header';
-import { connect } from 'react-redux';
 import { setActionScanner } from './../../Sign/actions';
-
+import styles from './styles'
 
 class Overview extends Component {
-
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     header: (props) => <Header {...props} />,
     headerLeft: null,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ width: 30, height: 30 }]}
+        style={styles.iconStyle}
         resizeMode={'contain'}
       />
     ),
-    headerStyle: { backgroundColor: '#635339' },
-    headerTitleStyle: { color: '#FFFFFF', alignSelf: 'center' }
-  }
+    tabBarVisible: navigation.state.params ? navigation.state.params.tabBarVisible : true
+  })
 
   constructor(props) {
     super(props)
@@ -87,9 +85,27 @@ class Overview extends Component {
     })
   }
 
-  componentDidMount() {
+  checkKeyboardOnShowHide() {
+    Keyboard.addListener('keyboardDidShow', () => {
+      this.props.navigation.setParams({
+        tabBarVisible: false
+      })
+    })
+
+    Keyboard.addListener('keyboardDidHide', () => {
+      this.props.navigation.setParams({
+        tabBarVisible: true
+      })
+    })
+  }
+
+  componentWillMount() {
     this.setLoadingBar(true);
     this.loadData();
+    this.checkKeyboardOnShowHide();
+    this.props.navigation.addListener('willBlur', () => {
+      console.log('adminBackHome')
+    })
   }
 
   componentWillUnmount() {
@@ -116,16 +132,20 @@ class Overview extends Component {
   //call api so get Info
 
   getInfo = async (body) => {
+    const { userInfo } = this.props;
+    const role = userInfo.roles[0];
+    const routeName = (role === 'scanAdmin') ? 'ScanResultAdmin' : 'ScanResult';
+
     this.setLoadingBar(true);
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         this.setLoadingBar(false);
         this.props.setActionScanner('ticketInfo');
         if (data.message === 'Ticket code invalid') {
-          this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
+          this.navigate(routeName, { ...data, title: 'INVALID TICKET' })
           return;
         }
-        this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
+        this.navigate(routeName, { ...data, title: 'VIEW INFO' })
       },
       error => {
         this.setLoadingBar(false);
@@ -137,6 +157,10 @@ class Overview extends Component {
 
   //call api so get Entry
   getEntry = async (body) => {
+    const { userInfo } = this.props;
+    const role = userInfo.roles[0];
+    const routeName = (role === 'scanAdmin') ? 'ScanResultAdmin' : 'ScanResult';
+
     this.setLoadingBar(true);
     let prams = { eventCode: this.state.currentEvent.value }
     const fetchInfo = await Service.postMethod('scan', body,
@@ -145,14 +169,14 @@ class Overview extends Component {
         this.props.setActionScanner('ticketEnter');
         if (data.appError) {
           //if ENTRY REJECTED
-          this.navigate('ScanResult', { ...data, title: 'ENTRY REJECTED', ...prams })
+          this.navigate(routeName, { ...data, title: 'ENTRY REJECTED', ...prams })
         } else {
           //if ENTRY ACCEPTED
           if (data.status && data.status === 400) {
-            this.navigate('ScanResult', { ...data, title: 'INVALID TICKET', ...prams })
+            this.navigate(routeName, { ...data, title: 'INVALID TICKET', ...prams })
           }
           else {
-            this.navigate('ScanResult', { ...data, title: 'ENTRY ACCEPTED', ...prams })
+            this.navigate(routeName, { ...data, title: 'ENTRY ACCEPTED', ...prams })
           }
         }
       },
@@ -339,42 +363,20 @@ class Overview extends Component {
           </View>
         </View>
         <Loading loading={loading} />
+        <View style={{ position: 'absolute', height: 100, bottom: 0 }}>
+        </View>
       </View >
     )
   }
 }
+
+const mapStateToProps = state => ({
+  userInfo: state.userReducer.info
+});
 
 const mapDispatchToProp = dispatch => ({
   navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } }),
   setActionScanner: (action) => dispatch(setActionScanner(action))
 });
 
-export default connect(null, mapDispatchToProp)(Overview);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingTop: 20,
-    marginTop: (Platform.OS === 'ios') ? 20 : 0
-  },
-  row: {
-    flexDirection: 'row',
-    width: '100%',
-    paddingBottom: 10,
-    paddingTop: 10,
-    justifyContent: 'center'
-  },
-  floatRight: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingBottom: 10
-  },
-  rowItem: {
-    width: '50%'
-  },
-  btnDisable: {
-    backgroundColor: '#CEB797'
-  }
-})
+export default connect(mapStateToProps, mapDispatchToProp)(Overview);

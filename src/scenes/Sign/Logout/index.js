@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {
   View,
-  Image
+  Image,
+  StyleSheet,
+  Platform
 } from 'react-native';
 
 export default class Logout extends Component {
@@ -9,7 +11,7 @@ export default class Logout extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/logout.png')}
-        style={[{ width: 30, height: 30 }]}
+        style={styles.iconStyle}
         resizeMode={'contain'}
       />
     ),
@@ -19,11 +21,16 @@ export default class Logout extends Component {
   }
 
   render() {
-    const { getScreenDetails, scene } = this.props;
-    const details = getScreenDetails(scene)
     return (
       <View>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  iconStyle: {
+    width: (Platform.OS === 'ios') ? 30 : '100%',
+    height: (Platform.OS === 'ios') ? 30 : '100%'
+  }
+})

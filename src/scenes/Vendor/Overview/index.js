@@ -6,7 +6,7 @@ import {
   Platform,
   Alert,
   AsyncStorage,
-  KeyboardAvoidingView
+  Keyboard
 } from 'react-native';
 import { TextCustom, TextInputCustom, ButtonCustom, Loading } from './../../../components';
 import Service from '../../../services/api';
@@ -15,19 +15,18 @@ import { connect } from 'react-redux';
 
 class VendorOverview extends Component {
 
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     header: (props) => <Header {...props} />,
     headerLeft: null,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ width: 30, height: 30 }]}
+        style={styles.iconStyle}
         resizeMode={'contain'}
       />
     ),
-    headerStyle: { backgroundColor: '#635339' },
-    headerTitleStyle: { color: '#FFFFFF', textAlign: 'center' }
-  }
+    tabBarVisible: navigation.state.params ? navigation.state.params.tabBarVisible : true
+  })
 
   constructor(props) {
     super(props)
@@ -35,6 +34,25 @@ class VendorOverview extends Component {
       manuallyCode: '',
       loading: false
     }
+  }
+
+  checkKeyboardOnShowHide() {
+    Keyboard.addListener('keyboardDidShow', () => {
+      this.props.navigation.setParams({
+        tabBarVisible: false
+      })
+    })
+
+    Keyboard.addListener('keyboardDidHide', () => {
+      this.props.navigation.setParams({
+        tabBarVisible: true
+      })
+    })
+  }
+
+  componentWillMount() {
+    this.checkKeyboardOnShowHide();
+    console.log(this.props)
   }
 
   onReceipt = () => {
@@ -48,13 +66,16 @@ class VendorOverview extends Component {
 
   //call api so get Info
   getReceipt = async (body) => {
+    const { userInfo } = this.props;
+    const role = userInfo.roles[0];
+
     this.setLoadingBar(true);
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         if (data.status === 400) {
-          this.navigate('InvalidPage', data)
+          this.navigate((role === 'scanAdmin') ? 'InvalidPageAdmin' : 'InvalidPage', data)
         } else {
-          this.navigate('ComfirmCollection', data)
+          this.navigate((role === 'scanAdmin') ? 'ComfirmCollectionAdmin' : 'ComfirmCollection', data)
         }
       },
       error => {
@@ -111,17 +132,20 @@ class VendorOverview extends Component {
           </View>
         </View>
         <Loading loading={loading} />
-        <KeyboardAvoidingView></KeyboardAvoidingView>
       </View >
     )
   }
 }
 
+const mapStateToProps = state => ({
+  userInfo: state.userReducer.info
+});
+
 const mapDispatchToProp = dispatch => ({
   navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
 });
 
-export default connect(null, mapDispatchToProp)(VendorOverview);
+export default connect(mapStateToProps, mapDispatchToProp)(VendorOverview);
 
 const styles = StyleSheet.create({
   container: {
@@ -143,5 +167,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingBottom: 10,
     paddingTop: 10
+  },
+  iconStyle: {
+    width: (Platform.OS === 'ios') ? 30 : '100%',
+    height: (Platform.OS === 'ios') ? 30 : '100%'
   }
 })

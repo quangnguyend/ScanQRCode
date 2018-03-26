@@ -19,7 +19,7 @@ class Collection extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ width: 30, height: 30 }]}
+        style={styles.iconStyle}
         resizeMode={'contain'}
       />
     )
@@ -36,7 +36,6 @@ class Collection extends Component {
     this.setState({
       currentTime: moment(dateTime).format('Do MMMM YYYY HH:mm').toString()
     })
-    console.log(dateTime)
   }
 
   render() {
@@ -143,5 +142,9 @@ const styles = StyleSheet.create({
   labelBottom: {
     textAlign: 'right',
     marginTop: 40
+  },
+  iconStyle: {
+    width: (Platform.OS === 'ios') ? 30 : '100%',
+    height: (Platform.OS === 'ios') ? 30 : '100%'
   }
 })
