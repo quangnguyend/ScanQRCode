@@ -20,7 +20,7 @@ class ComfirmCollection extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../../assets/images/ticket.png')}
-        style={[{ width: 30, height: 30 }]}
+        style={styles.iconStyle}
         resizeMode={'contain'}
       />
     )
@@ -35,13 +35,15 @@ class ComfirmCollection extends Component {
   }
 
   onCancel = () => {
-    const { userRole } = this.props;
-    this.props.navigate(userRole.roles[0], null);
+    const { userInfo } = this.props;
+    this.props.navigate(userInfo.roles[0], null);
   }
 
   viewCollected = () => {
+    const { userInfo } = this.props;
+    const role = userInfo.roles[0];
     const { params } = this.props.navigation.state;
-    this.props.navigate('Collection', params);
+    this.props.navigate((role === 'scanAdmin') ? 'CollectionAdmin' : 'Collection', params);
   }
 
   render() {
@@ -77,7 +79,7 @@ class ComfirmCollection extends Component {
 }
 
 const mapStateToProps = state => ({
-  userRole: state.userReducer.info
+  userInfo: state.userReducer.info
 });
 
 const mapDispatchToProp = dispatch => ({
@@ -118,5 +120,9 @@ const styles = StyleSheet.create({
   labelBottom: {
     textAlign: 'right',
     marginTop: 40
+  },
+  iconStyle: {
+    width: (Platform.OS === 'ios') ? 30 : '100%',
+    height: (Platform.OS === 'ios') ? 30 : '100%'
   }
 })

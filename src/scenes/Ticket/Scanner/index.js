@@ -91,30 +91,33 @@ class Scanner extends Component {
 
   //call api
   getData = async (body) => {
+    const { userInfo } = this.props;
+    const role = userInfo.roles[0];
+    const routeName = (role === 'scanAdmin') ? 'ScanResultAdmin' : 'ScanResult';
+
     const { actionScan } = this.props;
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
-        this.setLoadingBar(false)
         switch (actionScan) {
           case 'ticketEnter':
             if (data.appError) {
 
               //if ENTRY REJECTED
-              this.navigate('ScanResult', { ...data, title: 'ENTRY REJECTED' })
+              this.navigate(routeName, { ...data, title: 'ENTRY REJECTED' })
             } else {
               //if ENTRY ACCEPTED
               if (data.status && data.status === 400) {
-                this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
+                this.navigate(routeName, { ...data, title: 'INVALID TICKET' })
               }
               else {
-                this.navigate('ScanResult', { ...data, title: 'ENTRY ACCEPTED' })
+                this.navigate(routeName, { ...data, title: 'ENTRY ACCEPTED' })
               }
             }
             break;
           case 'ticketInfo':
             if (data.message === 'Ticket code invalid') {
-              this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
-            } else this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
+              this.navigate(routeName, { ...data, title: 'INVALID TICKET' })
+            } else this.navigate(routeName, { ...data, title: 'VIEW INFO' })
             break;
         }
       },

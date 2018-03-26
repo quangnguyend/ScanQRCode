@@ -100,14 +100,17 @@ class ScanReceipt extends Component {
 
   //call api so get Info
   getReceipt = async (body) => {
+    const { userInfo } = this.props;
+    const role = userInfo.roles[0];
+
     this.setLoadingBar(true);
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         console.log(data)
         if (data.status === 400) {
-          this.navigate('InvalidPage', data)
+          this.navigate((role === 'scanAdmin') ? 'InvalidPageAdmin' : 'InvalidPage', data)
         } else {
-          this.navigate('ComfirmCollection', data)
+          this.navigate((role === 'scanAdmin') ? 'ComfirmCollectionAdmin' : 'ComfirmCollection', data)
         }
       },
       error => {

@@ -15,9 +15,13 @@ import {
   ReceiptNavigator,
   AdminNavigator,
   TicketResulttNavigator,
+  TicketResulttNavigatorAdmin,
   tabBarComfirmCollection,
+  tabBarComfirmCollectionAdmin,
   tabBarCollected,
-  tabBarInvalidPage
+  tabBarCollectedAdmin,
+  tabBarInvalidPage,
+  tabBarInvalidPageAdmin
 } from './AppTab';
 
 
@@ -29,10 +33,17 @@ const AppNavigator = StackNavigator({
   scanAdmin: { screen: AdminNavigator },
   LogoutScreen: { screen: LogoutScreen },
   ScanResult: { screen: TicketResulttNavigator },
+  ScanResultAdmin: { screen: TicketResulttNavigatorAdmin },
   Entry: { screen: EntryScreen },
   ScanReceipt: { screen: ScanReceipt },
   ComfirmCollection: {
     screen: tabBarComfirmCollection,
+    navigationOptions: {
+      title: 'CONFIRM COLLECTION'
+    }
+  },
+  ComfirmCollectionAdmin: {
+    screen: tabBarComfirmCollectionAdmin,
     navigationOptions: {
       title: 'CONFIRM COLLECTION'
     }
@@ -43,8 +54,20 @@ const AppNavigator = StackNavigator({
       title: 'COLLECTION'
     }
   },
+  CollectionAdmin: {
+    screen: tabBarCollectedAdmin,
+    navigationOptions: {
+      title: 'COLLECTION'
+    }
+  },
   InvalidPage: {
     screen: tabBarInvalidPage,
+    navigationOptions: {
+      title: 'INVALID RECEIPT'
+    }
+  },
+  InvalidPageAdmin: {
+    screen: tabBarInvalidPageAdmin,
     navigationOptions: {
       title: 'INVALID RECEIPT'
     }

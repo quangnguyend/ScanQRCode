@@ -12,10 +12,10 @@ class AppWithNavigationState extends React.Component {
     dispatch: PropTypes.func.isRequired,
     nav: PropTypes.object.isRequired,
   };
-
+  
   render() {
     StatusBar.setBarStyle('light-content', true);
-    
+
     const { dispatch, nav } = this.props;
     this.props.navigation
     return (

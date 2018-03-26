@@ -6,7 +6,8 @@ import {
   Text,
   Alert,
   AsyncStorage,
-  Platform
+  Platform,
+  Keyboard
 } from 'react-native';
 
 import { TextInputCustom, ButtonCustom, TextCustom, Loading } from './../../../../components';
@@ -19,14 +20,7 @@ import { insertRoleInfo } from './../../actions';
 
 class LoginScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    header: null,
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../../../../assets/images/ticket.png')}
-        style={[{ resizeMode: 'cover' }]}
-        resizeMode={'cover'}
-      />
-    ),
+    header: null
   })
   constructor(props) {
     super(props)
@@ -38,8 +32,21 @@ class LoginScreen extends Component {
       passIsEmpty: false,
       emailIsEmpty: false,
       loading: false,
-      errMess: null
+      errMess: null,
+      isLoginOldAccount: false
     }
+  }
+
+  componentWillMount() {
+    AsyncStorage.getItem('USER_ACCOUNT').then(data => {
+      let user_account = JSON.parse(data);
+      if (user_account) {
+        this.setState({
+          isLoginOldAccount: true
+        })
+        this.callAPI(user_account);
+      }
+    })
   }
 
   setLoadingProgress = (loading) => {
@@ -49,6 +56,7 @@ class LoginScreen extends Component {
   onPress = (e) => {
     let check = this.validate();
     (check) ? this.callAPI() : null;
+    Keyboard.dismiss();
   }
 
   validate = () => {
@@ -79,21 +87,22 @@ class LoginScreen extends Component {
     const { emailInValid, passIsEmpty, emailIsEmpty, errMess } = this.state;
     return (
       <View style={{ marginTop: 10 }}>
-        {!emailInValid ? null : (!emailIsEmpty ? <Text style={styles.error}>Invalid Email!</Text> : <Text style={styles.error}>Email is require!</Text>)}
-        {!passIsEmpty ? null : <Text style={styles.error}>Password is require!</Text>}
-        {errMess ? <Text style={styles.error}>{errMess.charAt(0).toUpperCase() + errMess.slice(1)}</Text> : null}
+        {!emailInValid ? null : (!emailIsEmpty ? <Text style={styles.error}>Invalid Email!</Text> : <Text style={styles.error}>Email is required!</Text>)}
+        {!passIsEmpty ? null : <Text style={styles.error}>Password is required!</Text>}
+        {errMess ? <Text style={styles.error}>{errMess.charAt(0).toUpperCase() + errMess.slice(1) + '!'}</Text> : null}
       </View>
     )
   }
 
-  callAPI = () => {
+  callAPI = (_bodyData) => {
     const { navToMain, insertRoleInfo } = this.props;
 
     this.setLoadingProgress(true);
-    const bodyData = {
-      username: this.state.email,
-      password: this.state.password
-    }
+    const bodyData = _bodyData ? _bodyData :
+      {
+        username: this.state.email,
+        password: this.state.password
+      }
 
     Service.postMethod('users/login', bodyData,
       json => {
@@ -104,6 +113,7 @@ class LoginScreen extends Component {
           })
           return;
         }
+        AsyncStorage.setItem('USER_ACCOUNT', JSON.stringify(bodyData))
         Service.getMethod('users/me',
           jsonUser => {
             this.setLoadingProgress(false);
@@ -124,24 +134,43 @@ class LoginScreen extends Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Loading loading={this.state.loading} />
-        <Image
-          source={require('./../../../../assets/images/banner2.png')}
-          style={{ paddingTop: 10, height: 50 }}
-          resizeMode={'contain'}
-        />
-        <Image style={{ marginTop: 10, height: 50, width: 500 }} resizeMode={'contain'} source={require('./../../../../assets/images/bbb1.png')} />
-        <TextCustom fontSize={20} paddingTop={10}>LOGIN TO FULLERTON CONCOURS</TextCustom>
-        <TextInputCustom onChangeText={(value) => this.setState({ email: value })} placeholder="EMAIL ADDRESS" />
-        <TextInputCustom password={true} onChangeText={(value) => this.setState({ password: value })} placeholder="PASSWORD" />
-        <ButtonCustom style={styles.button} onPress={this.onPress} title={'Login'} />
-        {this._renderError()}
-      </View >
-    )
+    const { isLoginOldAccount } = this.state;
+    if (!isLoginOldAccount) {
+      return (
+        <View style={styles.container}>
+          <Loading loading={this.state.loading} />
+          <Image
+            source={require('./../../../../assets/images/banner2.png')}
+            style={{ paddingTop: 10, height: 50 }}
+            resizeMode={'contain'}
+          />
+          <Image
+            style={{ marginTop: 10, height: 50, width: 500 }}
+            resizeMode={'contain'}
+            source={require('./../../../../assets/images/bbb1.png')} />
+          <TextCustom fontSize={20} paddingTop={10} paddingBottom={20}>LOGIN TO FULLERTON CONCOURS</TextCustom>
+          <TextInputCustom onChangeText={(value) => this.setState({ email: value })} placeholder="EMAIL ADDRESS" />
+          <TextInputCustom password={true} onChangeText={(value) => this.setState({ password: value })} placeholder="PASSWORD" />
+          <ButtonCustom style={styles.button} onPress={this.onPress} title={'Login'} />
+          {this._renderError()}
+        </View >
+      )
+    } else {
+      return (
+        <View style={[styles.container, { justifyContent: 'center' }]}>
+          <Loading loading={this.state.loading} />
+        </View>
+      )
+    }
   }
 }
+
+const mapDispatchToProp = dispatch => ({
+  navToMain: (routeName) => dispatch({ type: 'Reset', routeName: routeName }),
+  insertRoleInfo: (info) => dispatch(insertRoleInfo(info))
+});
+
+export default connect(null, mapDispatchToProp)(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -155,10 +184,3 @@ const styles = StyleSheet.create({
     color: 'red'
   }
 })
-
-const mapDispatchToProp = dispatch => ({
-  navToMain: (routeName) => dispatch({ type: 'Reset', routeName: routeName }),
-  insertRoleInfo: (info) => dispatch(insertRoleInfo(info))
-});
-
-export default connect(null, mapDispatchToProp)(LoginScreen);
