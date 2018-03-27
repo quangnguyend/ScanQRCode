@@ -28,32 +28,36 @@ class Collection extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentTime: '',
       data: null
     }
   }
 
   componentWillMount() {
-    let dateTime = new Date();
-    this.setState({
-      currentTime: moment(dateTime).format('Do MMMM YYYY HH:mm').toString()
-    })
-
+    const { info } = this.props;
+    const role = info.roles[0];
     const { params } = this.props.navigation.state;
     let body = {
       "code": params.code,
       "action": "purchaseCollect"
     }
     Services.postMethod('scan', body, data => {
-      this.setState({
-        data: data
-      })
+      if (data.appError)
+        this.props.navigate((role === 'scanAdmin') ? 'InvalidPageAdmin' : 'InvalidPage', data)
+      else
+        this.setState({
+          data: data
+        })
+    })
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      data: false
     })
   }
 
   render() {
-    const { currentTime, data } = this.state;
-    console.log(data)
+    const { data } = this.state;
     const { info } = this.props;
     const { params } = this.props.navigation.state;
     if (!data) {
@@ -117,7 +121,11 @@ const mapStateToProps = state => ({
   info: state.userReducer.info
 });
 
-export default connect(mapStateToProps)(Collection);
+const mapDispatchToProp = dispatch => ({
+  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+});
+
+export default connect(mapStateToProps, mapDispatchToProp)(Collection);
 
 const styles = StyleSheet.create({
   container: {

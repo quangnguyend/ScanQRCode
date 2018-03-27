@@ -14,6 +14,7 @@ class AppWithNavigationState extends React.Component {
   };
   
   render() {
+    //set background color for status bar
     StatusBar.setBarStyle('light-content', true);
 
     const { dispatch, nav } = this.props;

@@ -100,6 +100,10 @@ class Overview extends Component {
   }
 
   componentWillMount() {
+    const { params } = this.props.navigation.state;
+    if (params && params.oldRouter) {
+      return this.props.navigation.navigate(params.oldRouter)
+    }
     this.setLoadingBar(true);
     this.loadData();
     this.checkKeyboardOnShowHide();

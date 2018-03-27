@@ -59,7 +59,7 @@ class HeaderCustomS extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-    navToMain: (role) => dispatch({ type: 'Reset', routeName: role }),
+    navToMain: (role) => dispatch({ type: 'Reset', routeName: role, params: { oldRouteName: 'Receipt' } }),
     navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
 });
 

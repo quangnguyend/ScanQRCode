@@ -20,11 +20,11 @@ class HeaderCustom extends Component {
   }
 
   onBack = () => {
-    console.log(this.state.user_role)
     this.props.navToMain(this.state.user_role);
   }
 
   componentWillMount() {
+    console.log(this.props)
     AsyncStorage.getItem('USER_ROLE').then(data => {
       this.setState({
         user_role: data
@@ -52,7 +52,7 @@ class HeaderCustom extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-  navToMain: (routeName) => dispatch({ type: 'Reset', routeName: routeName })
+  navToMain: (routeName) => dispatch({ type: 'Reset', routeName: routeName, params: { oldRouter: 'Receipt' } })
 });
 
 export default connect(null, mapDispatchToProp)(HeaderCustom);

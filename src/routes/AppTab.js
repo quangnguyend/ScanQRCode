@@ -213,7 +213,7 @@ export const AdminNavigator = TabNavigator({
     screen: TicketScreen,
     navigationOptions: {
       title: 'TICKET SCANNER',
-      tabBarLabel: 'TICKET',
+      tabBarLabel: 'TICKET'
     }
   },
   Receipt: {

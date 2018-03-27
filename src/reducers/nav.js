@@ -29,7 +29,7 @@ function nav(state, action) {
         NavigationActions.reset({
           index: 0,
           actions: [
-            NavigationActions.navigate({ routeName: action.routeName })
+            NavigationActions.navigate({ routeName: action.routeName, params: action.params })
           ]
         }),
         state
