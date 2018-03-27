@@ -106,7 +106,7 @@ class ScanReceipt extends Component {
     this.setLoadingBar(true);
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
-        if (data.status === 400) {
+        if (data.status === 400 || data.appError) {
           this.navigate((role === 'scanAdmin') ? 'InvalidPageAdmin' : 'InvalidPage', data)
         } else {
           this.navigate((role === 'scanAdmin') ? 'ComfirmCollectionAdmin' : 'ComfirmCollection', { ...data, ...body })
