@@ -181,14 +181,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   imageBackground: {
-    width: '95%',
-    height: '95%',
+    width: 250,
+    height: 250,
+    zIndex: 1
   },
   camera: {
     flex: 1,
-    width: '65%',
-    height: '36%',
-    top: '26%',
+    width: '100%',
+    height: '100%',
     position: 'absolute'
   }
 });
