@@ -20,7 +20,7 @@ export default class HeaderCustomO extends Component {
     const details = getScreenDetails(scene)
     return (
       <View style={styles.header}>
-        <Text style={[styles.headerText, { fontSize: 17, fontWeight: 'bold' }]}>{details.options.title}</Text>
+        <Text style={[styles.headerText, { fontSize: 17, fontWeight: 'bold' }]}>RECEIPT SCANNER</Text>
       </View>
     )
   }

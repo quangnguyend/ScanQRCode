@@ -35,7 +35,8 @@ const tabBarOptions = {
     },
     tabBarIconStyle: {
       paddingTop: 5
-    }
+    },
+    inactiveBackgroundColor: 'rgba(79, 102, 149, 0.1)' // this option only work on ios
   }
 }
 
