@@ -66,16 +66,14 @@ class VendorOverview extends Component {
 
   //call api so get Info
   getReceipt = async (body) => {
-    const { userInfo } = this.props;
-    const role = userInfo.roles[0];
 
     this.setLoadingBar(true);
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         if (data.status === 400 || data.appError) {
-          this.navigate((role === 'scanAdmin') ? 'InvalidPageAdmin' : 'InvalidPage', data)
+          this.navigate('InvalidPage', data)
         } else {
-          this.navigate((role === 'scanAdmin') ? 'ComfirmCollectionAdmin' : 'ComfirmCollection', { ...data, ...body })
+          this.navigate('ComfirmCollection', { ...data, ...body })
         }
       },
       error => {
@@ -137,15 +135,11 @@ class VendorOverview extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  userInfo: state.userReducer.info
-});
-
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+  navigate: (routeName, params) => dispatch({ type: 'VendorNavigate', ...{ routeName: routeName, params: params } })
 });
 
-export default connect(mapStateToProps, mapDispatchToProp)(VendorOverview);
+export default connect(null, mapDispatchToProp)(VendorOverview);
 
 const styles = StyleSheet.create({
   container: {

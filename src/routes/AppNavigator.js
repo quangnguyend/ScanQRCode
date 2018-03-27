@@ -15,13 +15,7 @@ import {
   ReceiptNavigator,
   AdminNavigator,
   TicketResulttNavigator,
-  TicketResulttNavigatorAdmin,
-  tabBarComfirmCollection,
-  tabBarComfirmCollectionAdmin,
-  tabBarCollected,
-  tabBarCollectedAdmin,
-  tabBarInvalidPage,
-  tabBarInvalidPageAdmin
+  TicketResulttNavigatorAdmin
 } from './AppTab';
 
 
@@ -34,43 +28,6 @@ const AppNavigator = StackNavigator({
   LogoutScreen: { screen: LogoutScreen },
   ScanResult: { screen: TicketResulttNavigator },
   ScanResultAdmin: { screen: TicketResulttNavigatorAdmin },
-  Entry: { screen: EntryScreen },
-  ScanReceipt: { screen: ScanReceipt },
-  ComfirmCollection: {
-    screen: tabBarComfirmCollection,
-    navigationOptions: {
-      title: 'CONFIRM COLLECTION'
-    }
-  },
-  ComfirmCollectionAdmin: {
-    screen: tabBarComfirmCollectionAdmin,
-    navigationOptions: {
-      title: 'CONFIRM COLLECTION'
-    }
-  },
-  Collection: {
-    screen: tabBarCollected,
-    navigationOptions: {
-      title: 'COLLECTION'
-    }
-  },
-  CollectionAdmin: {
-    screen: tabBarCollectedAdmin,
-    navigationOptions: {
-      title: 'COLLECTION'
-    }
-  },
-  InvalidPage: {
-    screen: tabBarInvalidPage,
-    navigationOptions: {
-      title: 'INVALID RECEIPT'
-    }
-  },
-  InvalidPageAdmin: {
-    screen: tabBarInvalidPageAdmin,
-    navigationOptions: {
-      title: 'INVALID RECEIPT'
-    }
-  }
+  Entry: { screen: EntryScreen }
 });
 export default AppNavigator;

@@ -8,9 +8,9 @@ import {
 } from 'react-native';
 
 import { TextCustom, ButtonCustom } from '../../../components';
-import { connect } from 'react-redux';
 import Header from './header';
-class InvalidPage extends Component {
+
+export default class InvalidPage extends Component {
   static navigationOptions = {
     header: (props) => <Header {...props} />,
     tabBarIcon: ({ tintColor }) => (
@@ -38,12 +38,6 @@ class InvalidPage extends Component {
     )
   }
 }
-
-const mapDispatchToProp = dispatch => ({
-  navToMain: () => dispatch({ type: 'Reset', routeName: 'Login' })
-});
-
-export default connect(null, mapDispatchToProp)(InvalidPage);
 
 const styles = StyleSheet.create({
   container: {

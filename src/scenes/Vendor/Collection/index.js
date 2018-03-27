@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import Header from './header';
 import Services from '../../../services/api';
 
-class Collection extends Component {
+export default class Collection extends Component {
   static navigationOptions = {
     header: (props) => <Header {...props} />,
     tabBarIcon: ({ tintColor }) => (
@@ -53,8 +53,6 @@ class Collection extends Component {
 
   render() {
     const { currentTime, data } = this.state;
-    console.log(data)
-    const { info } = this.props;
     const { params } = this.props.navigation.state;
     if (!data) {
       return (
@@ -112,12 +110,6 @@ class Collection extends Component {
       )
   }
 }
-
-const mapStateToProps = state => ({
-  info: state.userReducer.info
-});
-
-export default connect(mapStateToProps)(Collection);
 
 const styles = StyleSheet.create({
   container: {
