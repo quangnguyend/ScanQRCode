@@ -20,8 +20,7 @@ class HeaderCustom extends Component {
   }
 
   onBack = () => {
-    console.log(this.state.user_role)
-    this.props.navToMain(this.state.user_role);
+    this.props.navToMain('Overview');
   }
 
   componentWillMount() {
@@ -30,6 +29,10 @@ class HeaderCustom extends Component {
         user_role: data
       })
     })
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount SCANNER RECEIPT')
   }
 
   render() {
@@ -52,7 +55,7 @@ class HeaderCustom extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-  navToMain: (routeName) => dispatch({ type: 'Reset', routeName: routeName })
+  navToMain: (routeName) => dispatch({ type: 'VendorReset' })
 });
 
 export default connect(null, mapDispatchToProp)(HeaderCustom);

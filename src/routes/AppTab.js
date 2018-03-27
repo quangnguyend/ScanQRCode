@@ -11,12 +11,9 @@ import {
 import { TabNavigator } from 'react-navigation';
 
 import TicketScreen from '../scenes/Ticket/Overview';
-import ReceiptScreen from '../scenes/Vendor/Overview';
 import Logout from '../scenes/Sign/Logout';
 import ScanResult from '../scenes/Ticket/ScanResult';
-import ComfirmCollection from '../scenes/Vendor/ComfirmCollection';
-import Collection from '../scenes/Vendor/Collection';
-import InvalidPage from '../scenes/Vendor/invalidPage';
+import vendorNav from '../scenes/Vendor';
 
 
 const tabBarOptions = {
@@ -87,7 +84,7 @@ export const TicketResulttNavigator = TabNavigator({
     }
   },
   Logout: logoutTab
-}, tabBarOptions)
+}, tabBarOptions);
 
 export const TicketResulttNavigatorAdmin = TabNavigator({
   ScanResult: {
@@ -97,113 +94,23 @@ export const TicketResulttNavigatorAdmin = TabNavigator({
     }
   },
   Receipt: {
-    screen: ReceiptScreen,
+    screen: vendorNav,
     navigationOptions: {
       title: 'RECEIPT SCANNER',
       tabBarLabel: 'RECEIPT',
-      headerLeft: null
+      header: null
     }
   },
   Logout: logoutTab
-}, tabBarOptions)
-
-export const tabBarComfirmCollection = TabNavigator({
-  ComfirmCollection: {
-    screen: ComfirmCollection,
-    navigationOptions: {
-      tabBarLabel: 'RECEIPT',
-    }
-  },
-  Logout: logoutTab
-}, tabBarOptions)
-
-export const tabBarComfirmCollectionAdmin = TabNavigator({
-  Ticket: {
-    screen: TicketScreen,
-    navigationOptions: {
-      title: 'TICKET SCANNER',
-      tabBarLabel: 'TICKET',
-    }
-  },
-  ComfirmCollection: {
-    screen: ComfirmCollection,
-    navigationOptions: {
-      tabBarLabel: 'RECEIPT',
-    }
-  },
-  Logout: logoutTab
-}, {
-    ...tabBarOptions,
-    initialRouteName: 'ComfirmCollection'
-  })
-
-export const tabBarCollected = TabNavigator({
-  Collection: {
-    screen: Collection,
-    navigationOptions: {
-      tabBarLabel: 'RECEIPT',
-    }
-  },
-  Logout: logoutTab
-}, tabBarOptions)
-
-export const tabBarCollectedAdmin = TabNavigator({
-  Ticket: {
-    screen: TicketScreen,
-    navigationOptions: {
-      title: 'TICKET SCANNER',
-      tabBarLabel: 'TICKET',
-    }
-  },
-  Collection: {
-    screen: Collection,
-    navigationOptions: {
-      tabBarLabel: 'RECEIPT',
-    }
-  },
-  Logout: logoutTab
-}, {
-    ...tabBarOptions,
-    initialRouteName: 'Collection'
-  })
-
-export const tabBarInvalidPage = TabNavigator({
-  InvalidPage: {
-    screen: InvalidPage,
-    navigationOptions: {
-      tabBarLabel: 'RECEIPT',
-    }
-  },
-  Logout: logoutTab
-}, tabBarOptions)
-
-export const tabBarInvalidPageAdmin = TabNavigator({
-  Ticket: {
-    screen: TicketScreen,
-    navigationOptions: {
-      title: 'TICKET SCANNER',
-      tabBarLabel: 'TICKET',
-    }
-  },
-  InvalidPage: {
-    screen: InvalidPage,
-    navigationOptions: {
-      tabBarLabel: 'RECEIPT',
-    }
-  },
-  Logout: logoutTab
-}, {
-    ...tabBarOptions,
-    initialRouteName: 'InvalidPage'
-  })
+}, tabBarOptions);
 
 export const ReceiptNavigator = TabNavigator({
   Receipt: {
-    screen: ReceiptScreen,
+    screen: vendorNav,
     navigationOptions: {
       title: 'RECEIPT SCANNER',
       tabBarLabel: 'RECEIPT',
-      headerLeft: null
+      header: null
     }
   },
   Logout: logoutTab
@@ -218,12 +125,12 @@ export const AdminNavigator = TabNavigator({
     }
   },
   Receipt: {
-    screen: ReceiptScreen,
+    screen: vendorNav,
     navigationOptions: {
       title: 'RECEIPT SCANNER',
       tabBarLabel: 'RECEIPT',
-      headerLeft: null
+      header: null
     }
   },
   Logout: logoutTab
-}, tabBarOptions)
+}, tabBarOptions);

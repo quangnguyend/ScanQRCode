@@ -35,7 +35,6 @@ class ScanReceipt extends Component {
   }
 
   requestCameraPermission = async () => {
-    const { userInfo } = this.props;
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA
@@ -47,7 +46,7 @@ class ScanReceipt extends Component {
         })
       } else {
         this.setState({ loading: false });
-        this.props.navigate(userInfo.roles[0]);
+        this.props.navigate('Overview');
       }
     } catch (err) {
       console.warn(err)
@@ -55,7 +54,6 @@ class ScanReceipt extends Component {
   }
 
   componentWillMount() {
-    const { userInfo } = this.props;
     this.setLoadingBar(true);
     if (Platform.OS === 'ios') {
       Camera.checkVideoAuthorizationStatus().then(isAuthorized => {
@@ -63,7 +61,7 @@ class ScanReceipt extends Component {
           this.setState({ isAuth: true, loading: false });
         } else {
           this.setState({ loading: false });
-          this.props.navigate(userInfo.roles[0]);
+          this.props.navigate('Overview');
         }
       })
     } else if (Platform.OS === 'android') {
@@ -100,16 +98,14 @@ class ScanReceipt extends Component {
 
   //call api so get Info
   getReceipt = async (body) => {
-    const { userInfo } = this.props;
-    const role = userInfo.roles[0];
 
     this.setLoadingBar(true);
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
         if (data.status === 400 || data.appError) {
-          this.navigate((role === 'scanAdmin') ? 'InvalidPageAdmin' : 'InvalidPage', data)
+          this.navigate('InvalidPage', data)
         } else {
-          this.navigate((role === 'scanAdmin') ? 'ComfirmCollectionAdmin' : 'ComfirmCollection', { ...data, ...body })
+          this.navigate('ComfirmCollection', { ...data, ...body })
         }
       },
       error => {
@@ -171,15 +167,11 @@ class ScanReceipt extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  userInfo: state.userReducer.info
-});
-
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+  navigate: (routeName, params) => dispatch({ type: 'VendorNavigate', ...{ routeName: routeName, params: params } })
 });
 
-export default connect(mapStateToProps, mapDispatchToProp)(ScanReceipt);
+export default connect(null, mapDispatchToProp)(ScanReceipt);
 
 const styles = StyleSheet.create({
   container: {

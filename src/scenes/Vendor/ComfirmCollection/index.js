@@ -31,15 +31,12 @@ class ComfirmCollection extends Component {
   }
 
   onCancel = () => {
-    const { userInfo } = this.props;
-    this.props.navigate(userInfo.roles[0], null);
+    this.props.navigate('Overview', null);
   }
 
   viewCollected = () => {
-    const { userInfo } = this.props;
-    const role = userInfo.roles[0];
     const { params } = this.props.navigation.state;
-    this.props.navigate((role === 'scanAdmin') ? 'CollectionAdmin' : 'Collection', params);
+    this.props.navigate('Collection', params);
   }
 
   render() {
@@ -74,15 +71,11 @@ class ComfirmCollection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  userInfo: state.userReducer.info
-});
-
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+  navigate: (routeName, params) => dispatch({ type: 'VendorNavigate', ...{ routeName: routeName, params: params } })
 });
 
-export default connect(mapStateToProps, mapDispatchToProp)(ComfirmCollection);
+export default connect(null, mapDispatchToProp)(ComfirmCollection);
 
 const styles = StyleSheet.create({
   container: {
