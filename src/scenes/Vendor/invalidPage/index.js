@@ -32,7 +32,7 @@ class InvalidPage extends Component {
     return (
       <View style={styles.container}>
         <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
-          INVALID TICKET! ( {params.message})
+          INVALID RECEIPT! ( {params.message})
                     </Text>
       </View>
     )
