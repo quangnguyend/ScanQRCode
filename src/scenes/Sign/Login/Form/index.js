@@ -123,7 +123,7 @@ class LoginScreen extends Component {
           jsonUser => {
             let currentRole = jsonUser.roles[0];
             let isRole = _.includes(rolesAccept, currentRole);
-            
+
             if (isRole) {
               this.setLoadingProgress(false);
               AsyncStorage.setItem('USER_ACCOUNT', JSON.stringify(bodyData))
@@ -133,15 +133,17 @@ class LoginScreen extends Component {
               navToMain(jsonUser.roles[0]);
             }
             else {
-              if(Platform.OS === 'android')
+              if (Platform.OS === 'android')
                 this.setLoadingProgress(false);
               Alert.alert(
                 'Warning!',
                 'You are not authorized to access this app. Please login at fullertonconcours.com/login instead',
                 [
-                  { text: 'Cancel', onPress: () => {
-                    this.setLoadingProgress(false);
-                  } },
+                  {
+                    text: 'Cancel', onPress: () => {
+                      this.setLoadingProgress(false);
+                    }
+                  },
                   {
                     text: 'Link', onPress: () => {
                       this.setLoadingProgress(false);
@@ -153,6 +155,8 @@ class LoginScreen extends Component {
             }
           },
           error => {
+            if (Platform.OS = 'android')
+              this.setLoadingBar(false);
             Service.errorNetwork(() => {
               this.setLoadingProgress(false);
             });
@@ -160,6 +164,8 @@ class LoginScreen extends Component {
           });
       },
       error => {
+        if (Platform.OS = 'android')
+          this.setLoadingBar(false);
         Service.errorNetwork(() => {
           this.setLoadingProgress(false);
         });

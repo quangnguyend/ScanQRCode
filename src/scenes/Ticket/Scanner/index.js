@@ -123,7 +123,8 @@ class Scanner extends Component {
         }
       },
       error => {
-        this.setLoadingBar(false);  
+        if (Platform.OS = 'android')
+          this.setLoadingBar(false);
         Service.errorNetwork(() => {
           this.setLoadingBar(false);
           this.setState({
