@@ -78,7 +78,7 @@ class VendorOverview extends Component {
       },
       error => {
         console.log(error);
-        if (Platform.OS = 'android')
+        if (Platform.OS == 'android')
           this.setLoadingBar(false);
         Service.errorNetwork(() => {
           this.setLoadingBar(false);
