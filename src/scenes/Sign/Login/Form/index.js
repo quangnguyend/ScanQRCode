@@ -7,7 +7,8 @@ import {
   Alert,
   AsyncStorage,
   Platform,
-  Keyboard
+  Keyboard,
+  Linking
 } from 'react-native';
 
 import { TextInputCustom, ButtonCustom, TextCustom, Loading } from './../../../../components';
@@ -15,8 +16,11 @@ import { connect } from 'react-redux';
 
 import Service from './../../../../services/api';
 import Helper from './../../../../helpers/Validattion';
+import * as _ from 'lodash';
 
 import { insertRoleInfo } from './../../actions';
+
+const rolesAccept = ['ticketScanner', 'scanAdmin', 'vendor'];
 
 class LoginScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -25,8 +29,8 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      email: 'testuser@protege.sg',
+      password: 'Q1aG5b',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false,
@@ -115,13 +119,30 @@ class LoginScreen extends Component {
           })
           return;
         }
-        AsyncStorage.setItem('USER_ACCOUNT', JSON.stringify(bodyData))
         Service.getMethod('users/me',
           jsonUser => {
+            let currentRole = jsonUser.roles[0];
+            let isRole = _.includes(rolesAccept, currentRole);
             this.setLoadingProgress(false);
-            insertRoleInfo(jsonUser) //use redux to manage data
-            AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0])
-            navToMain(jsonUser.roles[0]);
+            if (isRole) {
+              AsyncStorage.setItem('USER_ACCOUNT', JSON.stringify(bodyData))
+              insertRoleInfo(jsonUser) //use redux to manage data
+              AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0])
+              navToMain(jsonUser.roles[0]);
+            }
+            else {
+              Alert.alert(
+                'Warning!',
+                'You are not authorized to access this app. Please login at fullertonconcours.com/login instead',
+                [
+                  {
+                    text: 'Link', onPress: () => {
+                      Linking.openURL('https://fullertonconcours.com/login');
+                    }
+                  }
+                ]
+              )
+            }
           },
           error => {
             Service.errorNetwork(() => {
