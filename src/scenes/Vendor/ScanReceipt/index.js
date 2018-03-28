@@ -56,7 +56,7 @@ class ScanReceipt extends Component {
   componentWillMount() {
     //hide tab bar navigation
     this.props.setVisibleNavVendor(false);
-    
+
     this.setLoadingBar(true);
     if (Platform.OS === 'ios') {
       Camera.checkVideoAuthorizationStatus().then(isAuthorized => {
@@ -112,9 +112,10 @@ class ScanReceipt extends Component {
         }
       },
       error => {
-        this.setLoadingBar(false);  
+        if (Platform.OS = 'android')
+          this.setLoadingBar(false);
         Service.errorNetwork(() => {
-          this.setLoadingBar(false);          
+          this.setLoadingBar(false);
           this.setState({
             scanSuccessfull: false
           })
