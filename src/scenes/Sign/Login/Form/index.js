@@ -29,8 +29,8 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: 'testuser@protege.sg',
-      password: 'Q1aG5b',
+      email: '',
+      password: '',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false,
@@ -127,7 +127,8 @@ class LoginScreen extends Component {
             if (isRole) {
               AsyncStorage.setItem('USER_ACCOUNT', JSON.stringify(bodyData))
               insertRoleInfo(jsonUser) //use redux to manage data
-              AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0])
+              AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0]);
+              this.props.VendorReset();
               navToMain(jsonUser.roles[0]);
             }
             else {
@@ -191,7 +192,8 @@ class LoginScreen extends Component {
 
 const mapDispatchToProp = dispatch => ({
   navToMain: (routeName) => dispatch({ type: 'Reset', routeName: routeName }),
-  insertRoleInfo: (info) => dispatch(insertRoleInfo(info))
+  insertRoleInfo: (info) => dispatch(insertRoleInfo(info)),
+  VendorReset: () => dispatch({ type: 'VendorReset' })
 });
 
 export default connect(null, mapDispatchToProp)(LoginScreen);
