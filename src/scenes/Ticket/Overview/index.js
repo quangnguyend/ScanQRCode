@@ -142,6 +142,7 @@ class Overview extends Component {
         this.navigate(routeName, { ...data, title: 'VIEW INFO' })
       },
       error => {
+        this.setLoadingBar(false);  
         Service.errorNetwork(() => {
           this.setLoadingBar(false);
         });
@@ -177,6 +178,7 @@ class Overview extends Component {
       },
       error => {
         console.error(error);
+        this.setLoadingBar(false);  
         Service.errorNetwork(() => {
           this.setLoadingBar(false);
         });
