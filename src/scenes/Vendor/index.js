@@ -27,15 +27,12 @@ class VendorNavigationState extends Component {
     super(props)
   }
 
-  componentWillMount() {
-    this.props.navigation.setParams({ visibleNav: this.props.isShowNav })
-  }
-
-  componentWillReceiveProps(nextProps) {
+  shouldComponentUpdate(nextProps) {
     //visibleNav === true is show Nav, === false is hide
-    if (nextProps.isShowNav != this.props.isShowNav) {
+    if (nextProps.isShowNav !== this.props.isShowNav) {
       this.props.navigation.setParams({ visibleNav: nextProps.isShowNav });
     }
+    return true;
   }
 
   render() {
