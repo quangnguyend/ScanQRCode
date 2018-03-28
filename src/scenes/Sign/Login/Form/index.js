@@ -25,7 +25,6 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      //email: 'ticketscanner1@protege.sg',
       email: 'scanadmin1@protege.sg',
       password: 'Q1aG5b',
       emailInValid: false,
@@ -83,6 +82,10 @@ class LoginScreen extends Component {
     }
   }
 
+  componentWillUnmount(){
+    this.setLoadingProgress(false);
+  }
+
   _renderError = () => {
     const { emailInValid, passIsEmpty, emailIsEmpty, errMess } = this.state;
     return (
@@ -122,14 +125,22 @@ class LoginScreen extends Component {
             navToMain(jsonUser.roles[0]);
           },
           error => {
-            this.setLoadingProgress(false);
-            Service.errorNetwork();
+            Service.errorNetwork(() => {
+              this.setLoadingProgress(false);
+              this.setState({
+                isLoginOldAccount: false
+              })
+            });
             return;
           });
       },
       error => {
-        this.setLoadingProgress(false);
-        Service.errorNetwork();
+        Service.errorNetwork(() => {
+          this.setLoadingProgress(false);
+          this.setState({
+            isLoginOldAccount: false
+          })
+        });
       });
   }
 

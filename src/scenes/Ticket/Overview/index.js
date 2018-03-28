@@ -55,7 +55,6 @@ class Overview extends Component {
       let { events, days } = scannerData;
       let _propsDropdown = { ...this.state.propsDropdown };
       _propsDropdown.options = events[date];
-
       this.setState({
         events: events,
         minDate: days[0].value,
@@ -63,8 +62,7 @@ class Overview extends Component {
         propsDropdown: _propsDropdown,
         selectedOption: currentEvent,
         currentEvent: currentEvent,
-        date: date,
-        loading: false
+        date: date
       })
     }
   }
@@ -99,13 +97,9 @@ class Overview extends Component {
     })
   }
 
-  componentWillMount() {
-    this.setLoadingBar(true);
+  componentDidMount() {
     this.loadData();
     this.checkKeyboardOnShowHide();
-    this.props.navigation.addListener('willBlur', () => {
-      console.log('adminBackHome')
-    })
   }
 
   componentWillUnmount() {
@@ -148,8 +142,9 @@ class Overview extends Component {
         this.navigate(routeName, { ...data, title: 'VIEW INFO' })
       },
       error => {
-        this.setLoadingBar(false);
-        Service.errorNetwork();
+        Service.errorNetwork(() => {
+          this.setLoadingBar(false);
+        });
         console.error(error)
       }
     )
@@ -182,8 +177,9 @@ class Overview extends Component {
       },
       error => {
         console.error(error);
-        this.setLoadingBar(false);
-        Service.errorNetwork();
+        Service.errorNetwork(() => {
+          this.setLoadingBar(false);
+        });
       }
     )
   }
@@ -249,6 +245,7 @@ class Overview extends Component {
   }
 
   _getEvents = async () => {
+    this.setLoadingBar(true);
     Service.getMethod('scanner-data',
       data => {
         let days = data.days;
@@ -265,7 +262,9 @@ class Overview extends Component {
       },
       error => {
         console.error(error);
-        Service.errorNetwork();
+        Service.errorNetwork(() => {
+          this.setLoadingBar(false);
+        });
       }
     )
   }
