@@ -28,17 +28,11 @@ export default class Collection extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentTime: '',
       data: null
     }
   }
 
-  componentWillMount() {
-    let dateTime = new Date();
-    this.setState({
-      currentTime: moment(dateTime).format('Do MMMM YYYY HH:mm').toString()
-    })
-
+  componentDidMount() {
     const { params } = this.props.navigation.state;
     let body = {
       "code": params.code,
@@ -48,6 +42,10 @@ export default class Collection extends Component {
       this.setState({
         data: data
       })
+    }, error => {
+      Service.errorNetwork(() => {
+        this.props.navigation.goBack(null);
+      });
     })
   }
 

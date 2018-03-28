@@ -123,8 +123,8 @@ class Scanner extends Component {
         }
       },
       error => {
-        this.setLoadingBar(false);
         Service.errorNetwork(() => {
+          this.setLoadingBar(false);
           this.setState({
             scanSuccessfull: false
           })
