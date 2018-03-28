@@ -29,8 +29,8 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: 'ticketscanner1@protege.sg',
-      password: 'Q1aG5b',
+      email: '',
+      password: '',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false,
