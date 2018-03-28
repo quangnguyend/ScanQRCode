@@ -2,7 +2,8 @@ import * as types from "../scenes/Sign/actions/typesActions"
 
 const initialState = {
 	info: {},
-	activeScan: ''
+	activeScan: '',
+	showNavVendor: true
 }
 
 const userInfo = (state = initialState, action) => {
@@ -19,6 +20,13 @@ const userInfo = (state = initialState, action) => {
 				activeScan: action.action
 			})
 		}
+		case types.SET_VISIBLE_NAV_VENDOR:
+			{
+				return ({
+					...state,
+					showNavVendor: action.action
+				})
+			}
 		default:
 			return state
 	}
