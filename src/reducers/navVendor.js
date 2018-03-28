@@ -6,7 +6,6 @@ function nav(state, action) {
   let nextState;
   switch (action.type) {
     case 'VendorNavigate':
-      console.log(action)    
       nextState = vendorStack.router.getStateForAction(
         NavigationActions.navigate({
           routeName: action.routeName,

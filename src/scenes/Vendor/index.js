@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Platform, Image } from 'react-native';
 import { connect } from 'react-redux';
@@ -6,21 +6,37 @@ import { addNavigationHelpers } from 'react-navigation';
 import { addListener } from '../../utils/reduxNavVendor';
 import VendorStack from './stackVendorNav';
 
-class VendorNavigationState extends React.Component {
-  static navigationOptions = {
+class VendorNavigationState extends Component {
+  static navigationOptions = ({ navigation }) => ({
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../assets/images/ticket.png')}
         style={styles.iconStyle}
         resizeMode={'contain'}
       />
-    )
-  }
+    ),
+    tabBarVisible: (navigation.state.params != undefined) ? navigation.state.params.visibleNav : true
+  })
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     navVendor: PropTypes.object.isRequired,
   };
+
+  constructor(props) {
+    super(props)
+  }
+
+  componentWillMount() {
+    this.props.navigation.setParams({ visibleNav: this.props.isShowNav })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    //visibleNav === true is show Nav, === false is hide
+    if (nextProps.isShowNav != this.props.isShowNav) {
+      this.props.navigation.setParams({ visibleNav: nextProps.isShowNav });
+    }
+  }
 
   render() {
     const { dispatch, navVendor } = this.props;
@@ -39,6 +55,7 @@ class VendorNavigationState extends React.Component {
 
 const mapStateToProps = state => ({
   navVendor: state.navVendor,
+  isShowNav: state.userReducer.showNavVendor
 });
 
 export default connect(mapStateToProps)(VendorNavigationState);

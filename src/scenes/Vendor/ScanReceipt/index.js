@@ -16,7 +16,7 @@ import Header from './header';
 import Service from '../../../services/api';
 import { connect } from 'react-redux';
 import { Loading } from './../../../components';
-
+import { setVisibleNavVendor } from '../../Sign/actions';
 
 class ScanReceipt extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -54,6 +54,9 @@ class ScanReceipt extends Component {
   }
 
   componentWillMount() {
+    //hide tab bar navigation
+    this.props.setVisibleNavVendor(false);
+    
     this.setLoadingBar(true);
     if (Platform.OS === 'ios') {
       Camera.checkVideoAuthorizationStatus().then(isAuthorized => {
@@ -66,7 +69,6 @@ class ScanReceipt extends Component {
       })
     } else if (Platform.OS === 'android') {
       PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA).then(rs => {
-        console.log(rs)
         if (!rs) {
           this.requestCameraPermission();
         }
@@ -81,8 +83,9 @@ class ScanReceipt extends Component {
   }
 
   componentWillUnmount() {
-    console.log('Scan Unmount');
     this.setLoadingBar(false);
+    //show tab bar navigation
+    this.props.setVisibleNavVendor(true);
   }
 
   setLoadingBar = (value) => {
@@ -168,7 +171,8 @@ class ScanReceipt extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'VendorNavigate', ...{ routeName: routeName, params: params } })
+  navigate: (routeName, params) => dispatch({ type: 'VendorNavigate', ...{ routeName: routeName, params: params } }),
+  setVisibleNavVendor: (value) => dispatch(setVisibleNavVendor(value))
 });
 
 export default connect(null, mapDispatchToProp)(ScanReceipt);

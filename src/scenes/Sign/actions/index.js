@@ -9,3 +9,8 @@ export const setActionScanner = (action) => ({
   type: types.SET_ACTION_SCANNER,
   action
 })
+
+export const setVisibleNavVendor = (action) => ({
+  type: types.SET_VISIBLE_NAV_VENDOR,
+  action
+})
