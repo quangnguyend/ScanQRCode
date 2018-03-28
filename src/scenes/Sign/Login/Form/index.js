@@ -29,8 +29,8 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      email: 'testuser@protege.sg',
+      password: 'Q1aG5b',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false,
@@ -123,8 +123,9 @@ class LoginScreen extends Component {
           jsonUser => {
             let currentRole = jsonUser.roles[0];
             let isRole = _.includes(rolesAccept, currentRole);
-            this.setLoadingProgress(false);
+            
             if (isRole) {
+              this.setLoadingProgress(false);
               AsyncStorage.setItem('USER_ACCOUNT', JSON.stringify(bodyData))
               insertRoleInfo(jsonUser) //use redux to manage data
               AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0]);
@@ -132,12 +133,18 @@ class LoginScreen extends Component {
               navToMain(jsonUser.roles[0]);
             }
             else {
+              if(Platform.OS === 'android')
+                this.setLoadingProgress(false);
               Alert.alert(
                 'Warning!',
                 'You are not authorized to access this app. Please login at fullertonconcours.com/login instead',
                 [
+                  { text: 'Cancel', onPress: () => {
+                    this.setLoadingProgress(false);
+                  } },
                   {
                     text: 'Link', onPress: () => {
+                      this.setLoadingProgress(false);
                       Linking.openURL('https://fullertonconcours.com/login');
                     }
                   }
