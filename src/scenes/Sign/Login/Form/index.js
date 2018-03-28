@@ -29,8 +29,8 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      email: 'ticketscanner1@protege.sg',
+      password: 'Q1aG5b',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false,
@@ -155,7 +155,7 @@ class LoginScreen extends Component {
             }
           },
           error => {
-            if (Platform.OS == 'android')
+            if (Platform.OS === 'android')
               this.setLoadingBar(false);
             Service.errorNetwork(() => {
               this.setLoadingProgress(false);
@@ -164,11 +164,11 @@ class LoginScreen extends Component {
           });
       },
       error => {
-        if (Platform.OS == 'android')
-          this.setLoadingBar(false);
         Service.errorNetwork(() => {
           this.setLoadingProgress(false);
         });
+        if (Platform.OS === 'android')
+          this.setLoadingBar(false);
       });
   }
   render() {
