@@ -78,8 +78,9 @@ class VendorOverview extends Component {
       },
       error => {
         console.log(error);
-        this.setLoadingBar(true);
-        Service.errorNetwork();
+        Service.errorNetwork(() => {
+          this.setLoadingBar(true);
+        });
       }
     )
   }

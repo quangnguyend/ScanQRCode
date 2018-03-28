@@ -25,8 +25,8 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: 'scanadmin1@protege.sg',
-      password: 'Q1aG5b',
+      email: '',
+      password: '',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false,
@@ -49,7 +49,10 @@ class LoginScreen extends Component {
   }
 
   setLoadingProgress = (loading) => {
-    this.setState({ loading });
+    if (!loading)
+      this.setState({ loading, isLoginOldAccount: false });
+    else
+      this.setState({ loading });
   }
 
   onPress = (e) => {
@@ -80,10 +83,6 @@ class LoginScreen extends Component {
     } else {
       return false;
     }
-  }
-
-  componentWillUnmount(){
-    this.setLoadingProgress(false);
   }
 
   _renderError = () => {
@@ -127,9 +126,6 @@ class LoginScreen extends Component {
           error => {
             Service.errorNetwork(() => {
               this.setLoadingProgress(false);
-              this.setState({
-                isLoginOldAccount: false
-              })
             });
             return;
           });
@@ -137,13 +133,9 @@ class LoginScreen extends Component {
       error => {
         Service.errorNetwork(() => {
           this.setLoadingProgress(false);
-          this.setState({
-            isLoginOldAccount: false
-          })
         });
       });
   }
-
   render() {
     const { isLoginOldAccount } = this.state;
     if (!isLoginOldAccount) {
