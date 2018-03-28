@@ -79,7 +79,7 @@ class VendorOverview extends Component {
       error => {
         console.log(error);
         Service.errorNetwork(() => {
-          this.setLoadingBar(true);
+          this.setLoadingBar(false);
         });
       }
     )
