@@ -12,9 +12,8 @@ import moment from 'moment';
 import { TextCustom, ButtonCustom, Loading } from '../../../components';
 import { connect } from 'react-redux';
 import Header from './header';
-import Services from '../../../services/api';
 
-export default class Collection extends Component {
+class Collection extends Component {
   static navigationOptions = {
     header: (props) => <Header {...props} />,
     tabBarIcon: ({ tintColor }) => (
@@ -34,29 +33,28 @@ export default class Collection extends Component {
 
   componentDidMount() {
     const { params } = this.props.navigation.state;
+    console.log(this.props)
     let body = {
       "code": params.code,
       "action": "purchaseCollect"
     }
-    Services.postMethod('scan', body, data => {
+    this.props.postApi('scan', body, (err, data) => {
+      if (err) {
+        this.props.goBack();
+        return;
+      }
       this.setState({
         data: data
       })
-    }, error => {
-      Service.errorNetwork(() => {
-        this.props.navigation.goBack(null);
-      });
     })
   }
 
   render() {
-    const { currentTime, data } = this.state;
+    const { data } = this.state;
     const { params } = this.props.navigation.state;
     if (!data) {
       return (
-        <View>
-          <Loading loading={!data ? true : false} />
-        </View>
+        <View></View>
       )
     } else
       return (
@@ -108,6 +106,13 @@ export default class Collection extends Component {
       )
   }
 }
+
+const mapDispatchToProp = dispatch => ({
+  postApi: (endPoint, body, callback) => dispatch({ type: 'POST_TODO_DATA', endPoint: endPoint, body: body, callback }),
+  goBack: () => dispatch({ type: 'VendorGoBack' })
+});
+
+export default connect(null, mapDispatchToProp)(Collection);
 
 const styles = StyleSheet.create({
   container: {

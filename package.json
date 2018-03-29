@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "built-release":"cd android && ./gradlew assembleRelease",
+    "built-release": "cd android && ./gradlew assembleRelease",
     "test": "jest",
     "postinstall": "./rmCameraFace.sh"
   },
@@ -20,7 +20,8 @@
     "react-navigation-redux-helpers": "^1.0.3",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "superagent": "^3.8.2"
   },
   "devDependencies": {
     "babel-jest": "23.0.0-alpha.0",

@@ -14,7 +14,6 @@ import {
 import Camera from 'react-native-camera';
 import Header from './header';
 import { Loading } from '../../../components';
-import Service from '../../../services/api';
 import { connect } from 'react-redux';
 
 
@@ -92,13 +91,17 @@ class Scanner extends Component {
 
   //call api
   getData = async (body) => {
-    const { userInfo } = this.props;
+    const { userInfo, postApi } = this.props;
     const role = userInfo.roles[0];
     const routeName = (role === 'scanAdmin') ? 'ScanResultAdmin' : 'ScanResult';
 
     const { actionScan } = this.props;
-    const fetchInfo = await Service.postMethod('scan', body,
-      data => {
+    const fetchInfo = await postApi('scan', body,
+      (err, data) => {
+        if (err) {
+          this.navigate('scanAdmin');
+          return;
+        }
         switch (actionScan) {
           case 'ticketEnter':
             if (data.appError) {
@@ -121,16 +124,6 @@ class Scanner extends Component {
             } else this.navigate(routeName, { ...data, title: 'VIEW INFO' })
             break;
         }
-      },
-      error => {
-        if (Platform.OS == 'android')
-          this.setLoadingBar(false);
-        Service.errorNetwork(() => {
-          this.setLoadingBar(false);
-          this.setState({
-            scanSuccessfull: false
-          })
-        });
       }
     )
   }
@@ -167,7 +160,6 @@ class Scanner extends Component {
     if (this.state.isAuth) {
       return (
         <View style={styles.container}>
-          <Loading showTextLoading={true} loading={this.state.loading} />
           <Image
             source={require('../../../assets/images/qr-codescreen.png')}
             style={styles.imageBackground}
@@ -197,7 +189,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } }),
+  postApi: (endPoint, body, callback) => dispatch({ type: 'POST_TODO_DATA', endPoint: endPoint, body: body, callback })
 });
 
 export default connect(mapStateToProps, mapDispatchToProp)(Scanner);

@@ -5,6 +5,11 @@ import vendorStack from '../scenes/Vendor/stackVendorNav';
 function nav(state, action) {
   let nextState;
   switch (action.type) {
+    case 'VendorGoBack':
+      nextState = vendorStack.router.getStateForAction(
+        NavigationActions.back({ key: null })
+      );
+      break;
     case 'VendorNavigate':
       nextState = vendorStack.router.getStateForAction(
         NavigationActions.navigate({
