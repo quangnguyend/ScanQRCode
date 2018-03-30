@@ -4,7 +4,8 @@ import {
   StyleSheet,
   FlatList,
   Image,
-  Platform
+  Platform,
+  ScrollView
 } from 'react-native';
 
 import moment from 'moment';
@@ -61,49 +62,51 @@ export default class Collection extends Component {
     } else
       return (
         <View style={styles.container}>
+          <ScrollView showsVerticalScrollIndicator={false}>
 
-          {/* Title */}
-          <TextCustom styleC={styles.title}>PURCHASE COLLECTED!</TextCustom>
+            {/* Title */}
+            <TextCustom styleC={styles.title}>PURCHASE COLLECTED!</TextCustom>
 
-          {/* Section 1 */}
-          <TextCustom styleC={styles.infoLable}>Purchased By:
+            {/* Section 1 */}
+            <TextCustom styleC={styles.infoLable}>Purchased By:
           <TextCustom styleC={{ fontStyle: 'italic' }}>
-              {'  ' + data.purchasedBy.toString()}
+                {'  ' + data.purchasedBy.toString()}
+              </TextCustom>
             </TextCustom>
-          </TextCustom>
-          <TextCustom styleC={styles.infoLable}>Receipt ID:
+            <TextCustom styleC={styles.infoLable}>Receipt ID:
         <TextCustom styleC={{ fontStyle: 'italic' }}>
-              {'  ' + params.code}
+                {'  ' + params.code}
+              </TextCustom>
             </TextCustom>
-          </TextCustom>
-          <TextCustom styleC={styles.infoLable}>Purchased Time:
+            <TextCustom styleC={styles.infoLable}>Purchased Time:
         <TextCustom styleC={{ fontStyle: 'italic' }}>
-              {'  ' + data.purchaseTime.toString()}
+                {'  ' + data.purchaseTime.toString()}
+              </TextCustom>
             </TextCustom>
-          </TextCustom>
 
-          {/* Section 2 */}
-          <TextCustom styleC={styles.titleS2}>PURCHASES</TextCustom>
-          <View>
-            <FlatList
-              style={styles.listView}
-              data={data.items}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) =>
-                <View style={{ flexDirection: 'row' }}>
-                  <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>{item.details}</TextCustom>
-                  <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
-                </View>
-              }
-            />
-          </View>
+            {/* Section 2 */}
+            <TextCustom styleC={styles.titleS2}>PURCHASES</TextCustom>
+            <View>
+              <FlatList
+                style={styles.listView}
+                data={data.items}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) =>
+                  <View style={{ flexDirection: 'row' }}>
+                    <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>{item.details}</TextCustom>
+                    <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
+                  </View>
+                }
+              />
+            </View>
 
-          {/* Section 3 */}
-          <View style={{ flexDirection: 'row' }}>
-            <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>TOTAL CHARGED</TextCustom>
-            <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{data.total}</TextCustom>
-          </View>
-          <TextCustom styleC={styles.labelBottom} >Bill includes 7% GST</TextCustom>
+            {/* Section 3 */}
+            <View style={{ flexDirection: 'row' }}>
+              <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>TOTAL CHARGED</TextCustom>
+              <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{data.total}</TextCustom>
+            </View>
+            <TextCustom styleC={styles.labelBottom} >Bill includes 7% GST</TextCustom>
+          </ScrollView>
         </View>
       )
   }
@@ -112,7 +115,9 @@ export default class Collection extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20
   },
   titleS2: {
     fontSize: 18,

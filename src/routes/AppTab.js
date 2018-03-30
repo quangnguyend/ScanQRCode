@@ -23,7 +23,7 @@ const tabBarOptions = {
   tabBarOptions: {
     showIcon: true,
     style: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: '#FFFFFF',//'#8E7631',
       paddingBottom: 5,
       height: 60
     },
@@ -33,7 +33,14 @@ const tabBarOptions = {
     tabBarIconStyle: {
       paddingTop: 5
     },
-    inactiveBackgroundColor: 'rgba(79, 102, 149, 0.1)' // this option only work on ios
+    //activeBackgroundColor: '#8E7631',
+    inactiveBackgroundColor: 'white', // this option only work on ios
+    //activeTintColor: 'white',
+    //inactiveTintColor: '#DCDCDC',
+    //pressColor: 'white',
+    // indicatorStyle: {
+    //   backgroundColor: 'transparent'
+    // }
   }
 }
 
