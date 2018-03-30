@@ -4,7 +4,8 @@ import {
   Image,
   Alert,
   AsyncStorage,
-  Keyboard
+  Keyboard,
+  ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -340,32 +341,34 @@ class Overview extends Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
-          <TextCustom textAlign={'left'}>SCAN QR CODE</TextCustom>
-          <View style={[styles.row, { paddingBottom: 20 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
-            <ButtonCustom width={100} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn} title={'ENTRY'} />
-            <ButtonCustom width={100} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn} title={'VIEW INFO'} />
-          </View>
-          <TextCustom textAlign={'left'}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
-          <TextInputCustom onChangeText={this.onChangeTextCode} />
-          <View style={[styles.floatRight, { paddingBottom: 20 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
-            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'ENTRY'} />
-            <ButtonCustom width={90} padding={10} fontSize={13} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'VIEW INFO'} />
-          </View>
-          <TextCustom textAlign={'left'}>EVENT YOU ARE SCANNING IN</TextCustom>
-          <TextCustom textAlign={'left'}>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>
-
-          <View style={styles.row}>
-            <View style={[styles.rowItem, { paddingRight: 10 }]}>
-              {this._renderDatePicker()}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <TextCustom textAlign={'left'}>SCAN QR CODE</TextCustom>
+            <View style={[styles.row, { paddingBottom: 20 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
+              <ButtonCustom width={110} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn} styleC={{ marginRight: 10 }} title={'ENTRY'} />
+              <ButtonCustom width={110} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn} styleC={{ marginLeft: 10 }} title={'VIEW INFO'} />
             </View>
-            <View style={[styles.rowItem, { paddingLeft: 10 }]}>
-              {this._renderDopdown()}
+            <TextCustom textAlign={'left'} styleC={{ paddingBottom: 10 }}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
+            <TextInputCustom onChangeText={this.onChangeTextCode} />
+            <View style={[styles.floatRight, { paddingBottom: 20 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
+              <ButtonCustom width={100} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'ENTRY'} />
+              <ButtonCustom width={100} padding={10} fontSize={13} styleC={{ marginLeft: 10 }} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'VIEW INFO'} />
             </View>
-          </View>
+            <TextCustom textAlign={'left'}>EVENT YOU ARE SCANNING IN</TextCustom>
+            <TextCustom textAlign={'left'}>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>
 
-          <View style={styles.floatRight}>
-            <ButtonCustom onPress={this.onSubmitEvent} title={'SUBMIT'} />
-          </View>
+            <View style={styles.row}>
+              <View style={[styles.rowItem, { paddingRight: 10 }]}>
+                {this._renderDatePicker()}
+              </View>
+              <View style={[styles.rowItem, { paddingLeft: 10 }]}>
+                {this._renderDopdown()}
+              </View>
+            </View>
+
+            <View style={styles.floatRight}>
+              <ButtonCustom onPress={this.onSubmitEvent} title={'SUBMIT'} />
+            </View>
+          </ScrollView>
         </View>
         <Loading loading={loading} />
         <View style={{ position: 'absolute', height: 100, bottom: 0 }}>

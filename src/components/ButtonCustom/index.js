@@ -15,7 +15,8 @@ export default class ButtonCustom extends Component {
         fontSize: PropTypes.number,
         padding: PropTypes.number,
         disable: PropTypes.bool,
-        title: PropTypes.string
+        title: PropTypes.string,
+        styleC: PropTypes.any
     }
     static defaultProps = {
         onPress: () => { },
@@ -23,7 +24,8 @@ export default class ButtonCustom extends Component {
         fontSize: 14,
         padding: 15,
         backgroundColor: '#8E7631',
-        title: 'Buttom'
+        title: 'Buttom',
+        styleC:{}
     }
     constructor(props) {
         super(props)
@@ -34,11 +36,11 @@ export default class ButtonCustom extends Component {
     }
 
     render() {
-        const { width, fontSize, children, padding, disable, title } = this.props;
+        const { width, fontSize, children, padding, disable, title, styleC } = this.props;
         let bColor = disable ? '#918B81' : '#8E7631';
         return (
             <View>
-                <TouchableHighlight underlayColor={'#686156'} style={[styles.button, { width: width, padding: padding, backgroundColor: bColor }]} onPress={this.onPress}>
+                <TouchableHighlight underlayColor={'#686156'} style={[styles.button, { width: width, padding: padding, backgroundColor: bColor }, styleC]} onPress={this.onPress}>
                     <Text style={{ fontSize: fontSize, color: '#FFFFFF' }}>{title}</Text>
                 </TouchableHighlight>
             </View >
@@ -51,9 +53,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#8E7631',
         padding: 15,
         borderRadius: 5,
-        alignItems: 'center',
-        marginLeft: 10,
-        marginRight: 10
+        alignItems: 'center'
     }
 })
 

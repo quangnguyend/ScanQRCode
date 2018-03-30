@@ -9,7 +9,7 @@ let style = StyleSheet.create({
         height: 40,
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 2,
+        borderWidth: 1.5,
         borderColor: '#8E7631',
         borderRadius: 5
     },

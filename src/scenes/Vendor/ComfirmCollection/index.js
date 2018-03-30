@@ -6,7 +6,8 @@ import {
   FlatList,
   SectionList,
   Image,
-  Platform
+  Platform,
+  ScrollView
 } from 'react-native';
 
 import { TextCustom, ButtonCustom } from '../../../components';
@@ -43,29 +44,31 @@ class ComfirmCollection extends Component {
     const { params } = this.props.navigation.state;
     return (
       <View style={styles.container}>
-        <TextCustom styleC={styles.title}>PURCHASES ON RECEIPT</TextCustom>
-        <View style={styles.row}>
-          <ButtonCustom width={120} onPress={this.onCancel} title={'CANCEL'} />
-          <ButtonCustom width={120} onPress={this.viewCollected} title={'COLLECTED'} />
-        </View>
-        <View>
-          <FlatList
-            style={styles.listView}
-            data={params.items}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) =>
-              <View style={{ flexDirection: 'row' }}>
-                <TextCustom styleC={[{ width: '70%' }, styles.textPadding]}>{item.details}</TextCustom>
-                <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
-              </View>
-            }
-          />
-        </View>
-        <View style={{ flexDirection: 'row' }}>
-          <TextCustom styleC={{ width: '70%', textAlign: 'left' }}>TOTAL CHARGED</TextCustom>
-          <TextCustom styleC={{ width: '30%', textAlign: 'right' }}>{params.total}</TextCustom>
-        </View>
-        <TextCustom styleC={styles.labelBottom} >Bill includes 7% GST</TextCustom>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <TextCustom styleC={styles.title}>PURCHASES ON RECEIPT</TextCustom>
+          <View style={styles.row}>
+            <ButtonCustom width={120} styleC={{ marginRight: 10 }} onPress={this.onCancel} title={'CANCEL'} />
+            <ButtonCustom width={120} styleC={{ marginLeft: 10 }} onPress={this.viewCollected} title={'COLLECTED'} />
+          </View>
+          <View>
+            <FlatList
+              style={styles.listView}
+              data={params.items}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) =>
+                <View style={{ flexDirection: 'row' }}>
+                  <TextCustom styleC={[{ width: '70%' }, styles.textPadding]}>{item.details}</TextCustom>
+                  <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
+                </View>
+              }
+            />
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <TextCustom styleC={{ width: '70%', textAlign: 'left' }}>TOTAL CHARGED</TextCustom>
+            <TextCustom styleC={{ width: '30%', textAlign: 'right' }}>{params.total}</TextCustom>
+          </View>
+          <TextCustom styleC={styles.labelBottom} >Bill includes 7% GST</TextCustom>
+        </ScrollView>
       </View>
     )
   }
@@ -80,7 +83,9 @@ export default connect(null, mapDispatchToProp)(ComfirmCollection);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20
   },
   row: {
     flexDirection: 'row',
