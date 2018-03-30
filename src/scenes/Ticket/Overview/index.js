@@ -343,13 +343,13 @@ class Overview extends Component {
         <View style={styles.container}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <TextCustom textAlign={'left'}>SCAN QR CODE</TextCustom>
-            <View style={[styles.row, { paddingBottom: 20 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
+            <View style={[styles.row, { paddingBottom: 40 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
               <ButtonCustom width={110} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn} styleC={{ marginRight: 10 }} title={'ENTRY'} />
               <ButtonCustom width={110} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn} styleC={{ marginLeft: 10 }} title={'VIEW INFO'} />
             </View>
             <TextCustom textAlign={'left'} styleC={{ paddingBottom: 10 }}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
             <TextInputCustom onChangeText={this.onChangeTextCode} />
-            <View style={[styles.floatRight, { paddingBottom: 20 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
+            <View style={[styles.floatRight, { paddingBottom: 40 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
               <ButtonCustom width={100} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'ENTRY'} />
               <ButtonCustom width={100} padding={10} fontSize={13} styleC={{ marginLeft: 10 }} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'VIEW INFO'} />
             </View>
@@ -366,7 +366,7 @@ class Overview extends Component {
             </View>
 
             <View style={styles.floatRight}>
-              <ButtonCustom onPress={this.onSubmitEvent} title={'SUBMIT'} />
+              <ButtonCustom padding={10} fontSize={13} onPress={this.onSubmitEvent} title={'SUBMIT'} />
             </View>
           </ScrollView>
         </View>
