@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     width: '100%',
-    paddingBottom: 25,
+    paddingBottom: 40,
     paddingTop: 25,
     justifyContent: 'center'
   },
