@@ -13,9 +13,7 @@ import { addListener } from '../utils/redux';
 import {
   TicketNavigator,
   ReceiptNavigator,
-  AdminNavigator,
-  TicketResulttNavigator,
-  TicketResulttNavigatorAdmin
+  AdminNavigator
 } from './AppTab';
 
 
@@ -24,10 +22,6 @@ const AppNavigator = StackNavigator({
   Login: { screen: LoginScreen },
   ticketScanner: { screen: TicketNavigator },
   vendor: { screen: ReceiptNavigator },
-  scanAdmin: { screen: AdminNavigator },
-  //LogoutScreen: { screen: LogoutScreen },
-  //ScanResult: { screen: TicketResulttNavigator },
-  //ScanResultAdmin: { screen: TicketResulttNavigatorAdmin },
-  //Entry: { screen: EntryScreen }
+  scanAdmin: { screen: AdminNavigator }
 });
 export default AppNavigator;

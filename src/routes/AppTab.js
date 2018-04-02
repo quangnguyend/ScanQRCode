@@ -76,34 +76,6 @@ export const TicketNavigator = TabNavigator({
   Logout: logoutTab
 }, tabBarOptions)
 
-export const TicketResulttNavigator = TabNavigator({
-  ScanResult: {
-    screen: ScanResult,
-    navigationOptions: {
-      tabBarLabel: 'TICKET',
-    }
-  },
-  Logout: logoutTab
-}, tabBarOptions);
-
-export const TicketResulttNavigatorAdmin = TabNavigator({
-  ScanResult: {
-    screen: ScanResult,
-    navigationOptions: {
-      tabBarLabel: 'TICKET',
-    }
-  },
-  Receipt: {
-    screen: vendorNav,
-    navigationOptions: {
-      title: 'RECEIPT SCANNER',
-      tabBarLabel: 'RECEIPT',
-      header: null
-    }
-  },
-  Logout: logoutTab
-}, tabBarOptions);
-
 export const ReceiptNavigator = TabNavigator({
   Receipt: {
     screen: vendorNav,
