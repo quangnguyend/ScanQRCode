@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
-import TicketScreen from '../scenes/Ticket/Overview';
+import {Ticket} from '../scenes/Ticket';
 import Logout from '../scenes/Sign/Logout';
 import ScanResult from '../scenes/Ticket/ScanResult';
 import vendorNav from '../scenes/Vendor';

@@ -25,9 +25,9 @@ const AppNavigator = StackNavigator({
   ticketScanner: { screen: TicketNavigator },
   vendor: { screen: ReceiptNavigator },
   scanAdmin: { screen: AdminNavigator },
-  LogoutScreen: { screen: LogoutScreen },
-  ScanResult: { screen: TicketResulttNavigator },
-  ScanResultAdmin: { screen: TicketResulttNavigatorAdmin },
-  Entry: { screen: EntryScreen }
+  //LogoutScreen: { screen: LogoutScreen },
+  //ScanResult: { screen: TicketResulttNavigator },
+  //ScanResultAdmin: { screen: TicketResulttNavigatorAdmin },
+  //Entry: { screen: EntryScreen }
 });
 export default AppNavigator;
