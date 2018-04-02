@@ -103,12 +103,12 @@ class Overview extends Component {
 
   onEntry = () => {
     this.props.setActionScanner('ticketEnter');
-    this.navigate('Entry', { eventCode: this.state.currentEvent.value });
+    this.navigate('Scanner', { eventCode: this.state.currentEvent.value });
   }
 
   onViewInfo = () => {
     this.props.setActionScanner('ticketInfo');
-    this.navigate('Entry', { eventCode: this.state.currentEvent.value });
+    this.navigate('Scanner', { eventCode: this.state.currentEvent.value });
   }
 
   //**QR CODE */
@@ -126,10 +126,10 @@ class Overview extends Component {
       (err, data) => {
         this.props.setActionScanner('ticketInfo');
         if (data.message === 'Ticket code invalid') {
-          this.navigate(routeName, { ...data, title: 'INVALID TICKET' })
+          this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
           return;
         }
-        this.navigate(routeName, { ...data, title: 'VIEW INFO' })
+        this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
       }
     )
   }
@@ -145,14 +145,14 @@ class Overview extends Component {
         this.props.setActionScanner('ticketEnter');
         if (data.appError) {
           //if ENTRY REJECTED
-          this.navigate(routeName, { ...data, title: 'ENTRY REJECTED', ...prams })
+          this.navigate('ScanResult', { ...data, title: 'ENTRY REJECTED', ...prams })
         } else {
           //if ENTRY ACCEPTED
           if (data.status && data.status === 400) {
-            this.navigate(routeName, { ...data, title: 'INVALID TICKET', ...prams })
+            this.navigate('ScanResult', { ...data, title: 'INVALID TICKET', ...prams })
           }
           else {
-            this.navigate(routeName, { ...data, title: 'ENTRY ACCEPTED', ...prams })
+            this.navigate('ScanResult', { ...data, title: 'ENTRY ACCEPTED', ...prams })
           }
         }
       }
@@ -332,7 +332,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } }),
+  navigate: (routeName, params) => dispatch({ type: 'TicketNavigate', ...{ routeName: routeName, params: params } }),
   setActionScanner: (action) => dispatch(setActionScanner(action)),
   getApi: (endPoint, callback) => dispatch({ type: 'GET_TODO_DATA', endPoint: endPoint, callback }),
   postApi: (endPoint, body, callback) => dispatch({ type: 'POST_TODO_DATA', endPoint: endPoint, body: body, callback })

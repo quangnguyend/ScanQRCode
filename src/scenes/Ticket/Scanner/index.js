@@ -99,7 +99,7 @@ class Scanner extends Component {
     const fetchInfo = await postApi('scan', body,
       (err, data) => {
         if (err) {
-          this.navigate('scanAdmin');
+          this.navigate('Overview');
           return;
         }
         switch (actionScan) {
@@ -107,21 +107,21 @@ class Scanner extends Component {
             if (data.appError) {
 
               //if ENTRY REJECTED
-              this.navigate(routeName, { ...data, title: 'ENTRY REJECTED' })
+              this.navigate('ScanResult', { ...data, title: 'ENTRY REJECTED' })
             } else {
               //if ENTRY ACCEPTED
               if (data.status && data.status === 400) {
-                this.navigate(routeName, { ...data, title: 'INVALID TICKET' })
+                this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
               }
               else {
-                this.navigate(routeName, { ...data, title: 'ENTRY ACCEPTED' })
+                this.navigate('ScanResult', { ...data, title: 'ENTRY ACCEPTED' })
               }
             }
             break;
           case 'ticketInfo':
             if (data.message === 'Ticket code invalid') {
-              this.navigate(routeName, { ...data, title: 'INVALID TICKET' })
-            } else this.navigate(routeName, { ...data, title: 'VIEW INFO' })
+              this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
+            } else this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
             break;
         }
       }
@@ -189,7 +189,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } }),
+  navigate: (routeName, params) => dispatch({ type: 'TicketNavigate', ...{ routeName: routeName, params: params } }),
   postApi: (endPoint, body, callback) => dispatch({ type: 'POST_TODO_DATA', endPoint: endPoint, body: body, callback })
 });
 

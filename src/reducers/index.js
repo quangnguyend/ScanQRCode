@@ -10,7 +10,8 @@ const AppReducer = combineReducers({
   navVendor,
   nav,
   userReducer,
-  loadingIndicator
+  loadingIndicator,
+  navTicket
 });
 
 export default AppReducer;

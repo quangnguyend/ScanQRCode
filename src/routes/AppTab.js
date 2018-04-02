@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
-import {Ticket} from '../scenes/Ticket';
+import { Ticket } from '../scenes/Ticket';
 import Logout from '../scenes/Sign/Logout';
 import ScanResult from '../scenes/Ticket/ScanResult';
 import vendorNav from '../scenes/Vendor';
@@ -52,7 +52,6 @@ const logoutTab = {
               AsyncStorage.removeItem('SCANNER_DATA');
               AsyncStorage.removeItem('CURRENT_EVENT');
               AsyncStorage.removeItem('DATE_EVENT');
-              AsyncStorage.removeItem('USER_ROLE');
               AsyncStorage.removeItem('USER_ACCOUNT')
                 .then(rs => {
                   navigation.dispatch({ type: 'Reset', routeName: 'Login' })
@@ -67,10 +66,11 @@ const logoutTab = {
 
 export const TicketNavigator = TabNavigator({
   Ticket: {
-    screen: TicketScreen,
+    screen: Ticket,
     navigationOptions: {
       title: 'TICKET SCANNER',
       tabBarLabel: 'TICKET',
+      header: null
     }
   },
   Logout: logoutTab
@@ -118,10 +118,11 @@ export const ReceiptNavigator = TabNavigator({
 
 export const AdminNavigator = TabNavigator({
   Ticket: {
-    screen: TicketScreen,
+    screen: Ticket,
     navigationOptions: {
       title: 'TICKET SCANNER',
       tabBarLabel: 'TICKET',
+      header: null
     }
   },
   Receipt: {

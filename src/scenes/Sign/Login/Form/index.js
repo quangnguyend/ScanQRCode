@@ -144,7 +144,6 @@ class LoginScreen extends Component {
           if (role) {
             AsyncStorage.setItem('USER_ACCOUNT', JSON.stringify(bodyData))
             insertRoleInfo(data) //use redux to manage data
-            AsyncStorage.setItem('USER_ROLE', role);
             VendorReset();
             navToMain(role);
           } else {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, Platform, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { addNavigationHelpers } from 'react-navigation';
+import { addListener } from '../../utils/reduxNavTicket';
 
 import Overview from './Overview';
 import Scanner from './Scanner';
@@ -11,15 +12,15 @@ import ScanResult from './ScanResult';
 import { StackNavigator } from 'react-navigation';
 
 export const TicketStack = StackNavigator({
-    Overview:{
-        screen: Overview
-    },
-    Scanner:{
-        screen: Scanner
-    },
-    ScanResult:{
-        screen: ScanResult
-    }
+  Overview: {
+    screen: Overview
+  },
+  Scanner: {
+    screen: Scanner
+  },
+  ScanResult: {
+    screen: ScanResult
+  }
 });
 
 class TicketNavigationState extends Component {
@@ -36,7 +37,7 @@ class TicketNavigationState extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    navVendor: PropTypes.object.isRequired,
+    navTicket: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -50,7 +51,8 @@ class TicketNavigationState extends Component {
       <TicketStack
         navigation={addNavigationHelpers({
           dispatch,
-          state: navTicket
+          state: navTicket,
+          addListener
         })}
       />
     );
@@ -61,7 +63,7 @@ const mapStateToProps = state => ({
   navTicket: state.navTicket
 });
 
-export const  Ticket = connect(mapStateToProps)(TicketNavigationState);
+export const Ticket = connect(mapStateToProps)(TicketNavigationState);
 
 const styles = StyleSheet.create({
   iconStyle: {
