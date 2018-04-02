@@ -51,7 +51,7 @@ export default class ScanResult extends Component {
               <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
                 ENTRY ALLOWED!
               <Text style={{ color: '#FF6666', fontSize: 30, alignSelf: 'center' }}>
-                  {' PLEASE SCAN QR CODE FOR ENTRY TO CONFIRM TICKET ADMISSION \n.'}
+                  {' PLEASE SCAN QR CODE FOR ENTRY TO CONFIRM TICKET ADMISSION. \n'}
                 </Text>
               </Text> :
               <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
@@ -72,7 +72,7 @@ export default class ScanResult extends Component {
             !firstEventEnterOfDay ?
               <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
                 TICKET ADMISSION SUCCESSFUL!
-                <Text style={{ color: '#3377FF', fontSize: 30 }}>{' PLEASE CHECK THAT ATTENDEE HAS A BAND \n'}</Text>
+                <Text style={{ color: '#3377FF', fontSize: 30 }}>{' PLEASE CHECK THAT ATTENDEE HAS A BAND. \n'}</Text>
               </Text>
               :
               <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
