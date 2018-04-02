@@ -58,7 +58,7 @@ export default class ScanResult extends Component {
                 {message.toUpperCase()}
               </Text>
           }
-          {event ? <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom> : null}
+          {event ? <TextCustom paddingTop={20} paddingBottom={40} styleC={{ fontWeight: 'bold'}}>PLACE ENTERED: {event}</TextCustom> : null}
           {ticketId ? <TextCustom >TICKET ID: {ticketId}</TextCustom> : null}
           {ticketHolderName ? <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom> : null}
         </View>
@@ -80,7 +80,7 @@ export default class ScanResult extends Component {
                 <Text style={{ color: '#FF9933', fontSize: 30 }}>{' PASS A WRISTBAND. \n'}</Text>
               </Text>
           }
-          <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
+          <TextCustom paddingTop={20} paddingBottom={40} styleC={{ fontWeight: 'bold'}}>PLACE ENTERED: {event}</TextCustom>
           <TextCustom >TICKET ID: {ticketId}</TextCustom>
           <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom>
         </View>
@@ -101,7 +101,7 @@ export default class ScanResult extends Component {
                   {message.toUpperCase()}
                 </Text>
             }
-            <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
+            <TextCustom paddingTop={20} paddingBottom={40} styleC={{ fontWeight: 'bold'}}>PLACE ENTERED: {event}</TextCustom>
             <TextCustom >TICKET ID: {ticketId}</TextCustom>
             <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom>
           </View>
@@ -111,7 +111,7 @@ export default class ScanResult extends Component {
           <View style={styles.container}>
             <TextCustom paddingBottom={60} fontSize={25}>{ticketName.toUpperCase()}</TextCustom>
             <TextCustom color={'#66CC99'} paddingTop={20} paddingBottom={60} fontSize={34}>{message.toUpperCase()}</TextCustom>
-            <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
+            <TextCustom paddingTop={20} paddingBottom={40} styleC={{ fontWeight: 'bold'}}>PLACE ENTERED: {event}</TextCustom>
             <TextCustom >TICKET ID: {ticketId}</TextCustom>
             <TextCustom >Ticket Holder: {ticketHolderName}</TextCustom>
           </View>
