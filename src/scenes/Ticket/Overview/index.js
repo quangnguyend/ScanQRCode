@@ -119,9 +119,7 @@ class Overview extends Component {
   //call api so get Info
 
   getInfo = async (body) => {
-    const { userInfo, postApi } = this.props;
-    const role = userInfo.roles[0];
-    const routeName = (role === 'scanAdmin') ? 'ScanResultAdmin' : 'ScanResult';
+    const { postApi } = this.props;
     const fetchInfo = await postApi('scan', body,
       (err, data) => {
         this.props.setActionScanner('ticketInfo');
@@ -136,9 +134,7 @@ class Overview extends Component {
 
   //call api so get Entry
   getEntry = async (body) => {
-    const { userInfo, postApi } = this.props;
-    const role = userInfo.roles[0];
-    const routeName = (role === 'scanAdmin') ? 'ScanResultAdmin' : 'ScanResult';
+    const { postApi } = this.props;
     let prams = { eventCode: this.state.currentEvent.value }
     const fetchInfo = await postApi('scan', body,
       (err, data) => {
@@ -327,10 +323,6 @@ class Overview extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  userInfo: state.userReducer.info
-});
-
 const mapDispatchToProp = dispatch => ({
   navigate: (routeName, params) => dispatch({ type: 'TicketNavigate', ...{ routeName: routeName, params: params } }),
   setActionScanner: (action) => dispatch(setActionScanner(action)),
@@ -338,4 +330,4 @@ const mapDispatchToProp = dispatch => ({
   postApi: (endPoint, body, callback) => dispatch({ type: 'POST_TODO_DATA', endPoint: endPoint, body: body, callback })
 });
 
-export default connect(mapStateToProps, mapDispatchToProp)(Overview);
+export default connect(null, mapDispatchToProp)(Overview);

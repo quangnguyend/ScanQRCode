@@ -34,7 +34,6 @@ class Scanner extends Component {
   }
 
   requestCameraPermission = async () => {
-    const { userInfo } = this.props;
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA
@@ -46,7 +45,7 @@ class Scanner extends Component {
         })
       } else {
         this.setState({ loading: false });
-        this.props.navigate(userInfo.roles[0]);
+        this.props.navigate('Overview');
       }
     } catch (err) {
       console.warn(err)
@@ -54,7 +53,6 @@ class Scanner extends Component {
   }
 
   componentWillMount() {
-    const { userInfo } = this.props;
     this.setLoadingBar(true);
     if (Platform.OS === 'ios') {
       Camera.checkVideoAuthorizationStatus().then(isAuthorized => {
@@ -62,7 +60,7 @@ class Scanner extends Component {
           this.setState({ isAuth: true, loading: false });
         } else {
           this.setState({ loading: false });
-          this.props.navigate(userInfo.roles[0]);
+          this.props.navigate('Overview');
         }
       })
     } else if (Platform.OS === 'android') {
@@ -91,10 +89,6 @@ class Scanner extends Component {
 
   //call api
   getData = async (body) => {
-    const { userInfo, postApi } = this.props;
-    const role = userInfo.roles[0];
-    const routeName = (role === 'scanAdmin') ? 'ScanResultAdmin' : 'ScanResult';
-
     const { actionScan } = this.props;
     const fetchInfo = await postApi('scan', body,
       (err, data) => {
@@ -184,8 +178,7 @@ class Scanner extends Component {
 }
 
 const mapStateToProps = state => ({
-  actionScan: state.userReducer.activeScan,
-  userInfo: state.userReducer.info
+  actionScan: state.userReducer.activeScan
 });
 
 const mapDispatchToProp = dispatch => ({
