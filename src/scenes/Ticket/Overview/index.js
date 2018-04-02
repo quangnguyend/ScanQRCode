@@ -8,12 +8,13 @@ import {
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera, Loading } from './../../../components';
 import Service from '../../../services/api';
 import Header from './header';
 import { setActionScanner } from './../../Sign/actions';
-import styles from './styles'
+import styles from './styles';
 
 class Overview extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -339,44 +340,46 @@ class Overview extends Component {
       disableBtn = true;
     }
     return (
-      <View style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-          <TextCustom textAlign={'left'}>EVENT YOU ARE SCANNING IN</TextCustom>
-            <TextCustom textAlign={'left'}>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>
+      <KeyboardAwareScrollView>
+        <View style={{ flex: 1 }}>
+          <View style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+            <TextCustom textAlign={'left'}>EVENT YOU ARE SCANNING IN</TextCustom>
+              <TextCustom textAlign={'left'}>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>
 
-            <View style={styles.row}>
-              <View style={[styles.rowItem, { paddingRight: 10 }]}>
-                {this._renderDatePicker()}
+              <View style={styles.row}>
+                <View style={[styles.rowItem, { paddingRight: 10 }]}>
+                  {this._renderDatePicker()}
+                </View>
+                <View style={[styles.rowItem, { paddingLeft: 10 }]}>
+                  {this._renderDopdown()}
+                </View>
               </View>
-              <View style={[styles.rowItem, { paddingLeft: 10 }]}>
-                {this._renderDopdown()}
+              <View style={[styles.floatRight,{ paddingBottom: 40}]}>
+                <ButtonCustom width={110} padding={10} fontSize={13} onPress={this.onSubmitEvent} title={'SUBMIT'} />
               </View>
-            </View>
-            <View style={[styles.floatRight,{ paddingBottom: 40}]}>
-              <ButtonCustom width={110} padding={10} fontSize={13} onPress={this.onSubmitEvent} title={'SUBMIT'} />
-            </View>
 
 
-            <TextCustom textAlign={'left'}>SCAN QR CODE</TextCustom>
-            <View style={[styles.row, { paddingBottom: 40 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
-              <ButtonCustom width={120} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn} styleC={{ marginRight: 10 }} title={'ENTRY'} />
-              <ButtonCustom width={120} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn} styleC={{ marginLeft: 10 }} title={'VIEW INFO'} />
-            </View>
+              <TextCustom textAlign={'left'}>SCAN QR CODE</TextCustom>
+              <View style={[styles.row, { paddingBottom: 40 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
+                <ButtonCustom width={120} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn} styleC={{ marginRight: 10 }} title={'ENTRY'} />
+                <ButtonCustom width={120} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn} styleC={{ marginLeft: 10 }} title={'VIEW INFO'} />
+              </View>
 
 
-            <TextCustom textAlign={'left'} styleC={{ paddingBottom: 10 }}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
-            <TextInputCustom onChangeText={this.onChangeTextCode} />
-            <View style={[styles.floatRight, { paddingBottom: 40 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
-              <ButtonCustom width={110} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'ENTRY'} />
-              <ButtonCustom width={110} padding={10} fontSize={13} styleC={{ marginLeft: 10 }} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'VIEW INFO'} />
-            </View>
-          </ScrollView>
-        </View>
-        <Loading loading={loading} />
-        <View style={{ position: 'absolute', height: 100, bottom: 0 }}>
-        </View>
-      </View >
+              <TextCustom textAlign={'left'} styleC={{ paddingBottom: 10 }}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
+              <TextInputCustom onChangeText={this.onChangeTextCode} />
+              <View style={[styles.floatRight, { paddingBottom: 40 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
+                <ButtonCustom width={110} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'ENTRY'} />
+                <ButtonCustom width={110} padding={10} fontSize={13} styleC={{ marginLeft: 10 }} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'VIEW INFO'} />
+              </View>
+            </ScrollView>
+          </View>
+          <Loading loading={loading} />
+          <View style={{ position: 'absolute', height: 100, bottom: 0 }}>
+          </View>
+        </View >
+      </KeyboardAwareScrollView>
     )
   }
 }
