@@ -37,7 +37,7 @@ class ComfirmCollection extends Component {
 
   viewCollected = () => {
     const { params } = this.props.navigation.state;
-    this.props.navigate('Collection', params);
+    this.props.navigate('Collection', { ...params, ...{ key: this.props.navigation.state.key } });
   }
 
   render() {

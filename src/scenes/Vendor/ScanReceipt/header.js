@@ -14,21 +14,10 @@ import { connect } from 'react-redux';
 class HeaderCustom extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      user_role: null
-    }
   }
 
   onBack = () => {
     this.props.navToMain('Overview');
-  }
-
-  componentWillMount() {
-    AsyncStorage.getItem('USER_ROLE').then(data => {
-      this.setState({
-        user_role: data
-      })
-    })
   }
 
   componentWillUnmount() {

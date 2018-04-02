@@ -14,21 +14,10 @@ import { connect } from 'react-redux';
 class HeaderCustom extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      user_role: null
-    }
   }
 
   onBack = () => {
-    this.props.navToMain(this.state.user_role);
-  }
-
-  componentWillMount() {
-    AsyncStorage.getItem('USER_ROLE').then(data => {
-      this.setState({
-        user_role: data
-      })
-    })
+    this.props.navToMain('Overview');
   }
 
   render() {
@@ -54,7 +43,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProp = dispatch => ({
-  navToMain: (role) => dispatch({ type: 'Reset', routeName: role })
+  navToMain: (role) => dispatch({ type: 'TicketNavigate', routeName: role })
 });
 
 export default connect(mapStateToProps, mapDispatchToProp)(HeaderCustom);

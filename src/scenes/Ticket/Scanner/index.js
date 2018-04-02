@@ -14,7 +14,6 @@ import {
 import Camera from 'react-native-camera';
 import Header from './header';
 import { Loading } from '../../../components';
-import Service from '../../../services/api';
 import { connect } from 'react-redux';
 
 
@@ -35,7 +34,6 @@ class Scanner extends Component {
   }
 
   requestCameraPermission = async () => {
-    const { userInfo } = this.props;
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA
@@ -47,7 +45,7 @@ class Scanner extends Component {
         })
       } else {
         this.setState({ loading: false });
-        this.props.navigate(userInfo.roles[0]);
+        this.props.navigate('Overview');
       }
     } catch (err) {
       console.warn(err)
@@ -55,7 +53,6 @@ class Scanner extends Component {
   }
 
   componentWillMount() {
-    const { userInfo } = this.props;
     this.setLoadingBar(true);
     if (Platform.OS === 'ios') {
       Camera.checkVideoAuthorizationStatus().then(isAuthorized => {
@@ -63,7 +60,7 @@ class Scanner extends Component {
           this.setState({ isAuth: true, loading: false });
         } else {
           this.setState({ loading: false });
-          this.props.navigate(userInfo.roles[0]);
+          this.props.navigate('Overview');
         }
       })
     } else if (Platform.OS === 'android') {
@@ -92,45 +89,35 @@ class Scanner extends Component {
 
   //call api
   getData = async (body) => {
-    const { userInfo } = this.props;
-    const role = userInfo.roles[0];
-    const routeName = (role === 'scanAdmin') ? 'ScanResultAdmin' : 'ScanResult';
-
     const { actionScan } = this.props;
-    const fetchInfo = await Service.postMethod('scan', body,
-      data => {
+    const fetchInfo = await postApi('scan', body,
+      (err, data) => {
+        if (err) {
+          this.navigate('Overview');
+          return;
+        }
         switch (actionScan) {
           case 'ticketEnter':
             if (data.appError) {
 
               //if ENTRY REJECTED
-              this.navigate(routeName, { ...data, title: 'ENTRY REJECTED' })
+              this.navigate('ScanResult', { ...data, title: 'ENTRY REJECTED' })
             } else {
               //if ENTRY ACCEPTED
               if (data.status && data.status === 400) {
-                this.navigate(routeName, { ...data, title: 'INVALID TICKET' })
+                this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
               }
               else {
-                this.navigate(routeName, { ...data, title: 'ENTRY ACCEPTED' })
+                this.navigate('ScanResult', { ...data, title: 'ENTRY ACCEPTED' })
               }
             }
             break;
           case 'ticketInfo':
             if (data.message === 'Ticket code invalid') {
-              this.navigate(routeName, { ...data, title: 'INVALID TICKET' })
-            } else this.navigate(routeName, { ...data, title: 'VIEW INFO' })
+              this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
+            } else this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
             break;
         }
-      },
-      error => {
-        if (Platform.OS == 'android')
-          this.setLoadingBar(false);
-        Service.errorNetwork(() => {
-          this.setLoadingBar(false);
-          this.setState({
-            scanSuccessfull: false
-          })
-        });
       }
     )
   }
@@ -167,7 +154,6 @@ class Scanner extends Component {
     if (this.state.isAuth) {
       return (
         <View style={styles.container}>
-          <Loading showTextLoading={true} loading={this.state.loading} />
           <Image
             source={require('../../../assets/images/qr-codescreen.png')}
             style={styles.imageBackground}
@@ -192,12 +178,12 @@ class Scanner extends Component {
 }
 
 const mapStateToProps = state => ({
-  actionScan: state.userReducer.activeScan,
-  userInfo: state.userReducer.info
+  actionScan: state.userReducer.activeScan
 });
 
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } })
+  navigate: (routeName, params) => dispatch({ type: 'TicketNavigate', ...{ routeName: routeName, params: params } }),
+  postApi: (endPoint, body, callback) => dispatch({ type: 'POST_TODO_DATA', endPoint: endPoint, body: body, callback })
 });
 
 export default connect(mapStateToProps, mapDispatchToProp)(Scanner);

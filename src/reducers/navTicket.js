@@ -1,25 +1,25 @@
 import { NavigationActions } from 'react-navigation';
 
-import vendorStack from '../scenes/Vendor/stackVendorNav';
+import { TicketStack } from '../scenes/Ticket';
 
 function nav(state, action) {
   let nextState;
   switch (action.type) {
-    case 'VendorGoBack':
-      nextState = vendorStack.router.getStateForAction(
+    case 'TicketGoBack':
+      nextState = TicketStack.router.getStateForAction(
         NavigationActions.back({ key: null })
       );
       break;
-    case 'VendorNavigate':
-      nextState = vendorStack.router.getStateForAction(
+    case 'TicketNavigate':
+      nextState = TicketStack.router.getStateForAction(
         NavigationActions.navigate({
           routeName: action.routeName,
           params: action.params
         })
       );
       break;
-    case 'VendorReset':
-      nextState = vendorStack.router.getStateForAction(
+    case 'TicketReset':
+      nextState = TicketStack.router.getStateForAction(
         NavigationActions.reset({
           index: 0,
           actions: [
@@ -30,7 +30,7 @@ function nav(state, action) {
       );
       break;
     default:
-      nextState = vendorStack.router.getStateForAction(action, state);
+      nextState = TicketStack.router.getStateForAction(action, state);
       break;
   }
   // Simply return the original `state` if `nextState` is null or undefined.
