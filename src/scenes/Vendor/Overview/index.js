@@ -9,7 +9,6 @@ import {
   Keyboard
 } from 'react-native';
 import { TextCustom, TextInputCustom, ButtonCustom, Loading } from './../../../components';
-import Service from '../../../services/api';
 import Header from './header';
 import { connect } from 'react-redux';
 
@@ -66,23 +65,15 @@ class VendorOverview extends Component {
 
   //call api so get Info
   getReceipt = async (body) => {
-
-    this.setLoadingBar(true);
-    const fetchInfo = await Service.postMethod('scan', body,
-      data => {
-        if (data.status === 400 || data.appError) {
-          this.navigate('InvalidPage', data)
-        } else {
-          this.navigate('ComfirmCollection', { ...data, ...body })
+    const fetchInfo = await this.props.postApi('scan', body,
+      (err, data) => {
+        if (data) {
+          if (data.status === 400 || data.appError) {
+            this.navigate('InvalidPage', data)
+          } else {
+            this.navigate('ComfirmCollection', { ...data, ...body })
+          }
         }
-      },
-      error => {
-        console.log(error);
-        if (Platform.OS == 'android')
-          this.setLoadingBar(false);
-        Service.errorNetwork(() => {
-          this.setLoadingBar(false);
-        });
       }
     )
   }
@@ -100,21 +91,10 @@ class VendorOverview extends Component {
     this.getReceipt(body)
   }
 
-  setLoadingBar = (value) => {
-    this.setState({
-      loading: value
-    })
-  }
-
   onChangeTextCode = (text) => {
     this.setState({
       manuallyCode: text
     })
-  }
-
-  componentWillUnmount() {
-    console.log('Overview Unmount');
-    this.setLoadingBar(false);
   }
 
   render() {
@@ -140,7 +120,8 @@ class VendorOverview extends Component {
 }
 
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'VendorNavigate', ...{ routeName: routeName, params: params } })
+  navigate: (routeName, params) => dispatch({ type: 'VendorNavigate', ...{ routeName: routeName, params: params } }),
+  postApi: (endPoint, body, callback) => dispatch({ type: 'POST_TODO_DATA', endPoint: endPoint, body: body, callback })
 });
 
 export default connect(null, mapDispatchToProp)(VendorOverview);

@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera, Loading } from './../../../components';
+import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera } from './../../../components';
 import Service from '../../../services/api';
 import Header from './header';
 import { setActionScanner } from './../../Sign/actions';
@@ -33,7 +33,6 @@ class Overview extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: false,
       date: '',
       manuallyCode: '',
       selectedOption: {},
@@ -51,7 +50,7 @@ class Overview extends Component {
   }
 
   checkAsyncStorage = (scannerData, currentEvent, date) => {
-    if (!scannerData) {
+    if (!scannerData || Object.keys(scannerData).length === 0) {
       this._getEvents();
     } else {
       let { events, days } = scannerData;
@@ -104,20 +103,14 @@ class Overview extends Component {
     this.checkKeyboardOnShowHide();
   }
 
-  componentWillUnmount() {
-    this.setLoadingBar(false);
-  }
-
   onEntry = () => {
-    this.setLoadingBar(true);
     this.props.setActionScanner('ticketEnter');
-    this.navigate('Entry', { eventCode: this.state.currentEvent.value });
+    this.navigate('Scanner', { eventCode: this.state.currentEvent.value });
   }
 
   onViewInfo = () => {
-    this.setLoadingBar(true);
     this.props.setActionScanner('ticketInfo');
-    this.navigate('Entry', { eventCode: this.state.currentEvent.value });
+    this.navigate('Scanner', { eventCode: this.state.currentEvent.value });
   }
 
   //**QR CODE */
@@ -128,64 +121,38 @@ class Overview extends Component {
   //call api so get Info
 
   getInfo = async (body) => {
-    const { userInfo } = this.props;
-    const role = userInfo.roles[0];
-    const routeName = (role === 'scanAdmin') ? 'ScanResultAdmin' : 'ScanResult';
-
-    this.setLoadingBar(true);
-    const fetchInfo = await Service.postMethod('scan', body,
-      data => {
-        this.setLoadingBar(false);
+    const { postApi } = this.props;
+    const fetchInfo = await postApi('scan', body,
+      (err, data) => {
         this.props.setActionScanner('ticketInfo');
         if (data.message === 'Ticket code invalid') {
-          this.navigate(routeName, { ...data, title: 'INVALID TICKET' })
+          this.navigate('ScanResult', { ...data, title: 'INVALID TICKET' })
           return;
         }
-        this.navigate(routeName, { ...data, title: 'VIEW INFO' })
-      },
-      error => {
-        if (Platform.OS == 'android')
-          this.setLoadingBar(false);
-        Service.errorNetwork(() => {
-          this.setLoadingBar(false);
-        });
-        console.error(error)
+        this.navigate('ScanResult', { ...data, title: 'VIEW INFO' })
       }
     )
   }
 
   //call api so get Entry
   getEntry = async (body) => {
-    const { userInfo } = this.props;
-    const role = userInfo.roles[0];
-    const routeName = (role === 'scanAdmin') ? 'ScanResultAdmin' : 'ScanResult';
-
-    this.setLoadingBar(true);
+    const { postApi } = this.props;
     let prams = { eventCode: this.state.currentEvent.value }
-    const fetchInfo = await Service.postMethod('scan', body,
-      data => {
-        this.setLoadingBar(false);
+    const fetchInfo = await postApi('scan', body,
+      (err, data) => {
         this.props.setActionScanner('ticketEnter');
         if (data.appError) {
           //if ENTRY REJECTED
-          this.navigate(routeName, { ...data, title: 'ENTRY REJECTED', ...prams })
+          this.navigate('ScanResult', { ...data, title: 'ENTRY REJECTED', ...prams })
         } else {
           //if ENTRY ACCEPTED
           if (data.status && data.status === 400) {
-            this.navigate(routeName, { ...data, title: 'INVALID TICKET', ...prams })
+            this.navigate('ScanResult', { ...data, title: 'INVALID TICKET', ...prams })
           }
           else {
-            this.navigate(routeName, { ...data, title: 'ENTRY ACCEPTED', ...prams })
+            this.navigate('ScanResult', { ...data, title: 'ENTRY ACCEPTED', ...prams })
           }
         }
-      },
-      error => {
-        console.error(error);
-        if (Platform.OS == 'android')
-          this.setLoadingBar(false);
-        Service.errorNetwork(() => {
-          this.setLoadingBar(false);
-        });
       }
     )
   }
@@ -244,35 +211,17 @@ class Overview extends Component {
     })
   }
 
-  setLoadingBar(value) {
-    this.setState({
-      loading: value
-    })
-  }
-
-  _getEvents = async () => {
-    this.setLoadingBar(true);
-    Service.getMethod('scanner-data',
-      data => {
+  _getEvents = () => {
+    this.props.getApi('scanner-data',
+      (err, data) => {
         let days = data.days;
         let events = data.events;
-
         AsyncStorage.setItem('SCANNER_DATA', JSON.stringify(data))
-
         this.setState({
           events: events,
           minDate: days[0].value,
-          maxDate: days[days.length - 1].value,
-          loading: false
+          maxDate: days[days.length - 1].value
         })
-      },
-      error => {
-        console.error(error);
-        if (Platform.OS == 'android')
-          this.setLoadingBar(false);
-        Service.errorNetwork(() => {
-          this.setLoadingBar(false);
-        });
       }
     )
   }
@@ -334,7 +283,7 @@ class Overview extends Component {
   }
 
   render() {
-    const { currentEvent, date, loading, manuallyCode } = this.state;
+    const { currentEvent, date, manuallyCode } = this.state;
     let disableBtn = false;
     if (currentEvent === null || !currentEvent.label || currentEvent === undefined) {
       disableBtn = true;
@@ -384,13 +333,11 @@ class Overview extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  userInfo: state.userReducer.info
-});
-
 const mapDispatchToProp = dispatch => ({
-  navigate: (routeName, params) => dispatch({ type: 'navigate', ...{ routeName: routeName, params: params } }),
-  setActionScanner: (action) => dispatch(setActionScanner(action))
+  navigate: (routeName, params) => dispatch({ type: 'TicketNavigate', ...{ routeName: routeName, params: params } }),
+  setActionScanner: (action) => dispatch(setActionScanner(action)),
+  getApi: (endPoint, callback) => dispatch({ type: 'GET_TODO_DATA', endPoint: endPoint, callback }),
+  postApi: (endPoint, body, callback) => dispatch({ type: 'POST_TODO_DATA', endPoint: endPoint, body: body, callback })
 });
 
-export default connect(mapStateToProps, mapDispatchToProp)(Overview);
+export default connect(null, mapDispatchToProp)(Overview);

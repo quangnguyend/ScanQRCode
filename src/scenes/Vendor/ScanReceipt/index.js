@@ -12,8 +12,6 @@ import {
 
 import Camera from 'react-native-camera';
 import Header from './header';
-
-import Service from '../../../services/api';
 import { connect } from 'react-redux';
 import { Loading } from './../../../components';
 import { setVisibleNavVendor } from '../../Sign/actions';
@@ -83,7 +81,6 @@ class ScanReceipt extends Component {
   }
 
   componentWillUnmount() {
-    this.setLoadingBar(false);
     //show tab bar navigation
     this.props.setVisibleNavVendor(true);
   }
@@ -101,25 +98,19 @@ class ScanReceipt extends Component {
 
   //call api so get Info
   getReceipt = async (body) => {
-
-    this.setLoadingBar(true);
-    const fetchInfo = await Service.postMethod('scan', body,
-      data => {
-        if (data.status === 400 || data.appError) {
-          this.navigate('InvalidPage', data)
-        } else {
-          this.navigate('ComfirmCollection', { ...data, ...body })
+    const fetchInfo = await this.props.postApi('scan', body,
+      (err, data) => {
+        if (err) {
+          this.navigate('Overview');
+          return;
         }
-      },
-      error => {
-        if (Platform.OS == 'android')
-          this.setLoadingBar(false);
-        Service.errorNetwork(() => {
-          this.setLoadingBar(false);
-          this.setState({
-            scanSuccessfull: false
-          })
-        });
+        if (data) {
+          if (data.status === 400 || data.appError) {
+            this.navigate('InvalidPage', data)
+          } else {
+            this.navigate('ComfirmCollection', { ...data, ...body })
+          }
+        }
       }
     )
   }
@@ -174,7 +165,8 @@ class ScanReceipt extends Component {
 
 const mapDispatchToProp = dispatch => ({
   navigate: (routeName, params) => dispatch({ type: 'VendorNavigate', ...{ routeName: routeName, params: params } }),
-  setVisibleNavVendor: (value) => dispatch(setVisibleNavVendor(value))
+  setVisibleNavVendor: (value) => dispatch(setVisibleNavVendor(value)),
+  postApi: (endPoint, body, callback) => dispatch({ type: 'POST_TODO_DATA', endPoint: endPoint, body: body, callback })
 });
 
 export default connect(null, mapDispatchToProp)(ScanReceipt);

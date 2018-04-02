@@ -29,14 +29,15 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      email: 'scanadmin1@protege.sg',
+      password: 'Q1aG5b',
       emailInValid: false,
       passIsEmpty: false,
       emailIsEmpty: false,
       loading: false,
       errMess: null,
-      isLoginOldAccount: false
+      isLoginOldAccount: false,
+      errNotAuth: false
     }
   }
 
@@ -76,7 +77,8 @@ class LoginScreen extends Component {
       emailInValid: _emailInValid,
       passIsEmpty: _passIsEmpty,
       emailIsEmpty: _emailIsEmpty,
-      errMess: null
+      errMess: null,
+      errNotAuth: false
     })
     if (!_emailInValid) {
       if (_passIsEmpty) {
@@ -90,86 +92,68 @@ class LoginScreen extends Component {
   }
 
   _renderError = () => {
-    const { emailInValid, passIsEmpty, emailIsEmpty, errMess } = this.state;
+    const { emailInValid, passIsEmpty, emailIsEmpty, errMess, errNotAuth } = this.state;
     return (
       <View style={{ marginTop: 10 }}>
         {!emailInValid ? null : (!emailIsEmpty ? <Text style={styles.error}>Invalid Email!</Text> : <Text style={styles.error}>Email is required!</Text>)}
         {!passIsEmpty ? null : <Text style={styles.error}>Password is required!</Text>}
         {errMess ? <Text style={styles.error}>{errMess.charAt(0).toUpperCase() + errMess.slice(1) + '!'}</Text> : null}
+        {
+          errNotAuth ?
+            <Text style={{ color: 'red' }}>
+              You are not authorized to access this app. Please login at{' '}
+              <Text style={{ textDecorationLine: 'underline', color: 'blue' }} onPress={() => {
+                Linking.openURL('https://fullertonconcours.com/login');
+              }}>fullertonconcours.com/login</Text>
+              {' '}instead
+            </Text> : null
+        }
       </View>
     )
   }
 
   callAPI = (_bodyData) => {
-    const { navToMain, insertRoleInfo } = this.props;
-
-    this.setLoadingProgress(true);
+    const { navToMain, insertRoleInfo, postApi, getApi, VendorReset } = this.props;
     const bodyData = _bodyData ? _bodyData :
       {
         username: this.state.email,
         password: this.state.password
       }
 
-    Service.postMethod('users/login', bodyData,
-      json => {
-        if (json.status === 400 || json.status === 401) {
-          this.setLoadingProgress(false);
+    postApi('users/login', bodyData, (err, data) => {
+      if (err && this.state.isLoginOldAccount === true) {
+        this.setState({
+          isLoginOldAccount: false
+        })
+        return;
+      }
+      if (data) {
+        if (data.status === 400 || data.status === 401) {
           this.setState({
-            errMess: json.message
+            errMess: data.message
           })
           return;
         }
-        Service.getMethod('users/me',
-          jsonUser => {
-            let currentRole = jsonUser.roles[0];
-            let isRole = _.includes(rolesAccept, currentRole);
-
-            if (isRole) {
-              this.setLoadingProgress(false);
-              AsyncStorage.setItem('USER_ACCOUNT', JSON.stringify(bodyData))
-              insertRoleInfo(jsonUser) //use redux to manage data
-              AsyncStorage.setItem('USER_ROLE', jsonUser.roles[0]);
-              this.props.VendorReset();
-              navToMain(jsonUser.roles[0]);
-            }
-            else {
-              if (Platform.OS === 'android')
-                this.setLoadingProgress(false);
-              Alert.alert(
-                'Warning!',
-                'You are not authorized to access this app. Please login at fullertonconcours.com/login instead',
-                [
-                  {
-                    text: 'Cancel', onPress: () => {
-                      this.setLoadingProgress(false);
-                    }
-                  },
-                  {
-                    text: 'Link', onPress: () => {
-                      this.setLoadingProgress(false);
-                      Linking.openURL('https://fullertonconcours.com/login');
-                    }
-                  }
-                ]
-              )
-            }
-          },
-          error => {
-            if (Platform.OS === 'android')
-              this.setLoadingBar(false);
-            Service.errorNetwork(() => {
-              this.setLoadingProgress(false);
-            });
-            return;
-          });
-      },
-      error => {
-        Service.errorNetwork(() => {
-          this.setLoadingProgress(false);
-        });
-        if (Platform.OS === 'android')
-          this.setLoadingBar(false);
-      });
+        getApi('users/me', async (err, data) => {
+          let role = null;
+          await _.forEach(data.roles, item => {
+            let isExist = _.includes(rolesAccept, item)
+            if (isExist)
+              return role = item;
+          })
+          if (role) {
+            AsyncStorage.setItem('USER_ACCOUNT', JSON.stringify(bodyData))
+            insertRoleInfo(data) //use redux to manage data
+            VendorReset();
+            navToMain(role);
+          } else {
+            this.setState({
+              errNotAuth: true
+            })
+          }
+        })
+      }
+    });
   }
   render() {
     const { isLoginOldAccount } = this.state;
@@ -206,7 +190,9 @@ class LoginScreen extends Component {
 const mapDispatchToProp = dispatch => ({
   navToMain: (routeName) => dispatch({ type: 'Reset', routeName: routeName }),
   insertRoleInfo: (info) => dispatch(insertRoleInfo(info)),
-  VendorReset: () => dispatch({ type: 'VendorReset' })
+  VendorReset: () => dispatch({ type: 'VendorReset' }),
+  postApi: (endPoint, body, callback) => dispatch({ type: 'POST_TODO_DATA', endPoint: endPoint, body: body, callback }),
+  getApi: (endPoint, callback) => dispatch({ type: 'GET_TODO_DATA', endPoint: endPoint, callback })
 });
 
 export default connect(null, mapDispatchToProp)(LoginScreen);
