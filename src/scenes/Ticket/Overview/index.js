@@ -354,7 +354,7 @@ class Overview extends Component {
               </View>
             </View>
             <View style={[styles.floatRight,{ paddingBottom: 40}]}>
-              <ButtonCustom padding={10} fontSize={13} onPress={this.onSubmitEvent} title={'SUBMIT'} />
+              <ButtonCustom width={110} padding={10} fontSize={13} onPress={this.onSubmitEvent} title={'SUBMIT'} />
             </View>
 
 
