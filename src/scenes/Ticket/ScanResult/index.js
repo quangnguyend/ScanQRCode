@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   Image,
-  Platform
+  Platform,
+  Dimensions
 } from 'react-native';
 
 import { TextCustom } from './../../../components';
@@ -49,8 +50,8 @@ export default class ScanResult extends Component {
             !appError ?
               <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
                 ENTRY ALLOWED!
-              <Text style={{ color: '#FF6666', fontSize: 30 }}>
-                  {' PLEASE SCAN QR CODE FOR ENTRY TO CONFIRM TICKET ADMISSION'}
+              <Text style={{ color: '#FF6666', fontSize: 30, alignSelf: 'center' }}>
+                  {' PLEASE SCAN QR CODE FOR ENTRY TO CONFIRM TICKET ADMISSION \n.'}
                 </Text>
               </Text> :
               <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
@@ -71,12 +72,12 @@ export default class ScanResult extends Component {
             !firstEventEnterOfDay ?
               <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
                 TICKET ADMISSION SUCCESSFUL!
-                <Text style={{ color: '#3377FF', fontSize: 30 }}>{' PLEASE CHECK THAT ATTENDEE HAS A BAND'}</Text>
+                <Text style={{ color: '#3377FF', fontSize: 30 }}>{' PLEASE CHECK THAT ATTENDEE HAS A BAND \n'}</Text>
               </Text>
               :
               <Text style={{ color: '#66CC99', fontSize: 30, textAlign: 'center' }}>
                 TICKET ADMISSION SUCCESSFUL FOR THE FIRST TIME TODAY!
-                <Text style={{ color: '#FF9933', fontSize: 30 }}>{' PASS A WRISTBAND.'}</Text>
+                <Text style={{ color: '#FF9933', fontSize: 30 }}>{' PASS A WRISTBAND. \n'}</Text>
               </Text>
           }
           <TextCustom paddingTop={20} paddingBottom={40}>PLACE ENTERED: {event}</TextCustom>
