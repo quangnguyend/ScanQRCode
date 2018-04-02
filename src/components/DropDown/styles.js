@@ -60,11 +60,11 @@ exports.default = _reactNative.StyleSheet.create({
         maxHeight: 50 / 100 * height
     },
     optionItem: {
-        height: 40,
         borderBottomWidth: 1,
         borderBottomColor: '#a8a7a4',
         alignItems: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        paddingBottom: 7
     },
     arrowIcon: {
         width: 17,
