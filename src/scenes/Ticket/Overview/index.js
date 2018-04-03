@@ -369,13 +369,13 @@ class Overview extends Component {
 
             <TextCustom textAlign={'left'} styleC={{ paddingBottom: 10 }}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
             <TextInputCustom onChangeText={this.onChangeTextCode} />
-            <View style={[styles.floatRight, { paddingBottom: 40 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
+            <View style={[styles.floatRight, { paddingBottom: 60 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
               <ButtonCustom width={110} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'ENTRY'} />
               <ButtonCustom width={110} padding={10} fontSize={13} styleC={{ marginLeft: 10 }} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'VIEW INFO'} />
             </View>
           </View>
           <Loading loading={loading} />
-          <TextCustom styleC={styles.textUsername}> You are logged in as: {' ' + userInfo.username}</TextCustom>          
+          <TextCustom styleC={styles.textUsername}> You are logged in as: {' ' + userInfo.username }</TextCustom>          
         </View >
       </KeyboardAwareScrollView>
     )

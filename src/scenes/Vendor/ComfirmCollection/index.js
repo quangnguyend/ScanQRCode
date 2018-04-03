@@ -42,12 +42,13 @@ class ComfirmCollection extends Component {
 
   render() {
     const { params } = this.props.navigation.state;
+    console.log(params)
     return (
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <TextCustom styleC={styles.title}>PURCHASES ON RECEIPT</TextCustom>
           <View style={styles.row}>
-            <ButtonCustom width={120} styleC={{ marginRight: 10, backgroundColor: '#aaaaaa', color: 'while' }} onPress={this.onCancel} title={'CANCEL'} />
+            <ButtonCustom width={120} styleC={{ marginRight: 10, backgroundColor: '#aaaaaa'}} onPress={this.onCancel} title={'CANCEL'} />
             <ButtonCustom width={120} styleC={{ marginLeft: 10 }} onPress={this.viewCollected} title={'COLLECT'} />
           </View>
           <View>
@@ -57,7 +58,7 @@ class ComfirmCollection extends Component {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) =>
                 <View style={{ flexDirection: 'row' }}>
-                  <TextCustom styleC={[{ width: '70%' }, styles.textPadding]}>{item.details.trim()}</TextCustom>
+                  <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>{item.details.trim()}</TextCustom>
                   <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
                 </View>
               }
