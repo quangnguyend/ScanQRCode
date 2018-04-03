@@ -5,12 +5,13 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
+import { Theme } from '../../../constant';
 
 export default class Logout extends Component {
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={require('../../../assets/images/logout.png')}
+        source={Theme.Image.LOG_OUT}
         style={styles.iconStyle}
         resizeMode={'contain'}
       />

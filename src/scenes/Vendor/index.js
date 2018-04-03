@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers } from 'react-navigation';
 import { addListener } from '../../utils/reduxNavVendor';
 import VendorStack from './stackVendorNav';
+import { Theme } from '../../constant';
 
 class VendorNavigationState extends Component {
   static navigationOptions = ({ navigation }) => ({
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={require('../../assets/images/ticket.png')}
+        source={Theme.Image.QR_CODE}
         style={styles.iconStyle}
         resizeMode={'contain'}
       />

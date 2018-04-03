@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import Style from './style';
 import Moment from 'moment';
+import { Theme } from '../../constant';
 
 const FORMATS = {
     'date': 'YYYY-MM-DD',
@@ -437,7 +438,7 @@ DatePicker.defaultProps = {
     duration: 300,
     confirmBtnText: '确定',
     cancelBtnText: '取消',
-    iconSource: require('./../../assets/images/ticket.png'),
+    iconSource: Theme.Image.QR_CODE,
     customStyles: {},
 
     // whether or not show the icon

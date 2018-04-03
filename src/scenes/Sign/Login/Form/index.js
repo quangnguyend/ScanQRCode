@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import Service from './../../../../services/api';
 import Helper from './../../../../helpers/Validattion';
 import * as _ from 'lodash';
+import { Theme } from '../../../../constant';
 
 import { insertRoleInfo } from './../../actions';
 
@@ -51,13 +52,6 @@ class LoginScreen extends Component {
         this.callAPI(user_account);
       }
     })
-  }
-
-  setLoadingProgress = (loading) => {
-    if (!loading)
-      this.setState({ loading, isLoginOldAccount: false });
-    else
-      this.setState({ loading });
   }
 
   onPress = (e) => {
@@ -162,14 +156,14 @@ class LoginScreen extends Component {
         <View style={styles.container}>
           <Loading loading={this.state.loading} />
           <Image
-            source={require('./../../../../assets/images/banner2.png')}
+            source={Theme.Image.LOGO}
             style={{ paddingTop: 10, height: 50 }}
             resizeMode={'contain'}
           />
           <Image
             style={{ marginTop: 10, height: 50, width: 500 }}
             resizeMode={'contain'}
-            source={require('./../../../../assets/images/bbb1.png')} />
+            source={Theme.Image.LINE_LOGO} />
           <TextCustom fontSize={20} paddingTop={10} paddingBottom={20}>LOGIN TO FULLERTON CONCOURS</TextCustom>
           <TextInputCustom onChangeText={(value) => this.setState({ email: value })} placeholder="EMAIL ADDRESS" />
           <TextInputCustom password={true} onChangeText={(value) => this.setState({ password: value })} placeholder="PASSWORD" />

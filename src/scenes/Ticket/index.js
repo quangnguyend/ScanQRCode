@@ -8,6 +8,7 @@ import { addListener } from '../../utils/reduxNavTicket';
 import Overview from './Overview';
 import Scanner from './Scanner';
 import ScanResult from './ScanResult';
+import { Theme } from '../../constant';
 
 import { StackNavigator } from 'react-navigation';
 
@@ -27,7 +28,7 @@ class TicketNavigationState extends Component {
   static navigationOptions = ({ navigation }) => ({
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={require('../../assets/images/ticket.png')}
+        source={Theme.Image.QR_CODE}
         style={styles.iconStyle}
         resizeMode={'contain'}
       />

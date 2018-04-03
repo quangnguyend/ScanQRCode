@@ -10,7 +10,7 @@ import {
   Platform
 } from 'react-native';
 import { connect } from 'react-redux';
-
+import { Theme } from '../../../constant';
 class HeaderCustomS extends Component {
   constructor(props) {
     super(props)
@@ -33,7 +33,7 @@ class HeaderCustomS extends Component {
         <TouchableHighlight underlayColor={'transparent'} style={styles.btnBack} onPress={this.onBack}>
           <View style={styles.btnBackView}>
             <Image
-              source={require('../../../assets/images/back-icon.png')}
+              source={Theme.Image.BACK_ICON}
             />
             <Text style={[styles.headerText, { paddingLeft: 5 }]}>Scanner</Text>
           </View>
@@ -41,7 +41,7 @@ class HeaderCustomS extends Component {
         <Text style={[styles.headerText, { fontSize: 17, fontWeight: 'bold' }]}>{details.options.title}</Text>
         <TouchableHighlight underlayColor={'transparent'} style={styles.btnCam} onPress={this.onScanner}>
           <Image
-            source={require('../../../assets/images/cam-icon.png')}
+            source={Theme.Image.CAMERA_ICON}
           />
         </TouchableHighlight>
       </View>

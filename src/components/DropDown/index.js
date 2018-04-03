@@ -3,6 +3,7 @@
 exports.__esModule = true;
 exports.default = Dropdown;
 exports.OptionsModal = OptionsModal;
+import { Theme } from '../../constant';
 
 var _react = require('react');
 
@@ -47,7 +48,7 @@ function Dropdown(props) {
                 _react2.default.createElement(
                     _reactNative.Image,
                     {
-                        source: require('../../assets/images/arrow-down.png'),
+                        source: Theme.Image.ARROW_DOWN,
                         style: _DropdownStyle2.default.arrowIcon
                     }
                 )

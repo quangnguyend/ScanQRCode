@@ -8,7 +8,8 @@ import {
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Theme } from '../../../constant';
 
 import { TextCustom, TextInputCustom, ButtonCustom, Dropdown, DatePicker, Camera } from './../../../components';
 import Service from '../../../services/api';
@@ -268,7 +269,7 @@ class Overview extends Component {
         maxDate={this.state.maxDate}
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
-        iconSource={require('./../../../assets/images/arrow-down.png')}
+        iconSource={Theme.Image.ARROW_DOWN}
         onDateChange={this.onDateChange}
       />
     )

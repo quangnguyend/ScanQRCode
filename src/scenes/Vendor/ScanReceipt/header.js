@@ -10,6 +10,7 @@ import {
   Platform
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Theme } from '../../../constant';
 
 class HeaderCustom extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class HeaderCustom extends Component {
         <TouchableHighlight underlayColor={'transparent'} style={styles.btnBack} onPress={this.onBack}>
           <View style={styles.btnBackView}>
             <Image
-              source={require('../../../assets/images/back-icon.png')}
+              source={Theme.Image.BACK_ICON}
             />
             <Text style={[styles.headerText, { paddingLeft: 5 }]}>Scanner</Text>
           </View>

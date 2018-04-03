@@ -15,6 +15,7 @@ import Header from './header';
 import { connect } from 'react-redux';
 import { Loading } from './../../../components';
 import { setVisibleNavVendor } from '../../Sign/actions';
+import { Theme } from '../../../constant';
 
 class ScanReceipt extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -54,8 +55,6 @@ class ScanReceipt extends Component {
   componentWillMount() {
     //hide tab bar navigation
     this.props.setVisibleNavVendor(false);
-
-    this.setLoadingBar(true);
     if (Platform.OS === 'ios') {
       Camera.checkVideoAuthorizationStatus().then(isAuthorized => {
         if (isAuthorized) {
@@ -83,12 +82,6 @@ class ScanReceipt extends Component {
   componentWillUnmount() {
     //show tab bar navigation
     this.props.setVisibleNavVendor(true);
-  }
-
-  setLoadingBar = (value) => {
-    this.setState({
-      loading: value
-    })
   }
 
   //**QR CODE */
@@ -140,7 +133,7 @@ class ScanReceipt extends Component {
       return (
         <View style={styles.container}>
           <Image
-            source={require('../../../assets/images/qr-codescreen.png')}
+            source={Theme.Image.BACKGROUND_SCAN}
             style={styles.imageBackground}
             resizeMode={'stretch'}
           />

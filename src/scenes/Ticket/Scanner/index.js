@@ -15,7 +15,7 @@ import Camera from 'react-native-camera';
 import Header from './header';
 import { Loading } from '../../../components';
 import { connect } from 'react-redux';
-
+import { Theme } from '../../../constant';
 
 class Scanner extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -53,7 +53,6 @@ class Scanner extends Component {
   }
 
   componentWillMount() {
-    this.setLoadingBar(true);
     if (Platform.OS === 'ios') {
       Camera.checkVideoAuthorizationStatus().then(isAuthorized => {
         if (isAuthorized) {
@@ -76,10 +75,6 @@ class Scanner extends Component {
         }
       })
     }
-  }
-
-  componentWillUnmount() {
-    this.setLoadingBar(false);
   }
 
   navigate = (screen, data) => {
@@ -122,12 +117,6 @@ class Scanner extends Component {
     )
   }
 
-  setLoadingBar(value) {
-    this.setState({
-      loading: value
-    })
-  }
-
   // Has scan result
   onScanner = (e) => {
     const { actionScan } = this.props;
@@ -155,7 +144,7 @@ class Scanner extends Component {
       return (
         <View style={styles.container}>
           <Image
-            source={require('../../../assets/images/qr-codescreen.png')}
+            source={Theme.Image.BACKGROUND_SCAN}
             style={styles.imageBackground}
             resizeMode={'stretch'}
           />
