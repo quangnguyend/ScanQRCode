@@ -47,8 +47,8 @@ class ComfirmCollection extends Component {
         <ScrollView showsVerticalScrollIndicator={false}>
           <TextCustom styleC={styles.title}>PURCHASES ON RECEIPT</TextCustom>
           <View style={styles.row}>
-            <ButtonCustom width={120} styleC={{ marginRight: 10 }} onPress={this.onCancel} title={'CANCEL'} />
-            <ButtonCustom width={120} styleC={{ marginLeft: 10 }} onPress={this.viewCollected} title={'COLLECTED'} />
+            <ButtonCustom width={120} styleC={{ marginRight: 10, backgroundColor: '#aaaaaa', color: 'while' }} onPress={this.onCancel} title={'CANCEL'} />
+            <ButtonCustom width={120} styleC={{ marginLeft: 10 }} onPress={this.viewCollected} title={'COLLECT'} />
           </View>
           <View>
             <FlatList
@@ -57,7 +57,7 @@ class ComfirmCollection extends Component {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) =>
                 <View style={{ flexDirection: 'row' }}>
-                  <TextCustom styleC={[{ width: '70%' }, styles.textPadding]}>{item.details}</TextCustom>
+                  <TextCustom styleC={[{ width: '70%' }, styles.textPadding]}>{item.details.trim()}</TextCustom>
                   <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
                 </View>
               }
