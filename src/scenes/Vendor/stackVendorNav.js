@@ -26,10 +26,7 @@ const vendorStack = StackNavigator({
         }
     },
     Collection: {
-        screen: Collection,
-        navigationOptions: {
-            title: 'COLLECTION'
-        }
+        screen: Collection
     },
     InvalidPage: {
         screen: InvalidPage,

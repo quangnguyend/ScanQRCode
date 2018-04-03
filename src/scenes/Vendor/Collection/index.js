@@ -16,7 +16,7 @@ import Header from './header';
 import Services from '../../../services/api';
 
 export default class Collection extends Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     header: (props) => <Header {...props} />,
     tabBarIcon: ({ tintColor }) => (
       <Image
@@ -24,17 +24,31 @@ export default class Collection extends Component {
         style={styles.iconStyle}
         resizeMode={'contain'}
       />
-    )
-  }
+    ),
+    title: navigation.state.params.title ? navigation.state.params.title : 'COLLECTION'
+  })
+
   constructor(props) {
     super(props)
     this.state = {
-      data: null
+      data: null,
+      title: 'PURCHASE COLLECTED!',
+      titleColor: '#66CC99'
     }
   }
 
   componentDidMount() {
     const { params } = this.props.navigation.state;
+    switch (params.appError) {
+      case 'PURCHASE-COLLECTED':
+        this.props.navigation.setParams({ title: 'COLLECTED' })
+        this.setState({ title: 'PURCHASE IS COLLECTED', titleColor: 'red' })
+        break;
+      case 'PURCHASE-REFUNDED':
+        this.props.navigation.setParams({ title: 'REFUNDED' })
+        this.setState({ title: 'PURCHASE IS REFUNDED',  titleColor: 'red' })
+        break;
+    }
     let body = {
       "code": params.code,
       "action": "purchaseCollect"
@@ -51,7 +65,7 @@ export default class Collection extends Component {
   }
 
   render() {
-    const { currentTime, data } = this.state;
+    const { currentTime, data, title, titleColor } = this.state;
     const { params } = this.props.navigation.state;
     if (!data) {
       return (
@@ -65,7 +79,7 @@ export default class Collection extends Component {
           <ScrollView showsVerticalScrollIndicator={false}>
 
             {/* Title */}
-            <TextCustom styleC={styles.title}>PURCHASE COLLECTED!</TextCustom>
+            <TextCustom styleC={[styles.title, { color: titleColor}]}>{title}</TextCustom>
 
             {/* Section 1 */}
             <TextCustom styleC={styles.infoLable}>Purchased By:
@@ -93,7 +107,7 @@ export default class Collection extends Component {
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) =>
                   <View style={{ flexDirection: 'row' }}>
-                    <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>{item.details}</TextCustom>
+                    <TextCustom styleC={[{ width: '70%', textAlign: 'left' }, styles.textPadding]}>{item.details.trim()}</TextCustom>
                     <TextCustom styleC={[{ width: '30%', textAlign: 'right' }, styles.textPadding]}>{item.subtotal}</TextCustom>
                   </View>
                 }
@@ -151,7 +165,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 33,
-    color: '#66CC99',
     marginTop: 10,
     marginBottom: 10
   },

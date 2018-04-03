@@ -335,49 +335,47 @@ class Overview extends Component {
 
   render() {
     const { currentEvent, date, loading, manuallyCode } = this.state;
+    const { userInfo } = this.props;
     let disableBtn = false;
     if (currentEvent === null || !currentEvent.label || currentEvent === undefined) {
       disableBtn = true;
     }
     return (
-      <KeyboardAwareScrollView>
-        <View style={{ flex: 1 }}>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.main}>
           <View style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false}>
             <TextCustom textAlign={'left'}>EVENT YOU ARE SCANNING IN</TextCustom>
-              <TextCustom textAlign={'left'}>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>
+            <TextCustom textAlign={'left'}>Current Event: {!currentEvent || currentEvent === null ? 'None' : currentEvent.label}</TextCustom>
 
-              <View style={styles.row}>
-                <View style={[styles.rowItem, { paddingRight: 10 }]}>
-                  {this._renderDatePicker()}
-                </View>
-                <View style={[styles.rowItem, { paddingLeft: 10 }]}>
-                  {this._renderDopdown()}
-                </View>
+            <View style={styles.row}>
+              <View style={[styles.rowItem, { paddingRight: 10 }]}>
+                {this._renderDatePicker()}
               </View>
-              <View style={[styles.floatRight,{ paddingBottom: 40}]}>
-                <ButtonCustom width={110} padding={10} fontSize={13} onPress={this.onSubmitEvent} title={'SUBMIT'} />
+              <View style={[styles.rowItem, { paddingLeft: 10 }]}>
+                {this._renderDopdown()}
               </View>
+            </View>
+            <View style={[styles.floatRight, { paddingBottom: 40 }]}>
+              <ButtonCustom width={110} padding={10} fontSize={13} onPress={this.onSubmitEvent} title={'SUBMIT'} />
+            </View>
 
 
-              <TextCustom textAlign={'left'}>SCAN QR CODE</TextCustom>
-              <View style={[styles.row, { paddingBottom: 40 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
-                <ButtonCustom width={120} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn} styleC={{ marginRight: 10 }} title={'ENTRY'} />
-                <ButtonCustom width={120} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn} styleC={{ marginLeft: 10 }} title={'VIEW INFO'} />
-              </View>
+            <TextCustom textAlign={'left'}>SCAN QR CODE</TextCustom>
+            <View style={[styles.row, { paddingBottom: 40 }]} pointerEvents={!disableBtn ? 'auto' : 'none'}>
+              <ButtonCustom width={120} padding={15} fontSize={13} onPress={this.onEntry} disable={disableBtn} styleC={{ marginRight: 10 }} title={'ENTRY'} />
+              <ButtonCustom width={120} padding={15} fontSize={13} onPress={this.onViewInfo} disable={disableBtn} styleC={{ marginLeft: 10 }} title={'VIEW INFO'} />
+            </View>
 
 
-              <TextCustom textAlign={'left'} styleC={{ paddingBottom: 10 }}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
-              <TextInputCustom onChangeText={this.onChangeTextCode} />
-              <View style={[styles.floatRight, { paddingBottom: 40 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
-                <ButtonCustom width={110} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'ENTRY'} />
-                <ButtonCustom width={110} padding={10} fontSize={13} styleC={{ marginLeft: 10 }} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'VIEW INFO'} />
-              </View>
-            </ScrollView>
+            <TextCustom textAlign={'left'} styleC={{ paddingBottom: 10 }}>IF TICKET SCANNING FAILS, TYPE THE TICKET ID TO ADMIT ENTRY OR VIEW INFO</TextCustom>
+            <TextInputCustom onChangeText={this.onChangeTextCode} />
+            <View style={[styles.floatRight, { paddingBottom: 40 }]} pointerEvents={(!disableBtn && manuallyCode != '') ? 'auto' : 'none'}>
+              <ButtonCustom width={110} padding={10} fontSize={13} onPress={() => this.onScannerManually(1)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'ENTRY'} />
+              <ButtonCustom width={110} padding={10} fontSize={13} styleC={{ marginLeft: 10 }} onPress={() => this.onScannerManually(2)} disable={(!disableBtn && manuallyCode != '') ? false : true} title={'VIEW INFO'} />
+            </View>
           </View>
           <Loading loading={loading} />
-          <View style={{ position: 'absolute', height: 100, bottom: 0 }}>
-          </View>
+          <TextCustom styleC={styles.textUsername}> You are logged in as: {' ' + userInfo.username}</TextCustom>          
         </View >
       </KeyboardAwareScrollView>
     )

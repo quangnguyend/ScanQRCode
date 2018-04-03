@@ -6,12 +6,14 @@ import {
   Platform,
   Alert,
   AsyncStorage,
-  Keyboard
+  Keyboard,
+  Dimensions
 } from 'react-native';
 import { TextCustom, TextInputCustom, ButtonCustom, Loading } from './../../../components';
 import Service from '../../../services/api';
 import Header from './header';
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class VendorOverview extends Component {
 
@@ -70,10 +72,13 @@ class VendorOverview extends Component {
     this.setLoadingBar(true);
     const fetchInfo = await Service.postMethod('scan', body,
       data => {
-        if (data.status === 400 || data.appError) {
+        if (data.status === 400) {
           this.navigate('InvalidPage', data)
         } else {
-          this.navigate('ComfirmCollection', { ...data, ...body })
+          if (data.appError)
+            this.navigate('Collection', { ...data, ...body })
+          else
+            this.navigate('ComfirmCollection', { ...data, ...body })
         }
       },
       error => {
@@ -119,38 +124,48 @@ class VendorOverview extends Component {
 
   render() {
     const { manuallyCode, loading } = this.state;
+    const { userInfo } = this.props;
     return (
-      <View style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <TextCustom paddingBottom={20} textAlign={'left'}>SCAN RECEIPT QR CODE</TextCustom>
-          <View style={styles.row} >
-            <ButtonCustom width={100} onPress={this.onReceipt} title={'SCAN'} />
-          </View>
-          <TextCustom paddingBottom={20} textAlign={'left'}>IF RECEIPT SCANNING FAILS, TYPE THE RECEIPT ID HERE</TextCustom>
-          <TextInputCustom onChangeText={this.onChangeTextCode} />
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+        <View style={{ flex: 1 }}>
+          <View style={styles.container}>
+            <TextCustom paddingBottom={20} textAlign={'left'}>SCAN RECEIPT QR CODE</TextCustom>
+            <View style={styles.row} >
+              <ButtonCustom width={100} onPress={this.onReceipt} title={'SCAN'} />
+            </View>
+            <TextCustom paddingBottom={20} textAlign={'left'}>IF RECEIPT SCANNING FAILS, TYPE THE RECEIPT ID HERE</TextCustom>
+            <TextInputCustom onChangeText={this.onChangeTextCode} />
 
-          <View style={styles.floatRight} pointerEvents={manuallyCode === '' ? 'none' : 'auto'}>
-            <ButtonCustom onPress={this.onScannerManually} disable={manuallyCode === '' ? true : false} title={'SUBMIT'} />
+            <View style={styles.floatRight} pointerEvents={manuallyCode === '' ? 'none' : 'auto'}>
+              <ButtonCustom onPress={this.onScannerManually} disable={manuallyCode === '' ? true : false} title={'SUBMIT'} />
+            </View>
           </View>
-        </View>
-        <Loading loading={loading} />
-      </View >
+          <Loading loading={loading} />
+        </View >
+        <TextCustom styleC={styles.textUsername}> You are logged in as: {' ' + userInfo.username}</TextCustom>
+      </KeyboardAwareScrollView>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  userInfo: state.userReducer.info
+});
 
 const mapDispatchToProp = dispatch => ({
   navigate: (routeName, params) => dispatch({ type: 'VendorNavigate', ...{ routeName: routeName, params: params } })
 });
 
-export default connect(null, mapDispatchToProp)(VendorOverview);
+export default connect(mapStateToProps, mapDispatchToProp)(VendorOverview);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
     paddingTop: 40,
-    marginTop: (Platform.OS === 'ios') ? 20 : 0
+    paddingBottom: 40,
+    marginTop: (Platform.OS === 'ios') ? 20 : 0,
+    minHeight: Dimensions.get('window').height - 130
   },
   row: {
     flexDirection: 'row',
@@ -169,5 +184,11 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: (Platform.OS === 'ios') ? 30 : '100%',
     height: (Platform.OS === 'ios') ? 30 : '100%'
+  },
+  textUsername: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    padding: 10
   }
 })
