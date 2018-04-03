@@ -38,7 +38,7 @@ export default class ScanResult extends Component {
         <View style={styles.container}>
           <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
             INVALID TICKET! ( {message})
-                    </Text>
+          </Text>
         </View>
       )
     }

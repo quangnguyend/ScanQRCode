@@ -33,18 +33,6 @@ class FullertonHttp {
 				{ text: 'Ok', onPress: callback }
 			]
 		);
-
-		//check wifi is available
-		// NetInfo.isConnected.fetch().then(isConnected => {
-		// 	if (!isConnected) {
-		// 		if (Platform.OS === 'ios') {
-		// 			alert("Please connect network to continue")
-		// 		} else {
-		// 			ToastAndroid.show("Please connect network to continue", ToastAndroid.LONG, ToastAndroid.CENTER);
-		// 		}
-		// 		return;
-		// 	}
-		// });
 	}
 
 	async request(method, api, body, success, failure) {

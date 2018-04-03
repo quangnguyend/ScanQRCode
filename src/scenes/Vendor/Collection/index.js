@@ -83,17 +83,17 @@ export default class Collection extends Component {
 
             {/* Section 1 */}
             <TextCustom styleC={styles.infoLable}>Purchased By:
-          <TextCustom styleC={{ fontStyle: 'italic' }}>
-                {'  ' + data.purchasedBy.toString()}
+              <TextCustom styleC={{ fontStyle: 'italic' }}>
+                  {'  ' + data.purchasedBy.toString()}
               </TextCustom>
             </TextCustom>
             <TextCustom styleC={styles.infoLable}>Receipt ID:
-        <TextCustom styleC={{ fontStyle: 'italic' }}>
+              <TextCustom styleC={{ fontStyle: 'italic' }}>
                 {'  ' + params.code}
               </TextCustom>
             </TextCustom>
             <TextCustom styleC={styles.infoLable}>Purchased Time:
-        <TextCustom styleC={{ fontStyle: 'italic' }}>
+              <TextCustom styleC={{ fontStyle: 'italic' }}>
                 {'  ' + data.purchaseTime.toString()}
               </TextCustom>
             </TextCustom>

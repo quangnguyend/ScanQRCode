@@ -149,7 +149,6 @@ class Overview extends Component {
         Service.errorNetwork(() => {
           this.setLoadingBar(false);
         });
-        console.error(error)
       }
     )
   }
@@ -180,7 +179,6 @@ class Overview extends Component {
         }
       },
       error => {
-        console.error(error);
         if (Platform.OS == 'android')
           this.setLoadingBar(false);
         Service.errorNetwork(() => {
@@ -267,7 +265,6 @@ class Overview extends Component {
         })
       },
       error => {
-        console.error(error);
         if (Platform.OS == 'android')
           this.setLoadingBar(false);
         Service.errorNetwork(() => {

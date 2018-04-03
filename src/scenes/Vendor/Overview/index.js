@@ -54,7 +54,6 @@ class VendorOverview extends Component {
 
   componentWillMount() {
     this.checkKeyboardOnShowHide();
-    console.log(this.props)
   }
 
   onReceipt = () => {
@@ -82,7 +81,6 @@ class VendorOverview extends Component {
         }
       },
       error => {
-        console.log(error);
         if (Platform.OS == 'android')
           this.setLoadingBar(false);
         Service.errorNetwork(() => {
@@ -118,7 +116,6 @@ class VendorOverview extends Component {
   }
 
   componentWillUnmount() {
-    console.log('Overview Unmount');
     this.setLoadingBar(false);
   }
 

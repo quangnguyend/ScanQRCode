@@ -1,5 +1,4 @@
 import { NavigationActions } from 'react-navigation';
-
 import vendorStack from '../scenes/Vendor/stackVendorNav';
 
 function nav(state, action) {
@@ -31,7 +30,5 @@ function nav(state, action) {
   // Simply return the original `state` if `nextState` is null or undefined.
   return nextState || state;
 }
-
-
 
 export default nav;

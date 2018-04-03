@@ -33,7 +33,7 @@ export default class InvalidPage extends Component {
       <View style={styles.container}>
         <Text style={{ color: '#FF6666', fontSize: 30, textAlign: 'center' }}>
           INVALID RECEIPT! ( {params.message})
-                    </Text>
+        </Text>
       </View>
     )
   }

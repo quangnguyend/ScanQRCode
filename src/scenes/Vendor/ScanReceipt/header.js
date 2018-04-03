@@ -31,10 +31,6 @@ class HeaderCustom extends Component {
     })
   }
 
-  componentWillUnmount() {
-    console.log('componentWillUnmount SCANNER RECEIPT')
-  }
-
   render() {
     const { getScreenDetails, scene } = this.props;
     const details = getScreenDetails(scene)

@@ -30,7 +30,6 @@ class HeaderCustomS extends Component {
 
     onScanner = () => {
         const { title, typeScannerCode, eventCode } = this.props;
-        console.log(this.props)
         this.props.navigate('Entry', { title: title, typeScannerCode: typeScannerCode, eventCode: eventCode });
     }
 
