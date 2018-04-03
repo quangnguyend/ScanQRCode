@@ -17,14 +17,7 @@ import { connect } from 'react-redux';
 class ComfirmCollection extends Component {
   static navigationOptions = {
     headerLeft: null,
-    header: (props) => <Header {...props} />,
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../../../assets/images/ticket.png')}
-        style={styles.iconStyle}
-        resizeMode={'contain'}
-      />
-    )
+    header: (props) => <Header {...props} />
   }
 
   constructor(props) {

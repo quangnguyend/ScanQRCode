@@ -1,4 +1,3 @@
-import request from 'superagent';
 import config from '../api/config';
 import { Alert } from 'react-native';
 import Services from '../api';

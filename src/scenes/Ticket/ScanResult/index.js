@@ -14,14 +14,7 @@ import Header from './header';
 export default class ScanResult extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: `${navigation.state.params.title}`,
-    header: (props) => <Header {...props} {...navigation.state.params} />,
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../../../assets/images/ticket.png')}
-        style={styles.iconStyle}
-        resizeMode={'contain'}
-      />
-    ),
+    header: (props) => <Header {...props} {...navigation.state.params} />
   })
 
   constructor(props) {

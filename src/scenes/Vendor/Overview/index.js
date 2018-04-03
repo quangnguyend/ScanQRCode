@@ -16,15 +16,7 @@ class VendorOverview extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     header: (props) => <Header {...props} />,
-    headerLeft: null,
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../../../assets/images/ticket.png')}
-        style={styles.iconStyle}
-        resizeMode={'contain'}
-      />
-    ),
-    tabBarVisible: navigation.state.params ? navigation.state.params.tabBarVisible : true
+    headerLeft: null
   })
 
   constructor(props) {

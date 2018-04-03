@@ -19,15 +19,7 @@ import styles from './styles';
 class Overview extends Component {
   static navigationOptions = ({ navigation }) => ({
     header: (props) => <Header {...props} />,
-    headerLeft: null,
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../../../assets/images/ticket.png')}
-        style={styles.iconStyle}
-        resizeMode={'contain'}
-      />
-    ),
-    tabBarVisible: navigation.state.params ? navigation.state.params.tabBarVisible : true
+    headerLeft: null
   })
 
   constructor(props) {
@@ -324,7 +316,6 @@ class Overview extends Component {
               </View>
             </ScrollView>
           </View>
-          <Loading loading={loading} />
           <View style={{ position: 'absolute', height: 100, bottom: 0 }}>
           </View>
         </View >
